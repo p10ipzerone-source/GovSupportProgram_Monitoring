@@ -4,6 +4,10 @@
    {
     "id": "fmwx5pdfi",
     "name": "마감"
+   },
+   {
+    "id": "fmwx5xaaj",
+    "name": "123"
    }
   ],
   "export": [
@@ -579,5 +583,5 @@
   "ripc:2026-4363": "fmwx5pdfi"
  },
  "marks": {},
- "updatedAt": "2026-11-26T06:13:45.892Z"
+ "updatedAt": "2026-11-26T06:19:39.739Z"
 }
