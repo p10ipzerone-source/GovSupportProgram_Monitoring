@@ -8,16 +8,16 @@
   ],
   "export": [
    {
-    "id": "fmwx3e76q",
-    "name": "공지: 나랑 관련없는"
-   },
-   {
     "id": "fmwx3kmay",
     "name": "참여기업/수행기관 공고"
    },
    {
     "id": "fmwx3n6f2",
     "name": "중요 공지"
+   },
+   {
+    "id": "fmwx3e76q",
+    "name": "공지: 나랑 관련없는"
    }
   ],
   "bizinfo": [
@@ -579,5 +579,5 @@
   "ripc:2026-4363": "fmwx5pdfi"
  },
  "marks": {},
- "updatedAt": "2026-11-26T06:19:42.077Z"
+ "updatedAt": "2026-11-26T06:31:49.021Z"
 }
