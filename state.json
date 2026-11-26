@@ -1,7 +1,12 @@
 {
  "folders": {
   "ripc": [],
-  "export": [],
+  "export": [
+   {
+    "id": "fmwx3e76q",
+    "name": "나랑 관련없는 공고"
+   }
+  ],
   "bizinfo": [
    {
     "id": "fmwx3duc8",
@@ -13,5 +18,5 @@
   "bizinfo:PBLN_000000000119754": "fmwx3duc8"
  },
  "marks": {},
- "updatedAt": "2026-11-26T05:08:36.210Z"
+ "updatedAt": "2026-11-26T05:08:50.018Z"
 }
