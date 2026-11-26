@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지원사업 공고 모니터</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --ink:#191c21; --sub:#5d6470; --line:#e3e6eb;
+    --accent:#2f5bea; --accent-soft:#e8eefe; --red:#d93636; --red-soft:#fdecec;
+    --amber:#b86e00; --amber-soft:#fff3df; --green:#1d8a4e; --green-soft:#e5f5ec;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
+  header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  .top{max-width:1000px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  h1{font-size:18px;margin:0;font-weight:700}
+  .upd{color:var(--sub);font-size:13px}
+  .spacer{flex:1}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;color:var(--ink)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button:disabled{opacity:.5;cursor:default}
+  nav{max-width:1000px;margin:0 auto;display:flex;gap:4px;padding:10px 16px 0}
+  nav button{border:none;border-bottom:2px solid transparent;border-radius:0;padding:8px 10px;color:var(--sub);font-weight:600}
+  nav button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  nav .cnt{font-size:12px;background:var(--bg);border-radius:10px;padding:1px 7px;margin-left:4px}
+  main{max-width:1000px;margin:0 auto;padding:16px}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border-radius:16px;padding:4px 12px;font-size:13px}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chip.fav{font-weight:600}
+  select,input[type=search]{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--card)}
+  input[type=search]{min-width:180px;flex:1}
+  label.tg{font-size:13px;color:var(--sub);display:flex;gap:4px;align-items:center}
+  .banner{background:var(--amber-soft);color:var(--amber);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:12px}
+  .list{display:flex;flex-direction:column;gap:8px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit}
+  .item:hover{border-color:var(--accent)}
+  .item .body{flex:1;min-width:0}
+  .item .t{font-weight:600;line-height:1.4}
+  .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:12.5px;color:var(--sub);align-items:center}
+  .b{border-radius:5px;padding:1px 7px;font-size:12px;background:var(--bg);color:var(--sub)}
+  .b.type{background:var(--accent-soft);color:var(--accent)}
+  .b.new{background:var(--green-soft);color:var(--green);font-weight:700}
+  .b.on{background:var(--green-soft);color:var(--green)}
+  .b.pin{background:var(--amber-soft);color:var(--amber)}
+  .dday{min-width:56px;text-align:center;font-weight:700;font-size:13px;border-radius:8px;padding:6px 4px;background:var(--bg);color:var(--sub)}
+  .dday.urgent{background:var(--red-soft);color:var(--red)}
+  .dday.soon{background:var(--amber-soft);color:var(--amber)}
+  .dday.over{opacity:.5}
+  .empty{color:var(--sub);text-align:center;padding:40px 0}
+  dialog{border:1px solid var(--line);border-radius:12px;max-width:440px;width:92%}
+  dialog input{width:100%;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px}
+  dialog p{font-size:13px;color:var(--sub);line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>지원사업 공고 모니터</h1>
+    <span class="upd" id="upd">불러오는 중...</span>
+    <span class="spacer"></span>
+    <button id="btnRefresh" class="primary" title="GitHub Actions로 지금 수집">지금 갱신</button>
+    <button id="btnSet" title="갱신 설정">⚙</button>
+  </div>
+  <nav id="tabs"></nav>
+</header>
+<main id="main"></main>
+
+<dialog id="dlg">
+  <h3 style="margin-top:0">즉시 갱신 설정</h3>
+  <p>"지금 갱신"은 GitHub Actions 수집을 바로 실행해. 이 브라우저에만 저장돼.<br>
+  토큰: Fine-grained token, 이 저장소만 선택, 권한 <b>Actions: Read and write</b>, <b>Contents: Read</b>.</p>
+  <label>저장소 (owner/repo)</label>
+  <input id="inRepo" placeholder="myname/support-monitor">
+  <label>GitHub 토큰</label>
+  <input id="inTok" type="password" placeholder="github_pat_...">
+  <div style="display:flex;gap:8px;justify-content:flex-end">
+    <button id="dlgCancel">닫기</button>
+    <button id="dlgSave" class="primary">저장</button>
+  </div>
+</dialog>
+
+<script>
+const SOURCES = {
+  ripc:    { name: "특허 (RIPC)", home: "https://pms.ripc.org/pms/biz/applicant/notice/list.do" },
+  export:  { name: "수출바우처", home: "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1" },
+  bizinfo: { name: "사업화 (기업마당)", home: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do" },
+};
+const RIPC_FAV = ["지식재산 긴급지원", "IP나래", "IP디딤돌"];
+const NEW_DAYS = 3;
+
+let DATA = null;
+const state = JSON.parse(localStorage.getItem("spm_state") || "null") || {
+  tab: "ripc",
+  ripc: { types: [], center: "", activeOnly: true, q: "" },
+  export: { q: "" },
+  bizinfo: { kws: [], q: "", hideOver: true },
+};
+const save = () => { try { localStorage.setItem("spm_state", JSON.stringify(state)); } catch (e) {} };
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const norm = (s) => String(s || "").replace(/\s+/g, "").toLowerCase();
+
+function todayKST() {
+  const d = new Date(Date.now() + 9 * 3600e3);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+}
+function dday(dateStr) {
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return Math.round((Date.UTC(y, m - 1, d) - todayKST()) / 864e5);
+}
+function isNew(it) {
+  const n = dday(it.first_seen);
+  return n !== null && n > -NEW_DAYS;
+}
+function ddayBox(it) {
+  const n = dday(it.deadline);
+  if (n === null) return `<div class="dday">-</div>`;
+  const cls = n < 0 ? "over" : n <= 3 ? "urgent" : n <= 7 ? "soon" : "";
+  const txt = n < 0 ? "마감" : n === 0 ? "D-day" : `D-${n}`;
+  return `<div class="dday ${cls}">${txt}</div>`;
+}
+function card(it, badges) {
+  return `<a class="item" href="${esc(it.link)}" target="_blank" rel="noopener">
+    ${ddayBox(it)}
+    <div class="body">
+      <div class="t">${esc(it.title)}</div>
+      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${badges.join("")}
+        ${it.period ? `<span>${esc(it.period)}</span>` : it.date ? `<span>등록 ${esc(it.date)}</span>` : ""}
+      </div>
+    </div></a>`;
+}
+const B = (cls, t) => (t ? `<span class="b ${cls}">${esc(t)}</span>` : "");
+const sortByDeadline = (a, b) => {
+  const da = dday(a.deadline), db = dday(b.deadline);
+  const ka = da === null ? 9999 : da < 0 ? 10000 - da : da;
+  const kb = db === null ? 9999 : db < 0 ? 10000 - db : db;
+  return ka - kb;
+};
+function banner(src) {
+  if (!src) return `<div class="banner">아직 수집된 데이터가 없어.</div>`;
+  if (src.error) return `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>`;
+  return "";
+}
+
+/* ───── 탭 렌더 ───── */
+function renderRipc() {
+  const src = DATA.sources.ripc, st = state.ripc;
+  const items = src?.items || [];
+  const types = [...new Set(items.map((i) => i.type).filter(Boolean))].filter((t) => !RIPC_FAV.some((f) => norm(t).includes(norm(f))));
+  const centers = [...new Set(items.map((i) => i.center).filter(Boolean))].sort();
+  const chipList = [...RIPC_FAV, ...types];
+
+  let list = items.filter((it) => {
+    if (st.types.length && !st.types.some((t) => norm(it.type).includes(norm(t)) || norm(it.title).includes(norm(t)))) return false;
+    if (st.center && it.center !== st.center) return false;
+    if (st.activeOnly) {
+      const n = dday(it.deadline);
+      if (/마감|종료/.test(it.status || "")) return false;
+      if (n !== null && n < 0) return false;
+    }
+    if (st.q && !norm(it.title).includes(norm(st.q))) return false;
+    return true;
+  }).sort(sortByDeadline);
+
+  return `${banner(src)}
+  <div class="filters"><div class="chips">
+    <button class="chip ${st.types.length ? "" : "on"}" data-act="ripcType" data-v="">전체</button>
+    ${chipList.map((t) => `<button class="chip ${RIPC_FAV.includes(t) ? "fav" : ""} ${st.types.includes(t) ? "on" : ""}" data-act="ripcType" data-v="${esc(t)}">${esc(t)}</button>`).join("")}
+  </div></div>
+  <div class="filters">
+    <select data-act="ripcCenter"><option value="">전체 센터(지역)</option>
+      ${centers.map((c) => `<option ${c === st.center ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>
+    <input type="search" placeholder="제목 검색" value="${esc(st.q)}" data-act="ripcQ">
+    <label class="tg"><input type="checkbox" ${st.activeOnly ? "checked" : ""} data-act="ripcActive">진행중만</label>
+  </div>
+  <div class="list">${list.map((it) => card(it, [B("type", it.type), B("", it.center), B(/접수중|진행/.test(it.status) ? "on" : "", it.status)])).join("") || '<div class="empty">조건에 맞는 공고가 없어.</div>'}</div>`;
+}
+
+function renderExport() {
+  const src = DATA.sources.export, st = state.export;
+  const items = (src?.items || []).filter((it) => !st.q || norm(it.title).includes(norm(st.q)));
+  const pinned = items.filter((i) => i.notice), rest = items.filter((i) => !i.notice);
+  rest.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  return `${banner(src)}
+  <div class="filters"><input type="search" placeholder="제목 검색 (예: 모집, 공고, 기업)" value="${esc(st.q)}" data-act="exportQ"></div>
+  <div class="list">${[...pinned, ...rest].map((it) => card(it, [it.notice ? B("pin", "공지") : "", B("type", it.type)])).join("") || '<div class="empty">공고가 없어.</div>'}</div>`;
+}
+
+function renderBizinfo() {
+  const src = DATA.sources.bizinfo, st = state.bizinfo;
+  const kws = src?.meta?.keywords || [];
+  const list = (src?.items || []).filter((it) => {
+    if (st.kws.length && !it.keywords?.some((k) => st.kws.includes(k))) return false;
+    if (st.hideOver) { const n = dday(it.deadline); if (n !== null && n < 0) return false; }
+    if (st.q && !norm(it.title + it.org).includes(norm(st.q))) return false;
+    return true;
+  }).sort(sortByDeadline);
+  const count = (k) => (src?.items || []).filter((i) => i.keywords?.includes(k)).length;
+  return `${banner(src)}
+  <div class="filters"><div class="chips">
+    <button class="chip ${st.kws.length ? "" : "on"}" data-act="bizKw" data-v="">전체</button>
+    ${kws.map((k) => `<button class="chip ${st.kws.includes(k) ? "on" : ""}" data-act="bizKw" data-v="${esc(k)}">${esc(k)} <small>${count(k)}</small></button>`).join("")}
+  </div></div>
+  <div class="filters">
+    <input type="search" placeholder="제목, 기관 검색" value="${esc(st.q)}" data-act="bizQ">
+    <label class="tg"><input type="checkbox" ${st.hideOver ? "checked" : ""} data-act="bizOver">마감 숨기기</label>
+  </div>
+  <div class="list">${list.map((it) => card(it, [...(it.keywords || []).map((k) => B("type", k)), B("", it.type), B("", it.org)])).join("") || '<div class="empty">조건에 맞는 공고가 없어.</div>'}</div>`;
+}
+
+const RENDER = { ripc: renderRipc, export: renderExport, bizinfo: renderBizinfo };
+
+function render() {
+  if (!DATA) return;
+  $("#tabs").innerHTML = Object.entries(SOURCES).map(([k, s]) => {
+    const n = (DATA.sources[k]?.items || []).filter(isNew).length;
+    return `<button class="${state.tab === k ? "on" : ""}" data-tab="${k}">${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
+  }).join("");
+  const focus = document.activeElement?.dataset?.act;
+  const pos = document.activeElement?.selectionStart;
+  $("#main").innerHTML = RENDER[state.tab]() + `<p class="upd" style="margin-top:16px">원문: <a href="${SOURCES[state.tab].home}" target="_blank" rel="noopener">${SOURCES[state.tab].home}</a></p>`;
+  if (focus && /Q$/.test(focus)) { const el = document.querySelector(`[data-act="${focus}"]`); el.focus(); el.setSelectionRange(pos, pos); }
+  const u = new Date(DATA.updated);
+  $("#upd").textContent = `마지막 수집 ${u.toLocaleString("ko-KR", { timeZone: "Asia/Seoul", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}`;
+}
+
+/* ───── 이벤트 ───── */
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-tab],[data-act]");
+  if (!t) return;
+  if (t.dataset.tab) { state.tab = t.dataset.tab; save(); return render(); }
+  const v = t.dataset.v;
+  const toggle = (arr) => (v === "" ? [] : arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
+  if (t.dataset.act === "ripcType") state.ripc.types = toggle(state.ripc.types);
+  else if (t.dataset.act === "bizKw") state.bizinfo.kws = toggle(state.bizinfo.kws);
+  else return;
+  save(); render();
+});
+document.addEventListener("input", (e) => {
+  const a = e.target.dataset.act, v = e.target.value, c = e.target.checked;
+  const map = {
+    ripcQ: () => (state.ripc.q = v), ripcCenter: () => (state.ripc.center = v), ripcActive: () => (state.ripc.activeOnly = c),
+    exportQ: () => (state.export.q = v), bizQ: () => (state.bizinfo.q = v), bizOver: () => (state.bizinfo.hideOver = c),
+  };
+  if (map[a]) { map[a](); save(); render(); }
+});
+
+/* ───── 데이터 로드 ───── */
+function cfg() {
+  let repo = localStorage.getItem("spm_repo") || "";
+  const m = location.hostname.match(/^([^.]+)\.github\.io$/);
+  if (!repo && m) repo = `${m[1]}/${location.pathname.split("/").filter(Boolean)[0] || m[1] + ".github.io"}`;
+  return { repo, tok: localStorage.getItem("spm_tok") || "" };
+}
+async function load() {
+  const { repo, tok } = cfg();
+  try {
+    let res;
+    if (tok && repo) { // 토큰 있으면 GitHub API로 최신본 (Pages 배포 지연 없음)
+      res = await fetch(`https://api.github.com/repos/${repo}/contents/data.json?t=${Date.now()}`, {
+        headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github.raw+json" }, cache: "no-store",
+      });
+    }
+    if (!res || !res.ok) res = await fetch(`data.json?t=${Date.now()}`, { cache: "no-store" });
+    DATA = await res.json();
+    render();
+  } catch (e) {
+    $("#upd").textContent = "data.json을 불러오지 못했어 (첫 수집 전일 수 있음)";
+  }
+}
+
+$("#btnSet").onclick = () => { const c = cfg(); $("#inRepo").value = c.repo; $("#inTok").value = c.tok; $("#dlg").showModal(); };
+$("#dlgCancel").onclick = () => $("#dlg").close();
+$("#dlgSave").onclick = () => {
+  try { localStorage.setItem("spm_repo", $("#inRepo").value.trim()); localStorage.setItem("spm_tok", $("#inTok").value.trim()); } catch (e) {}
+  $("#dlg").close();
+};
+$("#btnRefresh").onclick = async () => {
+  const { repo, tok } = cfg(), btn = $("#btnRefresh");
+  if (!tok || !repo) return $("#btnSet").click();
+  btn.disabled = true; btn.textContent = "수집 요청 중...";
+  const before = DATA?.updated;
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/update.yml/dispatches`, {
+      method: "POST", headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github+json" },
+      body: JSON.stringify({ ref: "main" }),
+    });
+    if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+    btn.textContent = "수집 중 (1~2분)...";
+    for (let i = 0; i < 20; i++) {
+      await new Promise((ok) => setTimeout(ok, 15000));
+      await load();
+      if (DATA?.updated !== before) break;
+    }
+  } catch (e) {
+    $("#upd").textContent = "갱신 실패: " + e.message.slice(0, 120);
+  }
+  btn.disabled = false; btn.textContent = "지금 갱신";
+};
+
+load();
+</script>
+</body>
+</html>
