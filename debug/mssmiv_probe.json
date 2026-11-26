@@ -1,53 +1,11 @@
-{
- "cookies_before": {
-  "JSESSIONID": "vglI_Tj4Zfy5wK3EY2-6xQskeExS4PgzQ09EY7aT.bizinfo20",
-  "piolb": "ac19001dc379",
-  "fec3fe3b-123e-4583-b047-6bfe3210ee28": "c2e67612-872f-4d2c-8051-f1f0598bcca8",
-  "SCOUTER": "x7qh09gov38606",
-  "WMONID": "DdgVWNcEKB9",
-  "USR_JSESSIONID": "1CFDF7C141AE1437C2A3366AE75F38BE.was2_node10",
-  "'USR_JSESSIONID'": ".was2_node10",
-  "NCPVPCLBTG": "f876e46a8c26c4beb1ef6de2f4d073add01bb66c1d9e520ebec1dd3bf5a54b4f",
-  "NCPVPCLB": "9e9fe34a58e623cd1edb390ebcabc6df42862277e28564ae249cf9dd17159fce",
-  "SID": "NjNlZTZkOGMtYTdjYy00OGFkLTk1OWYtNzc3ZjI2ZWEyZjMy"
+[
+ {
+  "canAccess": true,
+  "ticketAheadCnt": 0,
+  "refreshRate": 10,
+  "accessUrl": "/"
  },
- "tried": {
-  "https://www.mssmiv.com/portal/board/js/ft_queue.v2.js?v=admission-cookie-1": [
-   200,
-   "text/html; charset=utf-8",
-   6454
-  ],
-  "https://www.mssmiv.com/_queue/js/ft_queue.v2.js?v=admission-cookie-1": [
-   200,
-   "text/javascript; charset=utf-8",
-   6450
-  ]
- },
- "retry0": [
-  200,
-  true,
-  6454
- ],
- "retry1": [
-  200,
-  true,
-  6454
- ],
- "retry2": [
-  200,
-  true,
-  6454
- ],
- "cookies_after": {
-  "JSESSIONID": "vglI_Tj4Zfy5wK3EY2-6xQskeExS4PgzQ09EY7aT.bizinfo20",
-  "piolb": "ac19001dc379",
-  "fec3fe3b-123e-4583-b047-6bfe3210ee28": "c2e67612-872f-4d2c-8051-f1f0598bcca8",
-  "SCOUTER": "x7qh09gov38606",
-  "WMONID": "DdgVWNcEKB9",
-  "USR_JSESSIONID": "1CFDF7C141AE1437C2A3366AE75F38BE.was2_node10",
-  "'USR_JSESSIONID'": ".was2_node10",
-  "NCPVPCLBTG": "f876e46a8c26c4beb1ef6de2f4d073add01bb66c1d9e520ebec1dd3bf5a54b4f",
-  "NCPVPCLB": "9e9fe34a58e623cd1edb390ebcabc6df42862277e28564ae249cf9dd17159fce",
-  "SID": "NjNlZTZkOGMtYTdjYy00OGFkLTk1OWYtNzc3ZjI2ZWEyZjMy"
+ {
+  "admission": true
  }
-}
+]

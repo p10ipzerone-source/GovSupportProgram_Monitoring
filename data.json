@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T16:54+09:00",
+ "updated": "2026-11-26T17:01+09:00",
  "sources": {
   "ripc": {
    "ok": true,
@@ -8164,11 +8164,179 @@
    "baseline": "2026-11-26"
   },
   "mssmiv": {
-   "ok": false,
-   "error": "RuntimeError: 접속 대기열 화면에서 넘어가지 못함 (debug/mssmiv_probe.json)",
-   "items": [],
+   "ok": true,
+   "error": null,
+   "items": [
+    {
+     "id": "MS_996",
+     "title": "[안내] 중소기업 혁신바우처 사업 주요 소식 SMS 알림 서비스 신규 오픈 안내",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(996)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_985",
+     "title": "[공지] 국고보조금 부정수급 관련 정부 지침 강화 안내",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(985)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_957",
+     "title": "'26년 혁신바우처사업 관리지침(2026.4월) 및 운영지침 (2026.1월)",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(957)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_2",
+     "title": "[혁신바우처 사업공통] 공동인증서(구 공인인증서) 용도별 종류 및 사용 안내",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(2)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_999",
+     "title": "2027년 중소기업 혁신바우처 사업 수요기업 모집 예정",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(999)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_997",
+     "title": "[공지] 과기정통부, 웹사이트 개발 언어 ‘PHP’ 보안 취약점 관련 긴급 보안 업데이트 및 기술적 조치 당부",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(997)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_991",
+     "title": "2026년 중소기업 혁신바우처 사업 교육 일정 (3차 선정)",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(991)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_990",
+     "title": "2026년 중소기업 혁신바우처 사업 분야별 교육 일정(2차 선정)",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(990)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_989",
+     "title": "(산재예방요율제 안내) 산재보험료율을 인하해주는 제도",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(989)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_988",
+     "title": "2026년 중소기업 혁신바우처(채용지원) 사업 지원계획 수정공고(26.05.06.)",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(988)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_982",
+     "title": "2026년 중소기업 혁신바우처(지역제조) 사업 지원계획 공고",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(982)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_981",
+     "title": "2026년 중소기업 혁신바우처사업 수요기반 공급기업 추가모집안내",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(981)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_976",
+     "title": "[26년 혁신바우처] 선금신청 매뉴얼 및 제출 서류 안내",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(976)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "MS_975",
+     "title": "2026년 중소기업 혁신바우처사업 분야별 수요기업 교육일정",
+     "type": "",
+     "date": "",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.mssmiv.com/portal/board/BoardList?bbsId=1",
+     "js": "goDetail(975)",
+     "first_seen": "2026-11-26"
+    }
+   ],
    "meta": {},
-   "stale": true,
    "baseline": "2026-11-26"
   }
  }
