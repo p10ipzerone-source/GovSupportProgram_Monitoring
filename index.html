@@ -14,46 +14,64 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
   header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
-  .top{max-width:1000px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .top{max-width:1000px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   h1{font-size:18px;margin:0;font-weight:700}
   .upd{color:var(--sub);font-size:13px}
   .spacer{flex:1}
   button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;color:var(--ink)}
   button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.ghost{border-color:transparent;background:transparent;color:var(--sub);padding:4px 8px}
+  button.ghost:hover{background:var(--bg)}
   button:disabled{opacity:.5;cursor:default}
   nav{max-width:1000px;margin:0 auto;display:flex;gap:4px;padding:10px 16px 0}
   nav button{border:none;border-bottom:2px solid transparent;border-radius:0;padding:8px 10px;color:var(--sub);font-weight:600}
   nav button.on{color:var(--accent);border-bottom-color:var(--accent)}
   nav .cnt{font-size:12px;background:var(--bg);border-radius:10px;padding:1px 7px;margin-left:4px}
   main{max-width:1000px;margin:0 auto;padding:16px}
+  .folders{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .fd{border-radius:8px;padding:6px 12px;font-size:13.5px;display:flex;gap:6px;align-items:center}
+  .fd.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .fd small{opacity:.7}
+  .fd.add{border-style:dashed;color:var(--sub)}
+  .fhead{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .fhead h2{font-size:16px;margin:0}
   .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
-  .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{border-radius:16px;padding:4px 12px;font-size:13px}
-  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
-  .chip.fav{font-weight:600}
   select,input[type=search]{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--card)}
   input[type=search]{min-width:180px;flex:1}
-  label.tg{font-size:13px;color:var(--sub);display:flex;gap:4px;align-items:center}
+  label.tg{font-size:13px;color:var(--sub);display:flex;gap:4px;align-items:center;white-space:nowrap}
   .banner{background:var(--amber-soft);color:var(--amber);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:12px}
   .list{display:flex;flex-direction:column;gap:8px}
-  .item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit}
-  .item:hover{border-color:var(--accent)}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
   .item .body{flex:1;min-width:0}
-  .item .t{font-weight:600;line-height:1.4}
+  .item a.t{font-weight:600;line-height:1.4;color:inherit;text-decoration:none}
+  .item a.t:hover{color:var(--accent);text-decoration:underline}
+  .item.na{background:#fafafa}
+  .item.na a.t{text-decoration:line-through;color:#9aa0a8;font-weight:500}
+  .item.na .dday,.item.na .meta{opacity:.45}
   .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:12.5px;color:var(--sub);align-items:center}
   .b{border-radius:5px;padding:1px 7px;font-size:12px;background:var(--bg);color:var(--sub)}
   .b.type{background:var(--accent-soft);color:var(--accent)}
   .b.new{background:var(--green-soft);color:var(--green);font-weight:700}
   .b.on{background:var(--green-soft);color:var(--green)}
   .b.pin{background:var(--amber-soft);color:var(--amber)}
+  .b.folder{background:#f1ecfd;color:#6a3fc8}
   .dday{min-width:56px;text-align:center;font-weight:700;font-size:13px;border-radius:8px;padding:6px 4px;background:var(--bg);color:var(--sub)}
   .dday.urgent{background:var(--red-soft);color:var(--red)}
   .dday.soon{background:var(--amber-soft);color:var(--amber)}
   .dday.over{opacity:.5}
+  .acts{display:flex;gap:4px;align-items:center;flex-shrink:0}
+  .acts select{font-size:12.5px;padding:4px 6px;max-width:130px}
+  .acts .naBtn{font-size:12.5px;padding:4px 8px}
+  .acts .naBtn.on{background:var(--red-soft);border-color:var(--red-soft);color:var(--red)}
+  .note{margin-top:8px;font-size:13px;color:#6b4e16;background:var(--amber-soft);border-radius:6px;padding:6px 10px;white-space:pre-wrap;cursor:pointer}
+  .noteEdit{margin-top:8px;display:flex;gap:6px;align-items:flex-start}
+  .noteEdit textarea{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:6px 8px;min-height:54px;resize:vertical}
   .empty{color:var(--sub);text-align:center;padding:40px 0}
-  dialog{border:1px solid var(--line);border-radius:12px;max-width:440px;width:92%}
+  .sync{font-size:12px;color:var(--sub)}
+  dialog{border:1px solid var(--line);border-radius:12px;max-width:460px;width:92%}
   dialog input{width:100%;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px}
   dialog p{font-size:13px;color:var(--sub);line-height:1.5}
+  @media (max-width:640px){ .item{flex-wrap:wrap} .acts{width:100%;justify-content:flex-end} }
 </style>
 </head>
 <body>
@@ -62,17 +80,18 @@
     <h1>지원사업 공고 모니터</h1>
     <span class="upd" id="upd">불러오는 중...</span>
     <span class="spacer"></span>
+    <span class="sync" id="sync"></span>
     <button id="btnRefresh" class="primary" title="GitHub Actions로 지금 수집">지금 갱신</button>
-    <button id="btnSet" title="갱신 설정">⚙</button>
+    <button id="btnSet" title="설정">⚙</button>
   </div>
   <nav id="tabs"></nav>
 </header>
 <main id="main"></main>
 
 <dialog id="dlg">
-  <h3 style="margin-top:0">즉시 갱신 설정</h3>
-  <p>"지금 갱신"은 GitHub Actions 수집을 바로 실행해. 이 브라우저에만 저장돼.<br>
-  토큰: Fine-grained token, 이 저장소만 선택, 권한 <b>Actions: Read and write</b>, <b>Contents: Read</b>.</p>
+  <h3 style="margin-top:0">설정</h3>
+  <p>토큰을 넣으면 ① "지금 갱신" 버튼과 ② 폴더/메모를 저장소(<b>state.json</b>)에 저장해서 다른 기기에서도 똑같이 보이게 해. 토큰은 이 브라우저에만 저장돼.<br>
+  Fine-grained token, 이 저장소만 선택, 권한 <b>Actions: Read and write</b>, <b>Contents: Read and write</b>.</p>
   <label>저장소 (owner/repo)</label>
   <input id="inRepo" placeholder="myname/support-monitor">
   <label>GitHub 토큰</label>
@@ -89,184 +108,285 @@ const SOURCES = {
   export:  { name: "수출바우처", home: "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1" },
   bizinfo: { name: "사업화 (기업마당)", home: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do" },
 };
-const RIPC_FAV = ["지식재산 긴급지원", "IP나래", "IP디딤돌"];
 const NEW_DAYS = 3;
-
-let DATA = null;
-const state = JSON.parse(localStorage.getItem("spm_state") || "null") || {
-  tab: "ripc",
-  ripc: { types: [], center: "", activeOnly: true, q: "" },
-  export: { q: "" },
-  bizinfo: { kws: [], q: "", hideOver: true },
-};
-const save = () => { try { localStorage.setItem("spm_state", JSON.stringify(state)); } catch (e) {} };
-
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const norm = (s) => String(s || "").replace(/\s+/g, "").toLowerCase();
+const ls = {
+  get: (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+
+let DATA = null;
+
+/* 화면 상태 (이 브라우저 전용) */
+const view = ls.get("spm_view", null) || {
+  tab: "ripc", folder: {}, q: "", center: "", activeOnly: true, hideNa: false,
+};
+
+/* 사용자 데이터 (폴더, 분류, 해당없음 메모) - localStorage + 저장소 state.json 동기화 */
+let U = ls.get("spm_user", null) || { folders: { ripc: [], export: [], bizinfo: [] }, assign: {}, marks: {}, updatedAt: "" };
+let editingNote = null; // "tab:id"
+
+const key = (tab, id) => `${tab}:${id}`;
+const folderOf = (tab, it) => U.assign[key(tab, it.id)] || "";
+const markOf = (tab, it) => U.marks[key(tab, it.id)];
 
 function todayKST() {
   const d = new Date(Date.now() + 9 * 3600e3);
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
 }
-function dday(dateStr) {
-  if (!dateStr) return null;
-  const [y, m, d] = dateStr.split("-").map(Number);
+function dday(s) {
+  if (!s) return null;
+  const [y, m, d] = s.split("-").map(Number);
   return Math.round((Date.UTC(y, m - 1, d) - todayKST()) / 864e5);
 }
-function isNew(it) {
-  const n = dday(it.first_seen);
-  return n !== null && n > -NEW_DAYS;
-}
+const isNew = (it) => { const n = dday(it.first_seen); return n !== null && n > -NEW_DAYS; };
+const B = (cls, t) => (t ? `<span class="b ${cls}">${esc(t)}</span>` : "");
+
 function ddayBox(it) {
   const n = dday(it.deadline);
   if (n === null) return `<div class="dday">-</div>`;
   const cls = n < 0 ? "over" : n <= 3 ? "urgent" : n <= 7 ? "soon" : "";
-  const txt = n < 0 ? "마감" : n === 0 ? "D-day" : `D-${n}`;
-  return `<div class="dday ${cls}">${txt}</div>`;
+  return `<div class="dday ${cls}">${n < 0 ? "마감" : n === 0 ? "D-day" : "D-" + n}</div>`;
 }
-function card(it, badges) {
-  return `<a class="item" href="${esc(it.link)}" target="_blank" rel="noopener">
+function isClosed(it) {
+  if (/종료|마감/.test(it.status || "")) return true;
+  const n = dday(it.deadline);
+  return n !== null && n < 0;
+}
+function badges(tab, it) {
+  if (tab === "ripc") return [B("type", it.type), B("", it.center), B(/공고중|접수중/.test(it.status) ? "on" : "", it.status)];
+  if (tab === "export") return [it.notice ? B("pin", "공지") : "", B("type", it.type)];
+  return [...(it.keywords || []).map((k) => B("type", k)), B("", it.type), B("", it.org)];
+}
+
+function card(tab, it, inFolderView) {
+  const k = key(tab, it.id), mk = markOf(tab, it), fid = folderOf(tab, it);
+  const folders = U.folders[tab] || [];
+  const fname = folders.find((f) => f.id === fid)?.name;
+  const noteBox = editingNote === k
+    ? `<div class="noteEdit"><textarea data-note="${esc(k)}" placeholder="해당 안 되는 이유 (예: 업력 7년 초과, 지역 불일치)">${esc(mk?.note || "")}</textarea>
+        <div style="display:flex;flex-direction:column;gap:4px"><button class="primary" data-act="noteSave" data-k="${esc(k)}">저장</button><button data-act="noteCancel">취소</button></div></div>`
+    : mk ? `<div class="note" data-act="noteEdit" data-k="${esc(k)}" title="클릭해서 메모 수정">해당없음${mk.note ? ": " + esc(mk.note) : ""}${mk.at ? ` <span style="opacity:.6">(${esc(mk.at)})</span>` : ""}</div>` : "";
+  return `<div class="item ${mk ? "na" : ""}">
     ${ddayBox(it)}
     <div class="body">
-      <div class="t">${esc(it.title)}</div>
-      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${badges.join("")}
-        ${it.period ? `<span>${esc(it.period)}</span>` : it.date ? `<span>등록 ${esc(it.date)}</span>` : ""}
-      </div>
-    </div></a>`;
-}
-const B = (cls, t) => (t ? `<span class="b ${cls}">${esc(t)}</span>` : "");
-const sortByDeadline = (a, b) => {
-  const da = dday(a.deadline), db = dday(b.deadline);
-  const ka = da === null ? 9999 : da < 0 ? 10000 - da : da;
-  const kb = db === null ? 9999 : db < 0 ? 10000 - db : db;
-  return ka - kb;
-};
-function banner(src) {
-  if (!src) return `<div class="banner">아직 수집된 데이터가 없어.</div>`;
-  if (src.error) return `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>`;
-  return "";
+      <a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
+      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${!inFolderView && fname ? B("folder", "📁 " + fname) : ""}${badges(tab, it).join("")}
+        ${it.period ? `<span>${esc(it.period)}</span>` : it.date ? `<span>등록 ${esc(it.date)}</span>` : ""}</div>
+      ${noteBox}
+    </div>
+    <div class="acts">
+      <select data-act="move" data-k="${esc(k)}" title="폴더로 이동">
+        <option value="">${fid ? "폴더에서 빼기" : "폴더로 이동"}</option>
+        ${folders.map((f) => `<option value="${esc(f.id)}" ${f.id === fid ? "selected" : ""}>📁 ${esc(f.name)}</option>`).join("")}
+        <option value="__new">+ 새 폴더...</option>
+      </select>
+      <button class="naBtn ${mk ? "on" : ""}" data-act="na" data-k="${esc(k)}" title="${mk ? "해당없음 해제" : "해당없음 표시 + 메모"}">${mk ? "해제" : "해당없음"}</button>
+    </div>
+  </div>`;
 }
 
-/* ───── 탭 렌더 ───── */
-function renderRipc() {
-  const src = DATA.sources.ripc, st = state.ripc;
-  const items = src?.items || [];
-  const types = [...new Set(items.map((i) => i.type).filter(Boolean))].filter((t) => !RIPC_FAV.some((f) => norm(t).includes(norm(f))));
-  const centers = [...new Set(items.map((i) => i.center).filter(Boolean))].sort();
-  const chipList = [...RIPC_FAV, ...types];
+function sortItems(arr) {
+  const score = (it) => { const d = dday(it.deadline); return d === null ? 9999 : d < 0 ? 10000 - d : d; };
+  return arr.sort((a, b) => {
+    const ma = U.marks[key(view.tab, a.id)] ? 1 : 0, mb = U.marks[key(view.tab, b.id)] ? 1 : 0;
+    if (ma !== mb) return ma - mb; // 해당없음은 아래로
+    if (view.tab === "export") return (b.notice - a.notice) || (b.date || "").localeCompare(a.date || "");
+    return score(a) - score(b);
+  });
+}
+
+function renderTab() {
+  const tab = view.tab, src = DATA.sources[tab] || {};
+  const items = src.items || [];
+  const folders = U.folders[tab] || [];
+  const cur = view.folder[tab] || ""; // "" = 미분류(메인)
+  const curF = folders.find((f) => f.id === cur);
+  if (cur && !curF) view.folder[tab] = "";
+
+  const countIn = (fid) => items.filter((it) => folderOf(tab, it) === fid && !(view.activeOnly && isClosed(it))).length;
 
   let list = items.filter((it) => {
-    if (st.types.length && !st.types.some((t) => norm(it.type).includes(norm(t)) || norm(it.title).includes(norm(t)))) return false;
-    if (st.center && it.center !== st.center) return false;
-    if (st.activeOnly) {
-      const n = dday(it.deadline);
-      if (/마감|종료/.test(it.status || "")) return false;
-      if (n !== null && n < 0) return false;
-    }
-    if (st.q && !norm(it.title).includes(norm(st.q))) return false;
+    const fid = folderOf(tab, it);
+    if (curF ? fid !== cur : fid && folders.some((f) => f.id === fid)) return false;
+    if (view.activeOnly && isClosed(it)) return false;
+    if (view.hideNa && markOf(tab, it)) return false;
+    if (tab === "ripc" && view.center && it.center !== view.center) return false;
+    if (view.q && !norm(it.title + " " + (it.type || "") + " " + (it.org || "")).includes(norm(view.q))) return false;
     return true;
-  }).sort(sortByDeadline);
+  });
+  list = sortItems(list);
 
-  return `${banner(src)}
-  <div class="filters"><div class="chips">
-    <button class="chip ${st.types.length ? "" : "on"}" data-act="ripcType" data-v="">전체</button>
-    ${chipList.map((t) => `<button class="chip ${RIPC_FAV.includes(t) ? "fav" : ""} ${st.types.includes(t) ? "on" : ""}" data-act="ripcType" data-v="${esc(t)}">${esc(t)}</button>`).join("")}
-  </div></div>
-  <div class="filters">
-    <select data-act="ripcCenter"><option value="">전체 센터(지역)</option>
-      ${centers.map((c) => `<option ${c === st.center ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>
-    <input type="search" placeholder="제목 검색" value="${esc(st.q)}" data-act="ripcQ">
-    <label class="tg"><input type="checkbox" ${st.activeOnly ? "checked" : ""} data-act="ripcActive">진행중만</label>
+  const centers = tab === "ripc" ? [...new Set(items.map((i) => i.center).filter(Boolean))].sort() : [];
+  const err = src.error ? `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>` : "";
+
+  return `${err}
+  <div class="folders">
+    <button class="fd ${curF ? "" : "on"}" data-act="openF" data-f="">미분류 <small>${countIn("")}</small></button>
+    ${folders.map((f) => `<button class="fd ${cur === f.id ? "on" : ""}" data-act="openF" data-f="${esc(f.id)}">📁 ${esc(f.name)} <small>${countIn(f.id)}</small></button>`).join("")}
+    <button class="fd add" data-act="addF">+ 폴더</button>
   </div>
-  <div class="list">${list.map((it) => card(it, [B("type", it.type), B("", it.center), B(/접수중|진행|공고중/.test(it.status) ? "on" : "", it.status)])).join("") || '<div class="empty">조건에 맞는 공고가 없어.</div>'}</div>`;
-}
-
-function renderExport() {
-  const src = DATA.sources.export, st = state.export;
-  const items = (src?.items || []).filter((it) => !st.q || norm(it.title).includes(norm(st.q)));
-  const pinned = items.filter((i) => i.notice), rest = items.filter((i) => !i.notice);
-  rest.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-  return `${banner(src)}
-  <div class="filters"><input type="search" placeholder="제목 검색 (예: 모집, 공고, 기업)" value="${esc(st.q)}" data-act="exportQ"></div>
-  <div class="list">${[...pinned, ...rest].map((it) => card(it, [it.notice ? B("pin", "공지") : "", B("type", it.type)])).join("") || '<div class="empty">공고가 없어.</div>'}</div>`;
-}
-
-function renderBizinfo() {
-  const src = DATA.sources.bizinfo, st = state.bizinfo;
-  const kws = src?.meta?.keywords || [];
-  const list = (src?.items || []).filter((it) => {
-    if (st.kws.length && !it.keywords?.some((k) => st.kws.includes(k))) return false;
-    if (st.hideOver) { const n = dday(it.deadline); if (n !== null && n < 0) return false; }
-    if (st.q && !norm(it.title + it.org).includes(norm(st.q))) return false;
-    return true;
-  }).sort(sortByDeadline);
-  const count = (k) => (src?.items || []).filter((i) => i.keywords?.includes(k)).length;
-  return `${banner(src)}
-  <div class="filters"><div class="chips">
-    <button class="chip ${st.kws.length ? "" : "on"}" data-act="bizKw" data-v="">전체</button>
-    ${kws.map((k) => `<button class="chip ${st.kws.includes(k) ? "on" : ""}" data-act="bizKw" data-v="${esc(k)}">${esc(k)} <small>${count(k)}</small></button>`).join("")}
-  </div></div>
+  ${curF ? `<div class="fhead"><h2>📁 ${esc(curF.name)}</h2><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
   <div class="filters">
-    <input type="search" placeholder="제목, 기관 검색" value="${esc(st.q)}" data-act="bizQ">
-    <label class="tg"><input type="checkbox" ${st.hideOver ? "checked" : ""} data-act="bizOver">마감 숨기기</label>
+    ${tab === "ripc" ? `<select data-act="center"><option value="">전체 센터(지역)</option>${centers.map((c) => `<option ${c === view.center ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>` : ""}
+    <input type="search" placeholder="제목, 사업형태, 기관 검색" value="${esc(view.q)}" data-act="q">
+    <label class="tg"><input type="checkbox" ${view.activeOnly ? "checked" : ""} data-act="activeOnly">진행중만</label>
+    <label class="tg"><input type="checkbox" ${view.hideNa ? "checked" : ""} data-act="hideNa">해당없음 숨기기</label>
   </div>
-  <div class="list">${list.map((it) => card(it, [...(it.keywords || []).map((k) => B("type", k)), B("", it.type), B("", it.org)])).join("") || '<div class="empty">조건에 맞는 공고가 없어.</div>'}</div>`;
+  <div class="list">${list.map((it) => card(tab, it, !!curF)).join("") || `<div class="empty">${curF ? "이 폴더에 공고가 없어." : "표시할 공고가 없어."}</div>`}</div>
+  <p class="upd" style="margin-top:16px">원문: <a href="${SOURCES[tab].home}" target="_blank" rel="noopener">${SOURCES[tab].home}</a></p>`;
 }
-
-const RENDER = { ripc: renderRipc, export: renderExport, bizinfo: renderBizinfo };
 
 function render() {
   if (!DATA) return;
+  ls.set("spm_view", view);
   $("#tabs").innerHTML = Object.entries(SOURCES).map(([k, s]) => {
-    const n = (DATA.sources[k]?.items || []).filter(isNew).length;
-    return `<button class="${state.tab === k ? "on" : ""}" data-tab="${k}">${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
+    const n = (DATA.sources[k]?.items || []).filter((it) => isNew(it) && !folderOf(k, it) && !markOf(k, it)).length;
+    return `<button class="${view.tab === k ? "on" : ""}" data-tab="${k}">${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
   }).join("");
-  const focus = document.activeElement?.dataset?.act;
-  const pos = document.activeElement?.selectionStart;
-  $("#main").innerHTML = RENDER[state.tab]() + `<p class="upd" style="margin-top:16px">원문: <a href="${SOURCES[state.tab].home}" target="_blank" rel="noopener">${SOURCES[state.tab].home}</a></p>`;
-  if (focus && /Q$/.test(focus)) { const el = document.querySelector(`[data-act="${focus}"]`); el.focus(); el.setSelectionRange(pos, pos); }
+  const ae = document.activeElement, focusQ = ae?.dataset?.act === "q", pos = ae?.selectionStart;
+  $("#main").innerHTML = renderTab();
+  if (focusQ) { const el = $('[data-act="q"]'); el.focus(); el.setSelectionRange(pos, pos); }
+  if (editingNote) { const ta = document.querySelector(`[data-note="${CSS.escape(editingNote)}"]`); if (ta && document.activeElement !== ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }
   const u = new Date(DATA.updated);
   $("#upd").textContent = `마지막 수집 ${u.toLocaleString("ko-KR", { timeZone: "Asia/Seoul", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}`;
 }
 
-/* ───── 이벤트 ───── */
+/* ───── 사용자 데이터 변경 ───── */
+function changed() {
+  U.updatedAt = new Date().toISOString();
+  ls.set("spm_user", U);
+  scheduleSync();
+  render();
+}
+function newFolder(tab) {
+  const name = (prompt("새 폴더 이름 (예: IP나래, 긴급지원 경기)") || "").trim();
+  if (!name) return null;
+  const f = { id: "f" + Date.now().toString(36), name };
+  (U.folders[tab] = U.folders[tab] || []).push(f);
+  return f;
+}
+
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-tab],[data-act]");
-  if (!t) return;
-  if (t.dataset.tab) { state.tab = t.dataset.tab; save(); return render(); }
-  const v = t.dataset.v;
-  const toggle = (arr) => (v === "" ? [] : arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
-  if (t.dataset.act === "ripcType") state.ripc.types = toggle(state.ripc.types);
-  else if (t.dataset.act === "bizKw") state.bizinfo.kws = toggle(state.bizinfo.kws);
-  else return;
-  save(); render();
+  if (!t || t.tagName === "SELECT" || t.tagName === "INPUT" || t.tagName === "TEXTAREA") return;
+  const tab = view.tab, a = t.dataset.act;
+  if (t.dataset.tab) { view.tab = t.dataset.tab; editingNote = null; return render(); }
+  if (a === "openF") { view.folder[tab] = t.dataset.f; editingNote = null; return render(); }
+  if (a === "addF") { const f = newFolder(tab); if (f) { view.folder[tab] = f.id; changed(); } return; }
+  if (a === "renF") {
+    const f = U.folders[tab].find((x) => x.id === t.dataset.f);
+    const name = (prompt("폴더 이름", f.name) || "").trim();
+    if (name) { f.name = name; changed(); }
+    return;
+  }
+  if (a === "delF") {
+    const f = U.folders[tab].find((x) => x.id === t.dataset.f);
+    if (!confirm(`"${f.name}" 폴더를 삭제할까? 안의 공고는 미분류로 돌아가.`)) return;
+    U.folders[tab] = U.folders[tab].filter((x) => x.id !== f.id);
+    for (const k of Object.keys(U.assign)) if (U.assign[k] === f.id) delete U.assign[k];
+    view.folder[tab] = "";
+    return changed();
+  }
+  if (a === "na") {
+    const k = t.dataset.k;
+    if (U.marks[k]) { delete U.marks[k]; if (editingNote === k) editingNote = null; return changed(); }
+    editingNote = k; return render();
+  }
+  if (a === "noteEdit") { editingNote = t.dataset.k; return render(); }
+  if (a === "noteCancel") { editingNote = null; return render(); }
+  if (a === "noteSave") {
+    const k = t.dataset.k, ta = document.querySelector(`[data-note="${CSS.escape(k)}"]`);
+    const d = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+    U.marks[k] = { note: ta.value.trim(), at: U.marks[k]?.at || d };
+    editingNote = null;
+    return changed();
+  }
+});
+document.addEventListener("change", (e) => {
+  const t = e.target, a = t.dataset.act;
+  if (a === "move") {
+    let v = t.value;
+    if (v === "__new") { const f = newFolder(view.tab); if (!f) return render(); v = f.id; }
+    if (v) U.assign[t.dataset.k] = v; else delete U.assign[t.dataset.k];
+    return changed();
+  }
+  if (a === "center") { view.center = t.value; return render(); }
+  if (a === "activeOnly") { view.activeOnly = t.checked; return render(); }
+  if (a === "hideNa") { view.hideNa = t.checked; return render(); }
 });
 document.addEventListener("input", (e) => {
-  const a = e.target.dataset.act, v = e.target.value, c = e.target.checked;
-  const map = {
-    ripcQ: () => (state.ripc.q = v), ripcCenter: () => (state.ripc.center = v), ripcActive: () => (state.ripc.activeOnly = c),
-    exportQ: () => (state.export.q = v), bizQ: () => (state.bizinfo.q = v), bizOver: () => (state.bizinfo.hideOver = c),
-  };
-  if (map[a]) { map[a](); save(); render(); }
+  if (e.target.dataset.act === "q") { view.q = e.target.value; render(); }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.target.dataset?.note !== undefined && e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+    document.querySelector(`[data-act="noteSave"][data-k="${CSS.escape(e.target.dataset.note)}"]`)?.click();
+  }
 });
 
-/* ───── 데이터 로드 ───── */
+/* ───── GitHub 연동 ───── */
 function cfg() {
-  let repo = localStorage.getItem("spm_repo") || "";
+  let repo = ls.get("spm_repo", "") || "";
   const m = location.hostname.match(/^([^.]+)\.github\.io$/);
   if (!repo && m) repo = `${m[1]}/${location.pathname.split("/").filter(Boolean)[0] || m[1] + ".github.io"}`;
-  return { repo, tok: localStorage.getItem("spm_tok") || "" };
+  return { repo, tok: ls.get("spm_tok", "") || "" };
 }
-async function load() {
+const gh = (path, opt = {}) => {
+  const { repo, tok } = cfg();
+  return fetch(`https://api.github.com/repos/${repo}/${path}`, {
+    ...opt, cache: "no-store",
+    headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github+json", ...(opt.headers || {}) },
+  });
+};
+const b64 = (s) => btoa(unescape(encodeURIComponent(s)));
+const unb64 = (s) => decodeURIComponent(escape(atob(s.replace(/\n/g, ""))));
+let stateSha = null, syncTimer = null;
+const setSync = (t) => ($("#sync").textContent = t);
+
+async function pullState() {
+  const { tok } = cfg();
+  if (!tok) { setSync("메모: 이 브라우저에만 저장"); return; }
+  try {
+    const r = await gh(`contents/state.json?t=${Date.now()}`);
+    if (r.status === 404) { stateSha = null; setSync("동기화 준비됨"); if (U.updatedAt) scheduleSync(); return; }
+    if (!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    stateSha = j.sha;
+    const remote = JSON.parse(unb64(j.content));
+    if ((remote.updatedAt || "") >= (U.updatedAt || "")) { U = remote; ls.set("spm_user", U); }
+    else scheduleSync();
+    setSync("동기화됨");
+  } catch (e) { setSync("동기화 실패 (토큰 권한 확인)"); }
+}
+function scheduleSync() {
+  if (!cfg().tok) { setSync("메모: 이 브라우저에만 저장"); return; }
+  setSync("저장 중...");
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushState, 1200);
+}
+async function pushState(retry = true) {
+  try {
+    const body = { message: "state: 폴더/메모 저장", content: b64(JSON.stringify(U, null, 1)) };
+    if (stateSha) body.sha = stateSha;
+    const r = await gh("contents/state.json", { method: "PUT", body: JSON.stringify(body) });
+    if ((r.status === 409 || r.status === 422) && retry) {
+      const g = await gh(`contents/state.json?t=${Date.now()}`);
+      stateSha = g.ok ? (await g.json()).sha : null;
+      return pushState(false);
+    }
+    if (!r.ok) throw new Error(r.status);
+    stateSha = (await r.json()).content.sha;
+    setSync("동기화됨");
+  } catch (e) { setSync("저장소 저장 실패 (브라우저엔 저장됨)"); }
+}
+
+async function loadData() {
   const { repo, tok } = cfg();
   try {
     let res;
-    if (tok && repo) { // 토큰 있으면 GitHub API로 최신본 (Pages 배포 지연 없음)
-      res = await fetch(`https://api.github.com/repos/${repo}/contents/data.json?t=${Date.now()}`, {
-        headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github.raw+json" }, cache: "no-store",
-      });
-    }
+    if (tok && repo) res = await gh(`contents/data.json?t=${Date.now()}`, { headers: { Accept: "application/vnd.github.raw+json" } });
     if (!res || !res.ok) res = await fetch(`data.json?t=${Date.now()}`, { cache: "no-store" });
     DATA = await res.json();
     render();
@@ -277,9 +397,10 @@ async function load() {
 
 $("#btnSet").onclick = () => { const c = cfg(); $("#inRepo").value = c.repo; $("#inTok").value = c.tok; $("#dlg").showModal(); };
 $("#dlgCancel").onclick = () => $("#dlg").close();
-$("#dlgSave").onclick = () => {
-  try { localStorage.setItem("spm_repo", $("#inRepo").value.trim()); localStorage.setItem("spm_tok", $("#inTok").value.trim()); } catch (e) {}
+$("#dlgSave").onclick = async () => {
+  ls.set("spm_repo", $("#inRepo").value.trim()); ls.set("spm_tok", $("#inTok").value.trim());
   $("#dlg").close();
+  await pullState(); await loadData();
 };
 $("#btnRefresh").onclick = async () => {
   const { repo, tok } = cfg(), btn = $("#btnRefresh");
@@ -287,24 +408,19 @@ $("#btnRefresh").onclick = async () => {
   btn.disabled = true; btn.textContent = "수집 요청 중...";
   const before = DATA?.updated;
   try {
-    const r = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/update.yml/dispatches`, {
-      method: "POST", headers: { Authorization: `Bearer ${tok}`, Accept: "application/vnd.github+json" },
-      body: JSON.stringify({ ref: "main" }),
-    });
+    const r = await gh("actions/workflows/update.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main" }) });
     if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
     btn.textContent = "수집 중 (1~2분)...";
     for (let i = 0; i < 20; i++) {
       await new Promise((ok) => setTimeout(ok, 15000));
-      await load();
+      await loadData();
       if (DATA?.updated !== before) break;
     }
-  } catch (e) {
-    $("#upd").textContent = "갱신 실패: " + e.message.slice(0, 120);
-  }
+  } catch (e) { $("#upd").textContent = "갱신 실패: " + e.message.slice(0, 120); }
   btn.disabled = false; btn.textContent = "지금 갱신";
 };
 
-load();
+(async () => { await pullState(); await loadData(); })();
 </script>
 </body>
 </html>

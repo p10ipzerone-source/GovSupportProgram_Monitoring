@@ -158,66 +158,62 @@ def start_of(period_text):
 
 
 # ───────── 1. RIPC ─────────
+RIPC_BASE = "https://pms.ripc.org"
+RIPC_API = RIPC_BASE + "/pms/biz/applicant/notice/getNoticeList.do"
+RIPC_STATUS = {"NST001": "공고중", "NST002": "작성중", "NST003": "공고종료"}
+
+
+def ripc_post(url, data):
+    r = S.post(url, data=data, timeout=30,
+               headers={"Referer": RIPC_LIST, "X-Requested-With": "XMLHttpRequest"})
+    r.raise_for_status()
+    return r.json()
+
+
 def scrape_ripc():
+    """목록은 getNoticeList.do(JSON)로 채워짐. 올해 + 내년 사업연도 조회."""
     out = {"items": [], "meta": {}}
-    r = get(RIPC_LIST)
+    r = get(RIPC_LIST)  # 세션 쿠키
     save_debug("ripc_list", r.text)
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    # 필터 옵션(센터, 사업형태) 수집
-    for sel in soup.find_all("select"):
-        label = ""
-        if sel.get("id"):
-            lab = soup.find("label", attrs={"for": sel["id"]})
-            label = clean(lab.get_text()) if lab else ""
-        name = sel.get("name") or sel.get("id") or ""
-        opts = [
-            {"value": o.get("value", ""), "text": clean(o.get_text())}
-            for o in sel.find_all("option")
-        ]
-        out["meta"][name or label] = {"label": label, "options": opts}
-
-    rows = parse_tables(soup, RIPC_LIST)
-
-    # 목록이 AJAX로 그려지는 경우 대비: 페이지 크기 키워서 재요청 시도
-    if not [x for x in rows if x.get("title")]:
-        for params in (
-            {"pageUnit": 50, "pageIndex": 1},
-            {"recordCountPerPage": 50, "pageIndex": 1},
-        ):
-            try:
-                r2 = S.post(RIPC_LIST, data=params, timeout=30)
-                r2.encoding = r2.apparent_encoding
-                save_debug("ripc_list_post", r2.text)
-                rows = parse_tables(BeautifulSoup(r2.text, "html.parser"), RIPC_LIST)
-                if [x for x in rows if x.get("title")]:
-                    break
-            except Exception:
-                pass
-
-    # JS 안의 .do URL 후보 기록 (AJAX 엔드포인트 탐색용)
-    out["meta"]["_ajax_candidates"] = sorted(
-        set(re.findall(r"['\"](/pms/[^'\"]+?\.do)['\"]", r.text))
-    )[:40]
-
-    for x in rows:
-        if not x.get("title"):
-            continue
-        period = x.get("period", "")
-        out["items"].append(
-            {
-                "id": x.get("no") or x["title"],
-                "title": x["title"],
-                "type": x.get("type", ""),
-                "center": x.get("center", ""),
-                "status": x.get("status", ""),
-                "period": period,
-                "start": start_of(period),
-                "deadline": deadline_of(period),
-                "link": x["_link"] or RIPC_LIST,
-                "js": x["_js"],
-            }
-        )
+    year = now_kst().year
+    seen = set()
+    for biz_year in (year, year + 1):
+        page = 1
+        while page <= 10:
+            data = ripc_post(RIPC_API, {
+                "noticeTitle": "", "bizYear": biz_year, "centerCode": "", "bizCategory1": "",
+                "recordCountPerPage": 100, "currentPageNo": page,
+                "noticeGroupCode": "NGR001", "noticeCode": "NST000",
+            })
+            res = data.get("result") or {}
+            rows = res.get("noticeList") or []
+            if page == 1 and biz_year == year:
+                (DEBUG / "ripc_api_sample.json").write_text(
+                    json.dumps(rows[:3], ensure_ascii=False, indent=1), encoding="utf-8")
+            for n in rows:
+                if n.get("noticeCode") == "NST002":
+                    continue
+                key = f"{n.get('bizYear')}-{n.get('noticeSeq')}"
+                if key in seen:
+                    continue
+                seen.add(key)
+                period = f"{n.get('startDateStr', '')} ~ {n.get('endDateStr', '')}"
+                out["items"].append({
+                    "id": key,
+                    "no": n.get("noticeNo", ""),
+                    "title": clean(n.get("noticeTitle")),
+                    "type": clean(n.get("bizCategory1Name")),
+                    "center": clean(n.get("centerName")),
+                    "status": RIPC_STATUS.get(n.get("noticeCode"), ""),
+                    "period": period,
+                    "start": start_of(period),
+                    "deadline": deadline_of(period),
+                    "link": f"{RIPC_BASE}/pms/biz/applicant/notice/info.do?noticeSeq={n.get('noticeSeq')}&bizYear={n.get('bizYear')}",
+                })
+            total = int(res.get("totalRecordCount") or 0)
+            if page * 100 >= total or not rows:
+                break
+            page += 1
     return out
 
 
@@ -226,7 +222,7 @@ def scrape_export():
     out = {"items": [], "meta": {}}
     seen = set()
     for page in (1, 2):
-        url = EXPORT_LIST + (f"&pageIndex={page}" if page > 1 else "")
+        url = EXPORT_LIST + (f"&pageNo={page}" if page > 1 else "")
         r = get(url)
         save_debug(f"export_list_p{page}", r.text)
         soup = BeautifulSoup(r.text, "html.parser")
@@ -254,17 +250,20 @@ def scrape_export():
                 continue
             seen.add(t)
             period = x.get("period", "")
-            # 제목/본문에 접수기간이 있으면 추출
+            m = re.search(r"goDetail\((\d+)\)", x.get("_js") or "")
+            nid = m.group(1) if m else None
             out["items"].append(
                 {
-                    "id": x.get("no") or t,
+                    "id": nid or t,
                     "title": t,
                     "type": x.get("type", ""),
                     "date": (dates_in(x.get("date", "")) or [""])[0],
                     "period": period,
                     "deadline": deadline_of(period) if period else None,
                     "notice": not x.get("no", "").isdigit(),
-                    "link": x["_link"] or EXPORT_LIST,
+                    "link": x["_link"] or (
+                        f"https://www.exportvoucher.com/portal/board/boardView?bbs_id=1&ntt_id={nid}"
+                        if nid else EXPORT_LIST),
                     "js": x["_js"],
                 }
             )
