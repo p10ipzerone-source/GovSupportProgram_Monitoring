@@ -570,50 +570,48 @@ def mss_is_queue(html):
     return "ft_queue" in html or "waitTimer" in html
 
 
-def mss_probe_queue(html):
-    """대기열 스크립트를 내려받아 debug에 저장 (구조 파악용)."""
+def mss_wait_queue(sess, max_wait=240):
+    """사이트 대기열 스크립트(ft_queue.v2.js)와 같은 순서로 차례를 기다림.
+    getTicketStatus를 서버가 정한 간격(refreshRate)으로 확인 -> canAccess면 입장 쿠키 확인."""
     import time
-    info = {"cookies_before": S.cookies.get_dict()}
-    srcs = re.findall(r'<script[^>]+src=["\']([^"\']+)', html)
-    cands = []
-    for src in srcs:
-        cands += [urljoin(MSS_LIST, src), urljoin("https://www.mssmiv.com/_queue/", src),
-                  urljoin("https://www.mssmiv.com/", src)]
-    info["tried"] = {}
-    for u in dict.fromkeys(cands):
-        try:
-            r = S.get(u, timeout=20, headers={"Referer": MSS_LIST})
-            body = r.text
-            info["tried"][u] = [r.status_code, r.headers.get("content-type"), len(body)]
-            if "javascript" in (r.headers.get("content-type") or "") or ("function" in body and "<html" not in body[:300].lower()):
-                (DEBUG / "mssmiv_queue.js").write_text(body, encoding="utf-8")
-                break
-        except Exception as e:
-            info["tried"][u] = str(e)
-    # 쿠키가 생겼으면 잠깐 기다렸다 다시 요청
-    for i in range(3):
-        time.sleep(4)
-        r = S.get(MSS_LIST, timeout=30, headers={"Referer": MSS_LIST})
-        info[f"retry{i}"] = [r.status_code, mss_is_queue(r.text), len(r.text)]
-        if not mss_is_queue(r.text):
-            save_debug("mssmiv_list_admitted", r.text)
-            info["cookies_after"] = S.cookies.get_dict()
-            (DEBUG / "mssmiv_probe.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
-            return r.text
-    info["cookies_after"] = S.cookies.get_dict()
-    (DEBUG / "mssmiv_probe.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
-    return None
+    base = "https://www.mssmiv.com"
+    hdr = {"Referer": MSS_LIST, "Accept": "application/json"}
+    log, t0 = [], time.time()
+    while time.time() - t0 < max_wait:
+        r = sess.get(base + "/_queue/getTicketStatus", headers=hdr, timeout=30)
+        if r.status_code == 503:
+            wait = min(60, max(10, int(r.headers.get("Retry-After") or 30)))
+            log.append(f"503 대기 {wait}s")
+            time.sleep(wait)
+            continue
+        r.raise_for_status()
+        d = r.json()
+        log.append({k: d.get(k) for k in ("canAccess", "ticketAheadCnt", "refreshRate", "accessUrl")})
+        if d.get("canAccess"):
+            c = sess.get(base + "/_queue/checkAdmissionCookie", headers=hdr, timeout=30)
+            ok = c.ok and c.json().get("ready") is True
+            log.append({"admission": ok})
+            (DEBUG / "mssmiv_probe.json").write_text(json.dumps(log, ensure_ascii=False, indent=1), encoding="utf-8")
+            return ok
+        time.sleep(max(1, float(d.get("refreshRate") or 10)))
+    (DEBUG / "mssmiv_probe.json").write_text(json.dumps(log, ensure_ascii=False, indent=1), encoding="utf-8")
+    return False
 
 
 def scrape_mssmiv():
     out = {"items": [], "meta": {}}
-    r = get(MSS_LIST)
-    save_debug("mssmiv_list", r.text)
+    sess = requests.Session()
+    sess.headers.update(HEADERS)
+    r = sess.get(MSS_LIST, timeout=30)
     html = r.text
     if mss_is_queue(html):
-        html = mss_probe_queue(html)
-        if html is None:
-            raise RuntimeError("접속 대기열 화면에서 넘어가지 못함 (debug/mssmiv_probe.json)")
+        if not mss_wait_queue(sess):
+            raise RuntimeError("접속 대기열 통과 못함 (debug/mssmiv_probe.json)")
+        r = sess.get(MSS_LIST, timeout=30, headers={"Referer": MSS_LIST})
+        html = r.text
+        if mss_is_queue(html):
+            raise RuntimeError("입장 후에도 대기열 화면 (debug/mssmiv_list.html)")
+    save_debug("mssmiv_list", html)
     soup = BeautifulSoup(html, "html.parser")
     seen = set()
     for x in parse_tables(soup, MSS_LIST):
