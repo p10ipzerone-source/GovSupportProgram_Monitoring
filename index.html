@@ -457,7 +457,17 @@ const setSync = (t) => ($("#sync").textContent = t);
 
 async function pullState() {
   const { tok } = cfg();
-  if (!tok) { setSync("메모: 이 브라우저에만 저장"); return; }
+  if (!tok) { // 토큰 없으면 Pages에 올라간 state.json을 읽기만 함
+    try {
+      const r = await fetch(`state.json?t=${Date.now()}`, { cache: "no-store" });
+      if (r.ok) {
+        const remote = await r.json();
+        if ((remote.updatedAt || "") > (U.updatedAt || "")) { U = remote; ls.set("spm_user", U); }
+      }
+    } catch (e) {}
+    setSync("보기만 동기화 (수정하려면 ⚙ 토큰)");
+    return;
+  }
   try {
     const r = await gh(`contents/state.json?t=${Date.now()}`);
     if (r.status === 404) { stateSha = null; setSync("동기화 준비됨"); if (U.updatedAt) scheduleSync(); return; }
@@ -471,7 +481,7 @@ async function pullState() {
   } catch (e) { setSync("동기화 실패 (토큰 권한 확인)"); }
 }
 function scheduleSync() {
-  if (!cfg().tok) { setSync("메모: 이 브라우저에만 저장"); return; }
+  if (!cfg().tok) { setSync("이 브라우저에만 저장됨 (⚙ 토큰 넣으면 동기화)"); return; }
   setSync("저장 중...");
   clearTimeout(syncTimer);
   syncTimer = setTimeout(pushState, 1200);
@@ -531,6 +541,15 @@ $("#btnRefresh").onclick = async () => {
 };
 
 (async () => { await pullState(); await loadData(); })();
+
+// 다른 컴퓨터에서 바꾼 내용 반영: 탭으로 돌아오면 다시 불러옴
+let lastPull = Date.now();
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState !== "visible" || Date.now() - lastPull < 20000) return;
+  if (editingNote || selected.size || syncTimer && $("#sync").textContent === "저장 중...") return;
+  lastPull = Date.now();
+  await pullState(); render();
+});
 </script>
 </body>
 </html>
