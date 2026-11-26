@@ -1,6 +1,11 @@
 {
  "folders": {
-  "ripc": [],
+  "ripc": [
+   {
+    "id": "fmwx5pdfi",
+    "name": "마감"
+   }
+  ],
   "export": [
    {
     "id": "fmwx3e76q",
@@ -49,5 +54,5 @@
   "export:13025": "fmwx3n6f2"
  },
  "marks": {},
- "updatedAt": "2026-11-26T05:18:20.254Z"
+ "updatedAt": "2026-11-26T06:13:30.558Z"
 }
