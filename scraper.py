@@ -566,23 +566,54 @@ def scrape_biz_combined(biz_key=None, prev_items=None):
 MSS_LIST = "https://www.mssmiv.com/portal/board/BoardList?bbsId=1"
 
 
+def mss_is_queue(html):
+    return "ft_queue" in html or "waitTimer" in html
+
+
+def mss_probe_queue(html):
+    """대기열 스크립트를 내려받아 debug에 저장 (구조 파악용)."""
+    import time
+    info = {"cookies_before": S.cookies.get_dict()}
+    srcs = re.findall(r'<script[^>]+src=["\']([^"\']+)', html)
+    cands = []
+    for src in srcs:
+        cands += [urljoin(MSS_LIST, src), urljoin("https://www.mssmiv.com/_queue/", src),
+                  urljoin("https://www.mssmiv.com/", src)]
+    info["tried"] = {}
+    for u in dict.fromkeys(cands):
+        try:
+            r = S.get(u, timeout=20, headers={"Referer": MSS_LIST})
+            body = r.text
+            info["tried"][u] = [r.status_code, r.headers.get("content-type"), len(body)]
+            if "javascript" in (r.headers.get("content-type") or "") or ("function" in body and "<html" not in body[:300].lower()):
+                (DEBUG / "mssmiv_queue.js").write_text(body, encoding="utf-8")
+                break
+        except Exception as e:
+            info["tried"][u] = str(e)
+    # 쿠키가 생겼으면 잠깐 기다렸다 다시 요청
+    for i in range(3):
+        time.sleep(4)
+        r = S.get(MSS_LIST, timeout=30, headers={"Referer": MSS_LIST})
+        info[f"retry{i}"] = [r.status_code, mss_is_queue(r.text), len(r.text)]
+        if not mss_is_queue(r.text):
+            save_debug("mssmiv_list_admitted", r.text)
+            info["cookies_after"] = S.cookies.get_dict()
+            (DEBUG / "mssmiv_probe.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
+            return r.text
+    info["cookies_after"] = S.cookies.get_dict()
+    (DEBUG / "mssmiv_probe.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
+    return None
+
+
 def scrape_mssmiv():
     out = {"items": [], "meta": {}}
     r = get(MSS_LIST)
     save_debug("mssmiv_list", r.text)
     html = r.text
-    # 대기/리다이렉트 화면이면 따라가 봄
-    if not parse_tables(BeautifulSoup(html, "html.parser"), MSS_LIST):
-        m = re.search(r"""(?:location\.(?:href|replace)\s*[=(]\s*|http-equiv=["']refresh["'][^>]*url=)['"]?([^'")>\s]+)""", html, re.I)
-        if m:
-            nxt = urljoin(MSS_LIST, m.group(1))
-            r = get(nxt, headers={"Referer": MSS_LIST})
-            save_debug("mssmiv_list_redirect", r.text)
-            html = r.text
-        else:
-            r = get(MSS_LIST, headers={"Referer": MSS_LIST})
-            save_debug("mssmiv_list_retry", r.text)
-            html = r.text
+    if mss_is_queue(html):
+        html = mss_probe_queue(html)
+        if html is None:
+            raise RuntimeError("접속 대기열 화면에서 넘어가지 못함 (debug/mssmiv_probe.json)")
     soup = BeautifulSoup(html, "html.parser")
     seen = set()
     for x in parse_tables(soup, MSS_LIST):
