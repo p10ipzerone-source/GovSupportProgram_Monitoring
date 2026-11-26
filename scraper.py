@@ -272,38 +272,71 @@ def scrape_export():
 
 
 # ───────── 3. 기업마당 ─────────
-def bizinfo_url(keyword, page=1):
-    params = {
-        "rows": 15,
-        "cpage": page,
+def bizinfo_params(keyword, page=1):
+    # 원래 링크의 파라미터를 빈 값까지 그대로 전달 (빠지면 서버가 500을 냄)
+    return {
+        "hashCode": "", "rowsSel": "6", "rows": "15", "cpage": str(page),
+        "cat": "", "article_seq": "", "pblancId": "", "schPblancDiv": "",
+        "schJrsdCodeTy": "", "schWntyAt": "", "schAreaDetailCodes": "",
         "schEndAt": "N",  # 마감 공고 제외
+        "orderGb": "", "sort": "",
         "condition": "searchPblancNm",  # 공고명 검색
-        "keyword": keyword,
+        "condition1": "AND", "preKeywords": "", "keyword": keyword,
     }
-    return BIZINFO_LIST + "?" + urlencode(params)
+
+
+def bizinfo_fetch(keyword, page, slug):
+    """GET 실패 시 POST로 재시도. 실패 응답도 debug에 저장."""
+    params = bizinfo_params(keyword, page)
+    hdr = {"Referer": BIZINFO_LIST}
+    last = None
+    for method in ("GET", "POST"):
+        try:
+            if method == "GET":
+                r = S.get(BIZINFO_LIST, params=params, headers=hdr, timeout=30)
+            else:
+                r = S.post(BIZINFO_LIST, data=params, headers=hdr, timeout=30)
+            r.encoding = r.encoding if r.encoding and r.encoding.lower() != "iso-8859-1" else r.apparent_encoding
+            if page == 1:
+                save_debug(f"bizinfo_{slug}_{method}_{r.status_code}", r.text)
+            if r.ok:
+                return r
+            last = f"{method} {r.status_code}"
+        except Exception as e:
+            last = f"{method} {type(e).__name__}: {e}"
+    raise RuntimeError(last)
 
 
 def scrape_bizinfo():
     out = {"items": [], "meta": {"keywords": BIZINFO_KEYWORDS}}
-    seen = {}
+    # 세션 쿠키 먼저 받기
+    try:
+        S.get("https://www.bizinfo.go.kr/", timeout=30)
+        S.get(BIZINFO_LIST, timeout=30)
+    except Exception:
+        pass
+    seen, errors = {}, []
     for kw in BIZINFO_KEYWORDS:
+        slug = re.sub(r"\W+", "_", kw)
         for page in (1, 2, 3):
-            url = bizinfo_url(kw, page)
-            r = get(url)
-            if page == 1:
-                slug = re.sub(r"\W+", "_", kw)
-                save_debug("bizinfo_" + slug, r.text)
+            try:
+                r = bizinfo_fetch(kw, page, slug)
+            except Exception as e:
+                if page == 1:
+                    errors.append(f"{kw}: {e}")
+                break
+            url = r.url
             rows = [x for x in parse_tables(BeautifulSoup(r.text, "html.parser"), url) if x.get("title")]
             for x in rows:
                 link = x["_link"] or url
-                m = re.search(r"pblancId=([A-Z_0-9]+)", link)
+                m = re.search(r"pblancId=([A-Z_0-9]+)", link + " " + (x.get("_js") or ""))
                 key = m.group(1) if m else x["title"]
                 if key in seen:
                     if kw not in seen[key]["keywords"]:
                         seen[key]["keywords"].append(kw)
                     continue
                 period = x.get("period", "")
-                item = {
+                seen[key] = {
                     "id": key,
                     "title": x["title"],
                     "type": x.get("type", ""),
@@ -315,14 +348,16 @@ def scrape_bizinfo():
                     "keywords": [kw],
                     "link": (
                         f"https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId={key}"
-                        if m
-                        else link
+                        if m else link
                     ),
                 }
-                seen[key] = item
             if len(rows) < 15:
                 break
+    if errors and len(errors) == len(BIZINFO_KEYWORDS):
+        raise RuntimeError("전 키워드 실패 - " + errors[0])
     out["items"] = list(seen.values())
+    if errors:
+        out["meta"]["partial_errors"] = errors
     return out
 
 
