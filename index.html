@@ -14,7 +14,7 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
   header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
-  .top{max-width:1000px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .top{max-width:1200px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   h1{font-size:18px;margin:0;font-weight:700}
   .upd{color:var(--sub);font-size:13px}
   .spacer{flex:1}
@@ -23,11 +23,29 @@
   button.ghost{border-color:transparent;background:transparent;color:var(--sub);padding:4px 8px}
   button.ghost:hover{background:var(--bg)}
   button:disabled{opacity:.5;cursor:default}
-  nav{max-width:1000px;margin:0 auto;display:flex;gap:4px;padding:10px 16px 0}
+  nav{max-width:1200px;margin:0 auto;display:flex;gap:4px;padding:10px 16px 0}
   nav button{border:none;border-bottom:2px solid transparent;border-radius:0;padding:8px 10px;color:var(--sub);font-weight:600}
   nav button.on{color:var(--accent);border-bottom-color:var(--accent)}
   nav .cnt{font-size:12px;background:var(--bg);border-radius:10px;padding:1px 7px;margin-left:4px}
-  main{max-width:1000px;margin:0 auto;padding:16px}
+  main{max-width:1200px;margin:0 auto;padding:16px}
+  .layout{display:grid;grid-template-columns:210px 1fr;gap:16px;align-items:start}
+  aside.side{position:sticky;top:110px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:2px;max-height:calc(100vh - 130px);overflow:auto}
+  .side .sh{font-size:12px;color:var(--sub);padding:4px 8px 6px;font-weight:600}
+  .side .fd{border:none;justify-content:space-between;text-align:left;width:100%;padding:8px 10px;border-radius:7px;border:1px dashed transparent}
+  .side .fd:hover{background:var(--bg)}
+  .side .fd.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .side .fd span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .side .fd.add{color:var(--sub);border-color:var(--line);margin-top:6px;justify-content:center}
+  .side .fd.drop{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .side .hint{font-size:11.5px;color:var(--sub);padding:8px 8px 2px;line-height:1.4}
+  .item[draggable=true]{cursor:grab}
+  .item.dragging{opacity:.4}
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr}
+    aside.side{position:static;flex-direction:row;flex-wrap:wrap;max-height:none}
+    .side .sh,.side .hint{display:none}
+    .side .fd{width:auto}
+  }
   .folders{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
   .fd{border-radius:8px;padding:6px 12px;font-size:13.5px;display:flex;gap:6px;align-items:center}
   .fd.on{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -141,7 +159,11 @@ function dday(s) {
   const [y, m, d] = s.split("-").map(Number);
   return Math.round((Date.UTC(y, m - 1, d) - todayKST()) / 864e5);
 }
-const isNew = (it) => { const n = dday(it.first_seen); return n !== null && n > -NEW_DAYS; };
+const isNew = (it, tab = view.tab) => {
+  const base = DATA?.sources?.[tab]?.baseline || "";
+  if (!it.first_seen || it.first_seen <= base) return false; // 첫 수집분은 제외
+  const n = dday(it.first_seen); return n !== null && n > -NEW_DAYS;
+};
 const B = (cls, t) => (t ? `<span class="b ${cls}">${esc(t)}</span>` : "");
 
 function ddayBox(it) {
@@ -169,7 +191,7 @@ function card(tab, it, inFolderView) {
     ? `<div class="noteEdit"><textarea data-note="${esc(k)}" placeholder="해당 안 되는 이유 (예: 업력 7년 초과, 지역 불일치)">${esc(mk?.note || "")}</textarea>
         <div style="display:flex;flex-direction:column;gap:4px"><button class="primary" data-act="noteSave" data-k="${esc(k)}">저장</button><button data-act="noteCancel">취소</button></div></div>`
     : mk ? `<div class="note" data-act="noteEdit" data-k="${esc(k)}" title="클릭해서 메모 수정">해당없음${mk.note ? ": " + esc(mk.note) : ""}${mk.at ? ` <span style="opacity:.6">(${esc(mk.at)})</span>` : ""}</div>` : "";
-  return `<div class="item ${mk ? "na" : ""}">
+  return `<div class="item ${mk ? "na" : ""}" draggable="true" data-drag="${esc(k)}">
     ${ddayBox(it)}
     <div class="body">
       <a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
@@ -223,11 +245,6 @@ function renderTab() {
   const err = src.error ? `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>` : "";
 
   return `${err}
-  <div class="folders">
-    <button class="fd ${curF ? "" : "on"}" data-act="openF" data-f="">미분류 <small>${countIn("")}</small></button>
-    ${folders.map((f) => `<button class="fd ${cur === f.id ? "on" : ""}" data-act="openF" data-f="${esc(f.id)}">📁 ${esc(f.name)} <small>${countIn(f.id)}</small></button>`).join("")}
-    <button class="fd add" data-act="addF">+ 폴더</button>
-  </div>
   ${curF ? `<div class="fhead"><h2>📁 ${esc(curF.name)}</h2><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
   <div class="filters">
     ${tab === "ripc" ? `<select data-act="center"><option value="">전체 센터(지역)</option>${centers.map((c) => `<option ${c === view.center ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>` : ""}
@@ -239,15 +256,27 @@ function renderTab() {
   <p class="upd" style="margin-top:16px">원문: <a href="${SOURCES[tab].home}" target="_blank" rel="noopener">${SOURCES[tab].home}</a></p>`;
 }
 
+function renderSide() {
+  const tab = view.tab, items = DATA.sources[tab]?.items || [];
+  const folders = U.folders[tab] || [], cur = view.folder[tab] || "";
+  const countIn = (fid) => items.filter((it) => folderOf(tab, it) === fid && !(view.activeOnly && isClosed(it))).length;
+  const fd = (fid, label) => `<button class="fd ${cur === fid ? "on" : ""}" data-act="openF" data-f="${esc(fid)}" data-drop="${esc(fid)}"><span>${label}</span><small>${countIn(fid)}</small></button>`;
+  return `<div class="sh">폴더</div>
+    ${fd("", "미분류")}
+    ${folders.map((f) => fd(f.id, "📁 " + esc(f.name))).join("")}
+    <button class="fd add" data-act="addF">+ 폴더</button>
+    <div class="hint">공고를 끌어다 폴더에 놓으면 이동돼. 미분류에 놓으면 폴더에서 빠져.</div>`;
+}
+
 function render() {
   if (!DATA) return;
   ls.set("spm_view", view);
   $("#tabs").innerHTML = Object.entries(SOURCES).map(([k, s]) => {
-    const n = (DATA.sources[k]?.items || []).filter((it) => isNew(it) && !folderOf(k, it) && !markOf(k, it)).length;
+    const n = (DATA.sources[k]?.items || []).filter((it) => isNew(it, k) && !folderOf(k, it) && !markOf(k, it) && !(view.activeOnly && isClosed(it))).length;
     return `<button class="${view.tab === k ? "on" : ""}" data-tab="${k}">${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
   }).join("");
   const ae = document.activeElement, focusQ = ae?.dataset?.act === "q", pos = ae?.selectionStart;
-  $("#main").innerHTML = renderTab();
+  $("#main").innerHTML = `<div class="layout"><aside class="side">${renderSide()}</aside><section>${renderTab()}</section></div>`;
   if (focusQ) { const el = $('[data-act="q"]'); el.focus(); el.setSelectionRange(pos, pos); }
   if (editingNote) { const ta = document.querySelector(`[data-note="${CSS.escape(editingNote)}"]`); if (ta && document.activeElement !== ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }
   const u = new Date(DATA.updated);
@@ -324,6 +353,42 @@ document.addEventListener("keydown", (e) => {
   if (e.target.dataset?.note !== undefined && e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
     document.querySelector(`[data-act="noteSave"][data-k="${CSS.escape(e.target.dataset.note)}"]`)?.click();
   }
+});
+
+/* ───── 드래그해서 폴더로 이동 ───── */
+let dragK = null;
+document.addEventListener("dragstart", (e) => {
+  const it = e.target.closest?.("[data-drag]");
+  if (!it) return;
+  dragK = it.dataset.drag;
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", dragK);
+  it.classList.add("dragging");
+});
+document.addEventListener("dragend", () => {
+  dragK = null;
+  document.querySelectorAll(".dragging,.drop").forEach((el) => el.classList.remove("dragging", "drop"));
+});
+document.addEventListener("dragover", (e) => {
+  const t = e.target.closest?.("[data-drop]");
+  if (!t || !dragK) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+  document.querySelectorAll(".drop").forEach((el) => el !== t && el.classList.remove("drop"));
+  t.classList.add("drop");
+});
+document.addEventListener("dragleave", (e) => {
+  const t = e.target.closest?.("[data-drop]");
+  if (t && !t.contains(e.relatedTarget)) t.classList.remove("drop");
+});
+document.addEventListener("drop", (e) => {
+  const t = e.target.closest?.("[data-drop]");
+  if (!t || !dragK) return;
+  e.preventDefault();
+  const fid = t.dataset.drop;
+  if (fid) U.assign[dragK] = fid; else delete U.assign[dragK];
+  dragK = null;
+  changed();
 });
 
 /* ───── GitHub 연동 ───── */
