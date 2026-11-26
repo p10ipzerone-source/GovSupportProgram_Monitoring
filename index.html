@@ -179,7 +179,7 @@ function renderRipc() {
     <input type="search" placeholder="제목 검색" value="${esc(st.q)}" data-act="ripcQ">
     <label class="tg"><input type="checkbox" ${st.activeOnly ? "checked" : ""} data-act="ripcActive">진행중만</label>
   </div>
-  <div class="list">${list.map((it) => card(it, [B("type", it.type), B("", it.center), B(/접수중|진행/.test(it.status) ? "on" : "", it.status)])).join("") || '<div class="empty">조건에 맞는 공고가 없어.</div>'}</div>`;
+  <div class="list">${list.map((it) => card(it, [B("type", it.type), B("", it.center), B(/접수중|진행|공고중/.test(it.status) ? "on" : "", it.status)])).join("") || '<div class="empty">조건에 맞는 공고가 없어.</div>'}</div>`;
 }
 
 function renderExport() {
