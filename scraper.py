@@ -163,11 +163,23 @@ RIPC_API = RIPC_BASE + "/pms/biz/applicant/notice/getNoticeList.do"
 RIPC_STATUS = {"NST001": "공고중", "NST002": "작성중", "NST003": "공고종료"}
 
 
-def ripc_post(url, data):
-    r = S.post(url, data=data, timeout=30,
-               headers={"Referer": RIPC_LIST, "X-Requested-With": "XMLHttpRequest"})
-    r.raise_for_status()
-    return r.json()
+def ripc_post(url, data, tries=4):
+    """응답이 커서 중간에 끊기는 경우가 있어 재시도."""
+    import time
+    last = None
+    for i in range(tries):
+        try:
+            r = S.post(url, data=data, timeout=60,
+                       headers={"Referer": RIPC_LIST, "X-Requested-With": "XMLHttpRequest"})
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            last = e
+            time.sleep(2 + i * 3)
+    raise last
+
+
+PAGE = 20  # 공고 1건이 약 35KB라 작게 나눠 받음
 
 
 def scrape_ripc():
@@ -176,20 +188,28 @@ def scrape_ripc():
     r = get(RIPC_LIST)  # 세션 쿠키
     save_debug("ripc_list", r.text)
     year = now_kst().year
-    seen = set()
+    seen, errors = set(), []
     for biz_year in (year, year + 1):
         page = 1
-        while page <= 10:
-            data = ripc_post(RIPC_API, {
-                "noticeTitle": "", "bizYear": biz_year, "centerCode": "", "bizCategory1": "",
-                "recordCountPerPage": 100, "currentPageNo": page,
-                "noticeGroupCode": "NGR001", "noticeCode": "NST000",
-            })
+        while page <= 30:
+            try:
+                data = ripc_post(RIPC_API, {
+                    "noticeTitle": "", "bizYear": biz_year, "centerCode": "", "bizCategory1": "",
+                    "recordCountPerPage": PAGE, "currentPageNo": page,
+                    "noticeGroupCode": "NGR001", "noticeCode": "NST000",
+                })
+            except Exception as e:
+                errors.append(f"{biz_year}년 {page}p: {type(e).__name__}")
+                page += 1
+                continue
             res = data.get("result") or {}
             rows = res.get("noticeList") or []
-            if page == 1 and biz_year == year:
+            if page == 1 and biz_year == year and rows:
                 (DEBUG / "ripc_api_sample.json").write_text(
-                    json.dumps(rows[:3], ensure_ascii=False, indent=1), encoding="utf-8")
+                    json.dumps({k: rows[0].get(k) for k in (
+                        "noticeNo", "centerName", "bizCategory1Name", "noticeTitle",
+                        "startDateStr", "endDateStr", "noticeCode", "noticeSeq", "bizYear")},
+                        ensure_ascii=False, indent=1), encoding="utf-8")
             for n in rows:
                 if n.get("noticeCode") == "NST002":
                     continue
@@ -211,9 +231,13 @@ def scrape_ripc():
                     "link": f"{RIPC_BASE}/pms/biz/applicant/notice/info.do?noticeSeq={n.get('noticeSeq')}&bizYear={n.get('bizYear')}",
                 })
             total = int(res.get("totalRecordCount") or 0)
-            if page * 100 >= total or not rows:
+            if page * PAGE >= total or not rows:
                 break
             page += 1
+    if errors and not out["items"]:
+        raise RuntimeError("RIPC 전부 실패: " + ", ".join(errors[:3]))
+    if errors:
+        out["meta"]["partial_errors"] = errors
     return out
 
 
@@ -422,6 +446,8 @@ def main():
             src["ok"] = True
             if not got["items"]:
                 src["error"] = "목록 0건 (구조 변경 또는 차단 가능성, debug/ 확인)"
+            elif got.get("meta", {}).get("partial_errors"):
+                src["error"] = f"일부 페이지 수집 실패 ({len(got['meta']['partial_errors'])}건), 다음 수집 때 다시 시도"
         except Exception as e:
             src["error"] = f"{type(e).__name__}: {e}"
             traceback.print_exc()
