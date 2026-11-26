@@ -64,6 +64,12 @@
   .item a.t{font-weight:600;line-height:1.4;color:inherit;text-decoration:none}
   .item a.t:hover{color:var(--accent);text-decoration:underline}
   .item.na{background:#fafafa}
+  .item.sel-on{border-color:var(--accent);background:#f5f8ff}
+  .item .sel{width:17px;height:17px;margin:8px 0 0;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+  .bulk{position:sticky;top:104px;z-index:4;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--ink);color:#fff;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:13.5px}
+  .bulk select{font-size:13px;padding:5px 8px}
+  .bulk button{font-size:13px;padding:5px 10px;background:transparent;color:#fff;border-color:#555}
+  .bulk b{margin-right:4px}
   .item.na a.t{text-decoration:line-through;color:#9aa0a8;font-weight:500}
   .item.na .dday,.item.na .meta{opacity:.45}
   .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:12.5px;color:var(--sub);align-items:center}
@@ -145,6 +151,8 @@ const view = ls.get("spm_view", null) || {
 /* 사용자 데이터 (폴더, 분류, 해당없음 메모) - localStorage + 저장소 state.json 동기화 */
 let U = ls.get("spm_user", null) || { folders: { ripc: [], export: [], bizinfo: [] }, assign: {}, marks: {}, updatedAt: "" };
 let editingNote = null; // "tab:id"
+let selected = new Set(); // 다중 선택 (화면용, 저장 안 함)
+let visibleKeys = [], lastSel = null;
 
 const key = (tab, id) => `${tab}:${id}`;
 const folderOf = (tab, it) => U.assign[key(tab, it.id)] || "";
@@ -191,7 +199,8 @@ function card(tab, it, inFolderView) {
     ? `<div class="noteEdit"><textarea data-note="${esc(k)}" placeholder="해당 안 되는 이유 (예: 업력 7년 초과, 지역 불일치)">${esc(mk?.note || "")}</textarea>
         <div style="display:flex;flex-direction:column;gap:4px"><button class="primary" data-act="noteSave" data-k="${esc(k)}">저장</button><button data-act="noteCancel">취소</button></div></div>`
     : mk ? `<div class="note" data-act="noteEdit" data-k="${esc(k)}" title="클릭해서 메모 수정">해당없음${mk.note ? ": " + esc(mk.note) : ""}${mk.at ? ` <span style="opacity:.6">(${esc(mk.at)})</span>` : ""}</div>` : "";
-  return `<div class="item ${mk ? "na" : ""}" draggable="true" data-drag="${esc(k)}">
+  return `<div class="item ${mk ? "na" : ""} ${selected.has(k) ? "sel-on" : ""}" draggable="true" data-drag="${esc(k)}">
+    <input type="checkbox" class="sel" data-sel="${esc(k)}" ${selected.has(k) ? "checked" : ""} title="선택 (Shift+클릭: 범위 선택)">
     ${ddayBox(it)}
     <div class="body">
       <a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
@@ -240,13 +249,20 @@ function renderTab() {
     return true;
   });
   list = sortItems(list);
+  visibleKeys = list.map((it) => key(tab, it.id));
+  const allSel = visibleKeys.length && visibleKeys.every((k) => selected.has(k));
+  const bulk = selected.size ? `<div class="bulk"><b>${selected.size}개 선택됨</b>
+    <select data-act="bulkMove"><option value="">폴더로 이동...</option>${folders.map((f) => `<option value="${esc(f.id)}">📁 ${esc(f.name)}</option>`).join("")}<option value="__none">미분류로 빼기</option><option value="__new">+ 새 폴더...</option></select>
+    <button data-act="selClear">선택 해제</button><span style="opacity:.6;font-size:12px">선택한 카드를 끌어서 왼쪽 폴더에 놓아도 돼</span></div>` : "";
 
   const centers = tab === "ripc" ? [...new Set(items.map((i) => i.center).filter(Boolean))].sort() : [];
   const err = src.error ? `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>` : "";
 
   return `${err}
   ${curF ? `<div class="fhead"><h2>📁 ${esc(curF.name)}</h2><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
+  ${bulk}
   <div class="filters">
+    <label class="tg"><input type="checkbox" data-act="selAll" ${allSel ? "checked" : ""}>전체 선택</label>
     ${tab === "ripc" ? `<select data-act="center"><option value="">전체 센터(지역)</option>${centers.map((c) => `<option ${c === view.center ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>` : ""}
     <input type="search" placeholder="제목, 사업형태, 기관 검색" value="${esc(view.q)}" data-act="q">
     <label class="tg"><input type="checkbox" ${view.activeOnly ? "checked" : ""} data-act="activeOnly">진행중만</label>
@@ -299,11 +315,22 @@ function newFolder(tab) {
 }
 
 document.addEventListener("click", (e) => {
+  const sc = e.target.closest?.("[data-sel]");
+  if (sc) {
+    const k = sc.dataset.sel, on = sc.checked;
+    if (e.shiftKey && lastSel && visibleKeys.includes(lastSel)) {
+      const [i, j] = [visibleKeys.indexOf(lastSel), visibleKeys.indexOf(k)].sort((x, y) => x - y);
+      visibleKeys.slice(i, j + 1).forEach((x) => (on ? selected.add(x) : selected.delete(x)));
+    } else on ? selected.add(k) : selected.delete(k);
+    lastSel = k;
+    return render();
+  }
   const t = e.target.closest("[data-tab],[data-act]");
   if (!t || t.tagName === "SELECT" || t.tagName === "INPUT" || t.tagName === "TEXTAREA") return;
   const tab = view.tab, a = t.dataset.act;
-  if (t.dataset.tab) { view.tab = t.dataset.tab; editingNote = null; return render(); }
-  if (a === "openF") { view.folder[tab] = t.dataset.f; editingNote = null; return render(); }
+  if (t.dataset.tab) { view.tab = t.dataset.tab; editingNote = null; selected.clear(); return render(); }
+  if (a === "selClear") { selected.clear(); return render(); }
+  if (a === "openF") { view.folder[tab] = t.dataset.f; editingNote = null; selected.clear(); return render(); }
   if (a === "addF") { const f = newFolder(tab); if (f) { view.folder[tab] = f.id; changed(); } return; }
   if (a === "renF") {
     const f = U.folders[tab].find((x) => x.id === t.dataset.f);
@@ -336,6 +363,15 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("change", (e) => {
   const t = e.target, a = t.dataset.act;
+  if (a === "selAll") { visibleKeys.forEach((k) => (t.checked ? selected.add(k) : selected.delete(k))); return render(); }
+  if (a === "bulkMove") {
+    let v = t.value;
+    if (!v) return;
+    if (v === "__new") { const f = newFolder(view.tab); if (!f) return render(); v = f.id; }
+    selected.forEach((k) => { if (v === "__none") delete U.assign[k]; else U.assign[k] = v; });
+    selected.clear();
+    return changed();
+  }
   if (a === "move") {
     let v = t.value;
     if (v === "__new") { const f = newFolder(view.tab); if (!f) return render(); v = f.id; }
@@ -361,6 +397,13 @@ document.addEventListener("dragstart", (e) => {
   const it = e.target.closest?.("[data-drag]");
   if (!it) return;
   dragK = it.dataset.drag;
+  if (selected.has(dragK) && selected.size > 1) {
+    const g = document.createElement("div");
+    g.textContent = `${selected.size}개 이동`;
+    g.style.cssText = "position:fixed;top:-100px;padding:6px 12px;background:#2f5bea;color:#fff;border-radius:8px;font:600 13px Pretendard,sans-serif";
+    document.body.appendChild(g); e.dataTransfer.setDragImage(g, 10, 10); setTimeout(() => g.remove(), 0);
+    document.querySelectorAll(".item.sel-on").forEach((x) => x.classList.add("dragging"));
+  }
   e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData("text/plain", dragK);
   it.classList.add("dragging");
@@ -386,7 +429,9 @@ document.addEventListener("drop", (e) => {
   if (!t || !dragK) return;
   e.preventDefault();
   const fid = t.dataset.drop;
-  if (fid) U.assign[dragK] = fid; else delete U.assign[dragK];
+  const keys = selected.has(dragK) ? [...selected] : [dragK];
+  keys.forEach((k) => { if (fid) U.assign[k] = fid; else delete U.assign[k]; });
+  if (selected.has(dragK)) selected.clear();
   dragK = null;
   changed();
 });
