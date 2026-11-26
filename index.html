@@ -39,6 +39,18 @@
   .side .fd.drop{background:var(--accent);color:#fff;border-color:var(--accent)}
   .side .hint{font-size:11.5px;color:var(--sub);padding:8px 8px 2px;line-height:1.4}
   .item[draggable=true]{cursor:grab}
+  .iconBtn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:4px;border-radius:5px;cursor:pointer;flex-shrink:0;border:none;background:transparent;padding:0;font-size:15px}
+  .iconBtn:hover{background:rgba(0,0,0,.08)}
+  .iconBtn.big{width:36px;height:36px;font-size:24px;margin:0}
+  .side .fd span{display:flex;align-items:center}
+  .picker{position:absolute;z-index:50;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:10px;width:316px}
+  .picker .grp{font-size:11.5px;color:var(--sub);margin:6px 2px 4px;font-weight:600}
+  .picker .grid{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
+  .picker .grid button{border:none;background:transparent;font-size:20px;padding:3px 0;border-radius:6px}
+  .picker .grid button:hover{background:var(--bg)}
+  .picker .row{display:flex;gap:6px;margin-top:8px}
+  .picker .row input{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;min-width:0}
+  .picker .row button{font-size:12.5px;padding:5px 9px}
   .item.dragging{opacity:.4}
   @media (max-width:760px){
     .layout{grid-template-columns:1fr}
@@ -172,6 +184,7 @@ const isNew = (it, tab = view.tab) => {
   if (!it.first_seen || it.first_seen <= base) return false; // 첫 수집분은 제외
   const n = dday(it.first_seen); return n !== null && n > -NEW_DAYS;
 };
+const ico = (f) => (f && f.icon) || "📁";
 const B = (cls, t) => (t ? `<span class="b ${cls}">${esc(t)}</span>` : "");
 
 function ddayBox(it) {
@@ -194,7 +207,7 @@ function badges(tab, it) {
 function card(tab, it, inFolderView) {
   const k = key(tab, it.id), mk = markOf(tab, it), fid = folderOf(tab, it);
   const folders = U.folders[tab] || [];
-  const fname = folders.find((f) => f.id === fid)?.name;
+  const fobj = folders.find((f) => f.id === fid), fname = fobj ? ico(fobj) + " " + fobj.name : "";
   const noteBox = editingNote === k
     ? `<div class="noteEdit"><textarea data-note="${esc(k)}" placeholder="해당 안 되는 이유 (예: 업력 7년 초과, 지역 불일치)">${esc(mk?.note || "")}</textarea>
         <div style="display:flex;flex-direction:column;gap:4px"><button class="primary" data-act="noteSave" data-k="${esc(k)}">저장</button><button data-act="noteCancel">취소</button></div></div>`
@@ -204,14 +217,14 @@ function card(tab, it, inFolderView) {
     ${ddayBox(it)}
     <div class="body">
       <a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
-      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${!inFolderView && fname ? B("folder", "📁 " + fname) : ""}${badges(tab, it).join("")}
+      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${!inFolderView && fname ? B("folder", fname) : ""}${badges(tab, it).join("")}
         ${it.period ? `<span>${esc(it.period)}</span>` : it.date ? `<span>등록 ${esc(it.date)}</span>` : ""}</div>
       ${noteBox}
     </div>
     <div class="acts">
       <select data-act="move" data-k="${esc(k)}" title="폴더로 이동">
         <option value="">${fid ? "폴더에서 빼기" : "폴더로 이동"}</option>
-        ${folders.map((f) => `<option value="${esc(f.id)}" ${f.id === fid ? "selected" : ""}>📁 ${esc(f.name)}</option>`).join("")}
+        ${folders.map((f) => `<option value="${esc(f.id)}" ${f.id === fid ? "selected" : ""}>${ico(f)} ${esc(f.name)}</option>`).join("")}
         <option value="__new">+ 새 폴더...</option>
       </select>
       <button class="naBtn ${mk ? "on" : ""}" data-act="na" data-k="${esc(k)}" title="${mk ? "해당없음 해제" : "해당없음 표시 + 메모"}">${mk ? "해제" : "해당없음"}</button>
@@ -252,14 +265,14 @@ function renderTab() {
   visibleKeys = list.map((it) => key(tab, it.id));
   const allSel = visibleKeys.length && visibleKeys.every((k) => selected.has(k));
   const bulk = selected.size ? `<div class="bulk"><b>${selected.size}개 선택됨</b>
-    <select data-act="bulkMove"><option value="">폴더로 이동...</option>${folders.map((f) => `<option value="${esc(f.id)}">📁 ${esc(f.name)}</option>`).join("")}<option value="__none">미분류로 빼기</option><option value="__new">+ 새 폴더...</option></select>
+    <select data-act="bulkMove"><option value="">폴더로 이동...</option>${folders.map((f) => `<option value="${esc(f.id)}">${ico(f)} ${esc(f.name)}</option>`).join("")}<option value="__none">미분류로 빼기</option><option value="__new">+ 새 폴더...</option></select>
     <button data-act="selClear">선택 해제</button><span style="opacity:.6;font-size:12px">선택한 카드를 끌어서 왼쪽 폴더에 놓아도 돼</span></div>` : "";
 
   const centers = tab === "ripc" ? [...new Set(items.map((i) => i.center).filter(Boolean))].sort() : [];
   const err = src.error ? `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>` : "";
 
   return `${err}
-  ${curF ? `<div class="fhead"><h2>📁 ${esc(curF.name)}</h2><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
+  ${curF ? `<div class="fhead"><button class="iconBtn big" data-act="pickIcon" data-f="${esc(cur)}" title="아이콘 바꾸기">${ico(curF)}</button><h2>${esc(curF.name)}</h2><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
   ${bulk}
   <div class="filters">
     <label class="tg"><input type="checkbox" data-act="selAll" ${allSel ? "checked" : ""}>전체 선택</label>
@@ -276,10 +289,10 @@ function renderSide() {
   const tab = view.tab, items = DATA.sources[tab]?.items || [];
   const folders = U.folders[tab] || [], cur = view.folder[tab] || "";
   const countIn = (fid) => items.filter((it) => folderOf(tab, it) === fid && !(view.activeOnly && isClosed(it))).length;
-  const fd = (fid, label) => `<button class="fd ${cur === fid ? "on" : ""}" data-act="openF" data-f="${esc(fid)}" data-drop="${esc(fid)}"><span>${label}</span><small>${countIn(fid)}</small></button>`;
+  const fd = (fid, label, f) => `<button class="fd ${cur === fid ? "on" : ""}" data-act="openF" data-f="${esc(fid)}" data-drop="${esc(fid)}"><span>${f ? `<i class="iconBtn" data-act="pickIcon" data-f="${esc(fid)}" title="아이콘 바꾸기">${ico(f)}</i>` : ""}${label}</span><small>${countIn(fid)}</small></button>`;
   return `<div class="sh">폴더</div>
     ${fd("", "미분류")}
-    ${folders.map((f) => fd(f.id, "📁 " + esc(f.name))).join("")}
+    ${folders.map((f) => fd(f.id, esc(f.name), f)).join("")}
     <button class="fd add" data-act="addF">+ 폴더</button>
     <div class="hint">공고를 끌어다 폴더에 놓으면 이동돼. 미분류에 놓으면 폴더에서 빠져.</div>`;
 }
@@ -331,7 +344,8 @@ document.addEventListener("click", (e) => {
   if (t.dataset.tab) { view.tab = t.dataset.tab; editingNote = null; selected.clear(); return render(); }
   if (a === "selClear") { selected.clear(); return render(); }
   if (a === "openF") { view.folder[tab] = t.dataset.f; editingNote = null; selected.clear(); return render(); }
-  if (a === "addF") { const f = newFolder(tab); if (f) { view.folder[tab] = f.id; changed(); } return; }
+  if (a === "addF") { const f = newFolder(tab); if (f) changed(); return; }
+  if (a === "pickIcon") { e.stopPropagation(); return openPicker(t, t.dataset.f); }
   if (a === "renF") {
     const f = U.folders[tab].find((x) => x.id === t.dataset.f);
     const name = (prompt("폴더 이름", f.name) || "").trim();
@@ -390,6 +404,42 @@ document.addEventListener("keydown", (e) => {
     document.querySelector(`[data-act="noteSave"][data-k="${CSS.escape(e.target.dataset.note)}"]`)?.click();
   }
 });
+
+/* ───── 폴더 아이콘 선택 ───── */
+const ICONS = {
+  "자주 쓰는": "📁📂🗂️⭐🔥✅❌⏳📌📎🏷️💡❗❓🔒👀💤🗑️",
+  "업무": "💼📊📈📋📝📄📑🧾💰💵🏦🧮🏢🏭🔬🧪💻🤖",
+  "지원사업": "🏛️🎯🚀🌏✈️🚢📦🛠️⚙️🧠🔍🎓🤝🏆🎁🪙📜⚖️",
+  "색깔": "🔴🟠🟡🟢🔵🟣🟤⚫⚪🟥🟧🟨🟩🟦🟪🟫⬛⬜",
+};
+function closePicker() { document.querySelector(".picker")?.remove(); }
+function openPicker(anchor, fid) {
+  closePicker();
+  const tab = view.tab, f = (U.folders[tab] || []).find((x) => x.id === fid);
+  if (!f) return;
+  const seg = (s) => (window.Intl && Intl.Segmenter ? [...new Intl.Segmenter().segment(s)].map((x) => x.segment) : [...s]);
+  const el = document.createElement("div");
+  el.className = "picker";
+  el.innerHTML = Object.entries(ICONS).map(([g, s]) =>
+    `<div class="grp">${g}</div><div class="grid">${seg(s).map((c) => `<button data-ic="${c}">${c}</button>`).join("")}</div>`).join("") +
+    `<div class="row"><input placeholder="다른 이모지 붙여넣기 (Win + . )" maxlength="8"><button class="primary" data-ok>적용</button><button data-reset>기본</button></div>`;
+  document.body.appendChild(el);
+  const r = anchor.getBoundingClientRect();
+  el.style.left = Math.max(8, Math.min(r.left + scrollX, scrollX + innerWidth - 330)) + "px";
+  el.style.top = r.bottom + scrollY + 6 + "px";
+  const set = (v) => { f.icon = v || ""; closePicker(); changed(); };
+  el.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.ic) set(b.dataset.ic);
+    else if ("ok" in b.dataset) { const v = el.querySelector("input").value.trim(); if (v) set(seg(v)[0]); }
+    else if ("reset" in b.dataset) set("");
+  });
+  el.querySelector("input").addEventListener("keydown", (e) => { if (e.key === "Enter") el.querySelector("[data-ok]").click(); if (e.key === "Escape") closePicker(); });
+}
+document.addEventListener("mousedown", (e) => { if (!e.target.closest(".picker, [data-act=pickIcon]")) closePicker(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePicker(); });
 
 /* ───── 드래그해서 폴더로 이동 ───── */
 let dragK = null;
