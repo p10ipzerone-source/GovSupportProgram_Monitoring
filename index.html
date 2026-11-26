@@ -5,12 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>지원사업 공고 모니터</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap">
+<script>
+  (function(){try{var t=JSON.parse(localStorage.getItem("spm_theme"));if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){}})();
+</script>
 <style>
   :root{
-    --bg:#f6f7f9; --card:#fff; --ink:#191c21; --sub:#5d6470; --line:#e3e6eb;
-    --accent:#2f5bea; --accent-soft:#e8eefe; --red:#d93636; --red-soft:#fdecec;
-    --amber:#b86e00; --amber-soft:#fff3df; --green:#1d8a4e; --green-soft:#e5f5ec;
+    color-scheme:light;
+    --bg:#f6f7f9; --card:#fff; --ink:#191c21; --sub:#5d6470; --line:#e3e6eb; --input:#fff;
+    --accent:#2f5bea; --accent-soft:#e8eefe; --primary:#2f5bea; --on-primary:#fff;
+    --red:#d93636; --red-soft:#fdecec; --amber:#b86e00; --amber-soft:#fff3df; --green:#1d8a4e; --green-soft:#e5f5ec;
+    --na-bg:#fafafa; --na-ink:#9aa0a8; --sel-bg:#f5f8ff; --folder-bg:#f1ecfd; --folder-ink:#6a3fc8; --note-ink:#6b4e16;
+    --hover:rgba(0,0,0,.06); --shadow:0 10px 30px rgba(0,0,0,.15); --link:#2f5bea;
+    --bulk-bg:#191c21; --bulk-ink:#fff; --bulk-line:#555;
   }
+  :root[data-theme=dark]{
+    color-scheme:dark;
+    --bg:#121418; --card:#1b1e24; --ink:#e6e8ec; --sub:#9aa1ad; --line:#2e323a; --input:#14161a;
+    --accent:#7c97ff; --accent-soft:#232c48; --primary:#4c6ef0; --on-primary:#fff;
+    --red:#ff8585; --red-soft:#3b2225; --amber:#f2b860; --amber-soft:#382c19; --green:#62d49c; --green-soft:#1a3327;
+    --na-bg:#17191e; --na-ink:#6c727d; --sel-bg:#1c2540; --folder-bg:#2c2443; --folder-ink:#c7adff; --note-ink:#f1d59c;
+    --hover:rgba(255,255,255,.08); --shadow:0 10px 30px rgba(0,0,0,.55); --link:#8fa8ff;
+    --bulk-bg:#2a3870; --bulk-ink:#fff; --bulk-line:#5767a3;
+  }
+  a{color:var(--link)}
+  ::placeholder{color:var(--sub);opacity:.8}
   *{box-sizing:border-box}
   body{margin:0;font-family:Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
   header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
@@ -19,9 +39,9 @@
   .upd{color:var(--sub);font-size:13px}
   .spacer{flex:1}
   button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;color:var(--ink)}
-  button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.primary{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
   button.ghost{border-color:transparent;background:transparent;color:var(--sub);padding:4px 8px}
-  button.ghost:hover{background:var(--bg)}
+  button.ghost:hover{background:var(--hover)}
   button:disabled{opacity:.5;cursor:default}
   nav{max-width:1200px;margin:0 auto;display:flex;gap:4px;padding:10px 16px 0}
   nav button{border:none;border-bottom:2px solid transparent;border-radius:0;padding:8px 10px;color:var(--sub);font-weight:600}
@@ -32,26 +52,33 @@
   aside.side{position:sticky;top:110px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:2px;max-height:calc(100vh - 130px);overflow:auto}
   .side .sh{font-size:12px;color:var(--sub);padding:4px 8px 6px;font-weight:600}
   .side .fd{border:none;justify-content:space-between;text-align:left;width:100%;padding:8px 10px;border-radius:7px;border:1px dashed transparent}
-  .side .fd:hover{background:var(--bg)}
-  .side .fd.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .side .fd:hover{background:var(--hover)}
+  .side .fd.on{background:var(--accent-soft);color:var(--accent);font-weight:600;border-color:transparent}
   .side .fd span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .side .fd.add{color:var(--sub);border-color:var(--line);margin-top:6px;justify-content:center}
-  .side .fd.drop{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .side .fd.drop{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
   .side .hint{font-size:11.5px;color:var(--sub);padding:8px 8px 2px;line-height:1.4}
   .item[draggable=true]{cursor:grab}
+  .emo,.iconBtn,.picker .grid button,.themeBtn{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-style:normal;line-height:1}
+  .b.folder .emo{margin-right:3px}
   .iconBtn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:4px;border-radius:5px;cursor:pointer;flex-shrink:0;border:none;background:transparent;padding:0;font-size:15px}
-  .iconBtn:hover{background:rgba(0,0,0,.08)}
+  .iconBtn:hover{background:var(--hover)}
   .iconBtn.big{width:36px;height:36px;font-size:24px;margin:0}
   .side .fd span{display:flex;align-items:center}
-  .picker{position:absolute;z-index:50;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:10px;width:316px}
+  .picker{position:fixed;z-index:50;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:10px;width:316px;color:var(--ink)}
   .picker .grp{font-size:11.5px;color:var(--sub);margin:6px 2px 4px;font-weight:600}
   .picker .grid{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
   .picker .grid button{border:none;background:transparent;font-size:20px;padding:3px 0;border-radius:6px}
-  .picker .grid button:hover{background:var(--bg)}
+  .picker .grid button:hover{background:var(--hover)}
   .picker .row{display:flex;gap:6px;margin-top:8px}
-  .picker .row input{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;min-width:0}
+  .picker .row input{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;min-width:0;background:var(--input);color:var(--ink)}
   .picker .row button{font-size:12.5px;padding:5px 9px}
   .item.dragging{opacity:.4}
+  .side .fd[data-fdrag]{cursor:grab}
+  .side .fd.ins-before{box-shadow:inset 0 2px 0 var(--accent)}
+  .side .fd.ins-after{box-shadow:inset 0 -2px 0 var(--accent)}
+  .side .fd.fdragging{opacity:.4}
+  .themeBtn{padding:6px 10px}
   @media (max-width:760px){
     .layout{grid-template-columns:1fr}
     aside.side{position:static;flex-direction:row;flex-wrap:wrap;max-height:none}
@@ -60,13 +87,13 @@
   }
   .folders{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
   .fd{border-radius:8px;padding:6px 12px;font-size:13.5px;display:flex;gap:6px;align-items:center}
-  .fd.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .fd.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
   .fd small{opacity:.7}
   .fd.add{border-style:dashed;color:var(--sub)}
   .fhead{display:flex;align-items:center;gap:8px;margin-bottom:10px}
   .fhead h2{font-size:16px;margin:0}
   .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
-  select,input[type=search]{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--card)}
+  select,input[type=search]{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--input);color:var(--ink)}
   input[type=search]{min-width:180px;flex:1}
   label.tg{font-size:13px;color:var(--sub);display:flex;gap:4px;align-items:center;white-space:nowrap}
   .banner{background:var(--amber-soft);color:var(--amber);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:12px}
@@ -75,14 +102,14 @@
   .item .body{flex:1;min-width:0}
   .item a.t{font-weight:600;line-height:1.4;color:inherit;text-decoration:none}
   .item a.t:hover{color:var(--accent);text-decoration:underline}
-  .item.na{background:#fafafa}
-  .item.sel-on{border-color:var(--accent);background:#f5f8ff}
+  .item.na{background:var(--na-bg)}
+  .item.sel-on{border-color:var(--accent);background:var(--sel-bg)}
   .item .sel{width:17px;height:17px;margin:8px 0 0;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
-  .bulk{position:sticky;top:104px;z-index:4;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--ink);color:#fff;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:13.5px}
+  .bulk{position:sticky;top:104px;z-index:4;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bulk-bg);color:var(--bulk-ink);border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:13.5px}
   .bulk select{font-size:13px;padding:5px 8px}
-  .bulk button{font-size:13px;padding:5px 10px;background:transparent;color:#fff;border-color:#555}
+  .bulk button{font-size:13px;padding:5px 10px;background:transparent;color:var(--bulk-ink);border-color:var(--bulk-line)}
   .bulk b{margin-right:4px}
-  .item.na a.t{text-decoration:line-through;color:#9aa0a8;font-weight:500}
+  .item.na a.t{text-decoration:line-through;color:var(--na-ink);font-weight:500}
   .item.na .dday,.item.na .meta{opacity:.45}
   .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:12.5px;color:var(--sub);align-items:center}
   .b{border-radius:5px;padding:1px 7px;font-size:12px;background:var(--bg);color:var(--sub)}
@@ -90,7 +117,7 @@
   .b.new{background:var(--green-soft);color:var(--green);font-weight:700}
   .b.on{background:var(--green-soft);color:var(--green)}
   .b.pin{background:var(--amber-soft);color:var(--amber)}
-  .b.folder{background:#f1ecfd;color:#6a3fc8}
+  .b.folder{background:var(--folder-bg);color:var(--folder-ink)}
   .dday{min-width:56px;text-align:center;font-weight:700;font-size:13px;border-radius:8px;padding:6px 4px;background:var(--bg);color:var(--sub)}
   .dday.urgent{background:var(--red-soft);color:var(--red)}
   .dday.soon{background:var(--amber-soft);color:var(--amber)}
@@ -99,13 +126,14 @@
   .acts select{font-size:12.5px;padding:4px 6px;max-width:130px}
   .acts .naBtn{font-size:12.5px;padding:4px 8px}
   .acts .naBtn.on{background:var(--red-soft);border-color:var(--red-soft);color:var(--red)}
-  .note{margin-top:8px;font-size:13px;color:#6b4e16;background:var(--amber-soft);border-radius:6px;padding:6px 10px;white-space:pre-wrap;cursor:pointer}
+  .note{margin-top:8px;font-size:13px;color:var(--note-ink);background:var(--amber-soft);border-radius:6px;padding:6px 10px;white-space:pre-wrap;cursor:pointer}
   .noteEdit{margin-top:8px;display:flex;gap:6px;align-items:flex-start}
-  .noteEdit textarea{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:6px 8px;min-height:54px;resize:vertical}
+  .noteEdit textarea{flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:6px 8px;min-height:54px;resize:vertical;background:var(--input);color:var(--ink)}
   .empty{color:var(--sub);text-align:center;padding:40px 0}
   .sync{font-size:12px;color:var(--sub)}
-  dialog{border:1px solid var(--line);border-radius:12px;max-width:460px;width:92%}
-  dialog input{width:100%;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px}
+  dialog{border:1px solid var(--line);border-radius:12px;max-width:460px;width:92%;background:var(--card);color:var(--ink)}
+  dialog::backdrop{background:rgba(0,0,0,.45)}
+  dialog input{width:100%;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;margin:4px 0 10px;background:var(--input);color:var(--ink)}
   dialog p{font-size:13px;color:var(--sub);line-height:1.5}
   @media (max-width:640px){ .item{flex-wrap:wrap} .acts{width:100%;justify-content:flex-end} }
 </style>
@@ -118,6 +146,7 @@
     <span class="spacer"></span>
     <span class="sync" id="sync"></span>
     <button id="btnRefresh" class="primary" title="GitHub Actions로 지금 수집">지금 갱신</button>
+    <button id="btnTheme" class="themeBtn" title="다크/라이트 모드">🌙</button>
     <button id="btnSet" title="설정">⚙</button>
   </div>
   <nav id="tabs"></nav>
@@ -207,7 +236,7 @@ function badges(tab, it) {
 function card(tab, it, inFolderView) {
   const k = key(tab, it.id), mk = markOf(tab, it), fid = folderOf(tab, it);
   const folders = U.folders[tab] || [];
-  const fobj = folders.find((f) => f.id === fid), fname = fobj ? ico(fobj) + " " + fobj.name : "";
+  const fobj = folders.find((f) => f.id === fid);
   const noteBox = editingNote === k
     ? `<div class="noteEdit"><textarea data-note="${esc(k)}" placeholder="해당 안 되는 이유 (예: 업력 7년 초과, 지역 불일치)">${esc(mk?.note || "")}</textarea>
         <div style="display:flex;flex-direction:column;gap:4px"><button class="primary" data-act="noteSave" data-k="${esc(k)}">저장</button><button data-act="noteCancel">취소</button></div></div>`
@@ -217,7 +246,7 @@ function card(tab, it, inFolderView) {
     ${ddayBox(it)}
     <div class="body">
       <a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
-      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${!inFolderView && fname ? B("folder", fname) : ""}${badges(tab, it).join("")}
+      <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${!inFolderView && fobj ? `<span class="b folder"><span class="emo">${esc(ico(fobj))}</span>${esc(fobj.name)}</span>` : ""}${badges(tab, it).join("")}
         ${it.period ? `<span>${esc(it.period)}</span>` : it.date ? `<span>등록 ${esc(it.date)}</span>` : ""}</div>
       ${noteBox}
     </div>
@@ -272,7 +301,7 @@ function renderTab() {
   const err = src.error ? `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>` : "";
 
   return `${err}
-  ${curF ? `<div class="fhead"><button class="iconBtn big" data-act="pickIcon" data-f="${esc(cur)}" title="아이콘 바꾸기">${ico(curF)}</button><h2>${esc(curF.name)}</h2><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
+  ${curF ? `<div class="fhead"><button class="iconBtn big" data-act="pickIcon" data-f="${esc(cur)}" title="아이콘 바꾸기">${ico(curF)}</button><h2>${esc(curF.name)}</h2><button class="ghost" data-act="upF" data-f="${esc(cur)}" title="위로">▲</button><button class="ghost" data-act="downF" data-f="${esc(cur)}" title="아래로">▼</button><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
   ${bulk}
   <div class="filters">
     <label class="tg"><input type="checkbox" data-act="selAll" ${allSel ? "checked" : ""}>전체 선택</label>
@@ -289,12 +318,12 @@ function renderSide() {
   const tab = view.tab, items = DATA.sources[tab]?.items || [];
   const folders = U.folders[tab] || [], cur = view.folder[tab] || "";
   const countIn = (fid) => items.filter((it) => folderOf(tab, it) === fid && !(view.activeOnly && isClosed(it))).length;
-  const fd = (fid, label, f) => `<button class="fd ${cur === fid ? "on" : ""}" data-act="openF" data-f="${esc(fid)}" data-drop="${esc(fid)}"><span>${f ? `<i class="iconBtn" data-act="pickIcon" data-f="${esc(fid)}" title="아이콘 바꾸기">${ico(f)}</i>` : ""}${label}</span><small>${countIn(fid)}</small></button>`;
+  const fd = (fid, label, f) => `<button class="fd ${cur === fid ? "on" : ""}" data-act="openF" data-f="${esc(fid)}" data-drop="${esc(fid)}" ${f ? `draggable="true" data-fdrag="${esc(fid)}"` : ""}><span>${f ? `<i class="iconBtn" data-act="pickIcon" data-f="${esc(fid)}" title="아이콘 바꾸기">${ico(f)}</i>` : ""}${label}</span><small>${countIn(fid)}</small></button>`;
   return `<div class="sh">폴더</div>
     ${fd("", "미분류")}
     ${folders.map((f) => fd(f.id, esc(f.name), f)).join("")}
     <button class="fd add" data-act="addF">+ 폴더</button>
-    <div class="hint">공고를 끌어다 폴더에 놓으면 이동돼. 미분류에 놓으면 폴더에서 빠져.</div>`;
+    <div class="hint">공고를 끌어다 폴더에 놓으면 이동돼. 미분류에 놓으면 폴더에서 빠져.<br>폴더끼리 끌어서 순서를 바꿀 수 있어.</div>`;
 }
 
 function render() {
@@ -346,6 +375,12 @@ document.addEventListener("click", (e) => {
   if (a === "openF") { view.folder[tab] = t.dataset.f; editingNote = null; selected.clear(); return render(); }
   if (a === "addF") { const f = newFolder(tab); if (f) changed(); return; }
   if (a === "pickIcon") { e.stopPropagation(); return openPicker(t, t.dataset.f); }
+  if (a === "upF" || a === "downF") {
+    const arr = U.folders[tab], i = arr.findIndex((x) => x.id === t.dataset.f), j = i + (a === "upF" ? -1 : 1);
+    if (i < 0 || j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    return changed();
+  }
   if (a === "renF") {
     const f = U.folders[tab].find((x) => x.id === t.dataset.f);
     const name = (prompt("폴더 이름", f.name) || "").trim();
@@ -424,9 +459,9 @@ function openPicker(anchor, fid) {
     `<div class="grp">${g}</div><div class="grid">${seg(s).map((c) => `<button data-ic="${c}">${c}</button>`).join("")}</div>`).join("") +
     `<div class="row"><input placeholder="다른 이모지 붙여넣기 (Win + . )" maxlength="8"><button class="primary" data-ok>적용</button><button data-reset>기본</button></div>`;
   document.body.appendChild(el);
-  const r = anchor.getBoundingClientRect();
-  el.style.left = Math.max(8, Math.min(r.left + scrollX, scrollX + innerWidth - 330)) + "px";
-  el.style.top = r.bottom + scrollY + 6 + "px";
+  const r = anchor.getBoundingClientRect(), ph = el.offsetHeight;
+  el.style.left = Math.max(8, Math.min(r.left, innerWidth - 330)) + "px";
+  el.style.top = (r.bottom + 6 + ph > innerHeight && r.top - 6 - ph > 0 ? r.top - 6 - ph : Math.min(r.bottom + 6, innerHeight - ph - 8)) + "px";
   const set = (v) => { f.icon = v || ""; closePicker(); changed(); };
   el.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -440,13 +475,28 @@ function openPicker(anchor, fid) {
 }
 document.addEventListener("mousedown", (e) => { if (!e.target.closest(".picker, [data-act=pickIcon]")) closePicker(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePicker(); });
+addEventListener("scroll", (e) => { const p = document.querySelector(".picker"); if (p && !p.contains(e.target)) closePicker(); }, true);
+addEventListener("resize", closePicker);
 
 /* ───── 드래그해서 폴더로 이동 ───── */
-let dragK = null;
+let dragK = null, dragF = null;
+const clearDnD = () => document.querySelectorAll(".dragging,.drop,.ins-before,.ins-after,.fdragging").forEach((el) => el.classList.remove("dragging", "drop", "ins-before", "ins-after", "fdragging"));
 document.addEventListener("dragstart", (e) => {
+  const fdEl = e.target.closest?.("[data-fdrag]");
+  if (fdEl) { // 폴더 순서 바꾸기
+    dragF = fdEl.dataset.fdrag; dragK = null;
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", "folder");
+    fdEl.classList.add("fdragging");
+    closePicker();
+    return;
+  }
   const it = e.target.closest?.("[data-drag]");
   if (!it) return;
-  dragK = it.dataset.drag;
+  dragK = it.dataset.drag; dragF = null;
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", dragK);
+  it.classList.add("dragging");
   if (selected.has(dragK) && selected.size > 1) {
     const g = document.createElement("div");
     g.textContent = `${selected.size}개 이동`;
@@ -454,17 +504,21 @@ document.addEventListener("dragstart", (e) => {
     document.body.appendChild(g); e.dataTransfer.setDragImage(g, 10, 10); setTimeout(() => g.remove(), 0);
     document.querySelectorAll(".item.sel-on").forEach((x) => x.classList.add("dragging"));
   }
-  e.dataTransfer.effectAllowed = "move";
-  e.dataTransfer.setData("text/plain", dragK);
-  it.classList.add("dragging");
 });
-document.addEventListener("dragend", () => {
-  dragK = null;
-  document.querySelectorAll(".dragging,.drop").forEach((el) => el.classList.remove("dragging", "drop"));
-});
+document.addEventListener("dragend", () => { dragK = null; dragF = null; clearDnD(); });
 document.addEventListener("dragover", (e) => {
   const t = e.target.closest?.("[data-drop]");
-  if (!t || !dragK) return;
+  if (!t) return;
+  if (dragF) {
+    const fid = t.dataset.drop;
+    if (!fid || fid === dragF) return;
+    e.preventDefault();
+    const r = t.getBoundingClientRect(), after = e.clientY > r.top + r.height / 2;
+    document.querySelectorAll(".ins-before,.ins-after").forEach((el) => el.classList.remove("ins-before", "ins-after"));
+    t.classList.add(after ? "ins-after" : "ins-before");
+    return;
+  }
+  if (!dragK) return;
   e.preventDefault();
   e.dataTransfer.dropEffect = "move";
   document.querySelectorAll(".drop").forEach((el) => el !== t && el.classList.remove("drop"));
@@ -472,13 +526,25 @@ document.addEventListener("dragover", (e) => {
 });
 document.addEventListener("dragleave", (e) => {
   const t = e.target.closest?.("[data-drop]");
-  if (t && !t.contains(e.relatedTarget)) t.classList.remove("drop");
+  if (t && !t.contains(e.relatedTarget)) t.classList.remove("drop", "ins-before", "ins-after");
 });
 document.addEventListener("drop", (e) => {
   const t = e.target.closest?.("[data-drop]");
-  if (!t || !dragK) return;
-  e.preventDefault();
+  if (!t) return;
   const fid = t.dataset.drop;
+  if (dragF) {
+    e.preventDefault();
+    const arr = U.folders[view.tab], from = arr.findIndex((x) => x.id === dragF);
+    const r = t.getBoundingClientRect(), after = e.clientY > r.top + r.height / 2;
+    if (from < 0 || !fid || fid === dragF) return;
+    const [moved] = arr.splice(from, 1);
+    let to = arr.findIndex((x) => x.id === fid) + (after ? 1 : 0);
+    arr.splice(to, 0, moved);
+    dragF = null; clearDnD();
+    return changed();
+  }
+  if (!dragK) return;
+  e.preventDefault();
   const keys = selected.has(dragK) ? [...selected] : [dragK];
   keys.forEach((k) => { if (fid) U.assign[k] = fid; else delete U.assign[k]; });
   if (selected.has(dragK)) selected.clear();
@@ -565,6 +631,12 @@ async function loadData() {
   }
 }
 
+function applyThemeBtn() { $("#btnTheme").textContent = document.documentElement.dataset.theme === "dark" ? "☀️" : "🌙"; }
+$("#btnTheme").onclick = () => {
+  const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = t; ls.set("spm_theme", t); applyThemeBtn();
+};
+applyThemeBtn();
 $("#btnSet").onclick = () => { const c = cfg(); $("#inRepo").value = c.repo; $("#inTok").value = c.tok; $("#dlg").showModal(); };
 $("#dlgCancel").onclick = () => $("#dlg").close();
 $("#dlgSave").onclick = async () => {
