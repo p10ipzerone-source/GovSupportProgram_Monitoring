@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T16:46+09:00",
+ "updated": "2026-11-26T16:54+09:00",
  "sources": {
   "ripc": {
    "ok": true,
@@ -8164,10 +8164,11 @@
    "baseline": "2026-11-26"
   },
   "mssmiv": {
-   "ok": true,
-   "error": "목록 0건 (구조 변경 또는 차단 가능성, debug/ 확인)",
+   "ok": false,
+   "error": "RuntimeError: 접속 대기열 화면에서 넘어가지 못함 (debug/mssmiv_probe.json)",
    "items": [],
    "meta": {},
+   "stale": true,
    "baseline": "2026-11-26"
   }
  }

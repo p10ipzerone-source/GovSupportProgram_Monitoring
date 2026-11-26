@@ -397,7 +397,6 @@ gtag('config', 'UA-71469923-1');
 	    if (endPoint && endPoint.trim() !== "") {
 			subUrl = "?endPoint=" + encodeURIComponent(endPoint);
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: subUrl : " + subUrl);
 	    
 	    if (!acrValues && acrValues.trim() == "") {
 			acrValues = "3" 
@@ -411,7 +410,6 @@ gtag('config', 'UA-71469923-1');
 			}
 			subUrl = subUrl + "acrValues=" + acrValues;
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: ssoLoginPageSub : baseUrl+subUrl : " + baseUrl + "/" + subUrl);
 	    
 	    window.location.replace(baseUrl+subUrl);
 	}
@@ -433,9 +431,7 @@ gtag('config', 'UA-71469923-1');
 	/**/
 	anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
 	    endPoint = typeof endPoint !== 'undefined' ? endPoint : "/web/main/index.do";
-	    console.log("anyidAdaptor.ssoLoginPage :: endPoint : " + endPoint);
 	    var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
-	    console.log("anyidAdaptor.ssoLoginPage :: baseUrl : " + baseUrl);
 	    anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues)
 	}
 	
@@ -788,7 +784,6 @@ function openChatbot() {
 	    if (endPoint && endPoint.trim() !== "") {
 			subUrl = "?endPoint=" + encodeURIComponent(endPoint);
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: subUrl : " + subUrl);
 	    
 	    if (!acrValues && acrValues.trim() == "") {
 			acrValues = "3" 
@@ -802,7 +797,6 @@ function openChatbot() {
 			}
 			subUrl = subUrl + "acrValues=" + acrValues;
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: ssoLoginPageSub : baseUrl+subUrl : " + baseUrl + "/" + subUrl);
 	    
 	    window.location.replace(baseUrl+subUrl);
 	}
@@ -824,9 +818,7 @@ function openChatbot() {
 	/**/
 	anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
 	    endPoint = typeof endPoint !== 'undefined' ? endPoint : "/web/main/index.do";
-	    console.log("anyidAdaptor.ssoLoginPage :: endPoint : " + endPoint);
 	    var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
-	    console.log("anyidAdaptor.ssoLoginPage :: baseUrl : " + baseUrl);
 	    anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues)
 	}
 	
@@ -2378,7 +2370,7 @@ function openChatbot() {
 											<ul>
 												<li>2027년 글로벌 액셀러레이팅(GMEP) 지원사업 주관기관 모집 공고</li>
 												<li>창업진흥원</li>
-												<li>조회 2,550</li>
+												<li>조회 2,567</li>
 											</ul>
 										</div>
 									</a>
@@ -2402,7 +2394,7 @@ function openChatbot() {
 											<ul>
 												<li>신산업 분야 및 시장전문가 예비위원단 공개모집</li>
 												<li>창업진흥원</li>
-												<li>조회 41,094</li>
+												<li>조회 41,106</li>
 											</ul>
 										</div>
 									</a>
@@ -2426,7 +2418,7 @@ function openChatbot() {
 											<ul>
 												<li>2026 SVC Seoul 멤버십(확장형) 모집공고</li>
 												<li>창업진흥원</li>
-												<li>조회 111,340</li>
+												<li>조회 111,343</li>
 											</ul>
 										</div>
 									</a>
@@ -2450,7 +2442,7 @@ function openChatbot() {
 											<ul>
 												<li>2026 SVC Seoul Membership(Global) Recruitment Announcement</li>
 												<li>창업진흥원</li>
-												<li>조회 94,104</li>
+												<li>조회 94,105</li>
 											</ul>
 										</div>
 									</a>
@@ -2474,7 +2466,7 @@ function openChatbot() {
 											<ul>
 												<li>민간기업 분야 우수인재 특별귀화 추천 신청 모집 공고 </li>
 												<li>창업진흥원</li>
-												<li>조회 90,983</li>
+												<li>조회 90,988</li>
 											</ul>
 										</div>
 									</a>
@@ -2498,7 +2490,7 @@ function openChatbot() {
 											<ul>
 												<li>2026년 팁스(TIPS) 창업기업 지원계획 수정 공고</li>
 												<li>창업진흥원</li>
-												<li>조회 228,590</li>
+												<li>조회 228,595</li>
 											</ul>
 										</div>
 									</a>
@@ -2522,7 +2514,7 @@ function openChatbot() {
 											<ul>
 												<li>2026년 중앙부처 및 지자체 창업지원사업 통합공고</li>
 												<li>창업진흥원</li>
-												<li>조회 339,521</li>
+												<li>조회 339,529</li>
 											</ul>
 										</div>
 									</a>
@@ -2546,7 +2538,7 @@ function openChatbot() {
 											<ul>
 												<li>Announcement on Application for Recommendations for the “Startup Korea Special Visa”</li>
 												<li>창업진흥원</li>
-												<li>조회 149,782</li>
+												<li>조회 149,786</li>
 											</ul>
 										</div>
 									</a>
@@ -2895,7 +2887,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-31</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,252</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,254</span>
 											</div>
 										</div>
 										<div class="left">
@@ -2935,7 +2927,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-18</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-03</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,238</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,243</span>
 											</div>
 										</div>
 										<div class="left">
@@ -2975,7 +2967,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-06</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,690</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,696</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3015,7 +3007,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,155</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,157</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3055,7 +3047,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-11</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,820</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,827</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3095,7 +3087,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-04</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-01</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,202</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,208</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3135,7 +3127,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-27</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,560</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,563</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3175,7 +3167,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-30</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,623</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,629</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3215,7 +3207,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-31</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,533</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,538</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3255,7 +3247,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-03</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,510</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,513</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3295,7 +3287,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-11</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,221</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,227</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3335,7 +3327,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-30</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,256</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,261</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3374,7 +3366,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-18</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-18</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-27</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 10,405</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 10,410</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3413,7 +3405,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-18</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-09</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-04</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 8,709</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 8,717</span>
 											</div>
 										</div>
 										<div class="left">
@@ -3452,7 +3444,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-18</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-13</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-04</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 7,833</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 7,840</span>
 											</div>
 										</div>
 										<div class="left">
