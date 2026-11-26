@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T13:18+09:00",
+ "updated": "2026-11-26T13:22+09:00",
  "sources": {
   "ripc": {
    "ok": true,
@@ -196,11 +196,35 @@
    "meta": {}
   },
   "bizinfo": {
-   "ok": false,
-   "error": "HTTPError: 500 Server Error: Internal Server Error for url: https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1&schEndAt=N&condition=searchPblancNm&keyword=%EC%B0%BD%EC%97%85%EC%84%B1%EC%9E%A5%EA%B8%B0%EC%88%A0%EA%B0%9C%EB%B0%9C",
-   "items": [],
-   "meta": {},
-   "stale": true
+   "ok": true,
+   "error": null,
+   "items": [
+    {
+     "id": "PBLN_000000000119754",
+     "title": "2026년 팁스(TIPS) 창업기업 지원계획 수정 공고",
+     "type": "창업",
+     "org": "중소벤처기업부 / 한국엔젤투자협회",
+     "period": "추후 공지",
+     "start": null,
+     "deadline": null,
+     "date": "2026-03-20",
+     "keywords": [
+      "TIPS"
+     ],
+     "link": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000119754",
+     "first_seen": "2026-11-26"
+    }
+   ],
+   "meta": {
+    "keywords": [
+     "창업성장기술개발",
+     "발굴육성",
+     "TIPS",
+     "글로벌 기업",
+     "데이터바우처",
+     "AI 바우처"
+    ]
+   }
   }
  }
 }
