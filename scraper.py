@@ -34,6 +34,20 @@ BIZINFO_KEYWORDS = [
     "AI 바우처",
 ]
 
+def load_keywords():
+    """페이지에서 편집한 키워드(state.json)를 우선 사용."""
+    try:
+        st = json.loads((ROOT / "state.json").read_text(encoding="utf-8"))
+        kws = [k.strip() for k in (st.get("keywords") or {}).get("bizinfo") or [] if k and k.strip()]
+        if kws:
+            return list(dict.fromkeys(kws))
+    except Exception:
+        pass
+    return BIZINFO_KEYWORDS
+
+
+KEYWORDS = load_keywords()
+
 RIPC_LIST = "https://pms.ripc.org/pms/biz/applicant/notice/list.do"
 EXPORT_LIST = "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1"
 BIZINFO_LIST = "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do"
@@ -331,7 +345,7 @@ def bizinfo_fetch(keyword, page, slug):
 
 
 def scrape_bizinfo():
-    out = {"items": [], "meta": {"keywords": BIZINFO_KEYWORDS}}
+    out = {"items": [], "meta": {"keywords": KEYWORDS}}
     # 세션 쿠키 먼저 받기
     try:
         S.get("https://www.bizinfo.go.kr/", timeout=30)
@@ -339,7 +353,7 @@ def scrape_bizinfo():
     except Exception:
         pass
     seen, errors = {}, []
-    for kw in BIZINFO_KEYWORDS:
+    for kw in KEYWORDS:
         slug = re.sub(r"\W+", "_", kw)
         for page in (1, 2, 3):
             try:
@@ -376,7 +390,7 @@ def scrape_bizinfo():
                 }
             if len(rows) < 15:
                 break
-    if errors and len(errors) == len(BIZINFO_KEYWORDS):
+    if errors and len(errors) == len(KEYWORDS):
         raise RuntimeError("전 키워드 실패 - " + errors[0])
     out["items"] = list(seen.values())
     if errors:
@@ -392,7 +406,7 @@ def scrape_bizinfo_api(key):
     items = []
     for it in raw:
         title = it.get("pblancNm", "")
-        kws = [k for k in BIZINFO_KEYWORDS if k.replace(" ", "") in title.replace(" ", "")]
+        kws = [k for k in KEYWORDS if k.replace(" ", "") in title.replace(" ", "")]
         if not kws:
             continue
         period = it.get("reqstBeginEndDe", "")
@@ -410,7 +424,7 @@ def scrape_bizinfo_api(key):
                 "link": urljoin("https://www.bizinfo.go.kr", it.get("pblancUrl", "")),
             }
         )
-    return {"items": items, "meta": {"keywords": BIZINFO_KEYWORDS, "via": "api"}}
+    return {"items": items, "meta": {"keywords": KEYWORDS, "via": "api"}}
 
 
 # ───────── 4. K-Startup (기업마당 탭에 합침) ─────────
@@ -494,7 +508,7 @@ def same_notice(a, b):
 def scrape_biz_combined(biz_key=None, prev_items=None):
     """기업마당 키워드 결과 + K-Startup 진행 공고. 같은 공고는 하나로 합침."""
     prev_items = prev_items or []
-    meta, errors = {"keywords": BIZINFO_KEYWORDS}, []
+    meta, errors = {"keywords": KEYWORDS}, []
     try:
         biz = (scrape_bizinfo_api(biz_key) if biz_key else scrape_bizinfo())
         meta.update({k: v for k, v in biz.get("meta", {}).items() if k != "keywords"})
@@ -504,9 +518,16 @@ def scrape_biz_combined(biz_key=None, prev_items=None):
         errors.append(f"기업마당: {type(e).__name__}")
         biz_items = [dict(it, links=None) for it in prev_items if "bizinfo" in it.get("sites", ["bizinfo"])]
     try:
-        ks_items = scrape_kstartup()
-        if not ks_items:
+        ks_all = scrape_kstartup()
+        if not ks_all:
             errors.append("K-Startup: 0건 (debug/ 확인)")
+        ks_items = []
+        for ks in ks_all:  # 기업마당과 같은 키워드로 거름
+            hit = [k for k in KEYWORDS if k.replace(" ", "").lower() in ks["title"].replace(" ", "").lower()]
+            if hit:
+                ks["keywords"] = hit
+                ks_items.append(ks)
+        meta["kstartup_total"] = len(ks_all)
     except Exception as e:
         traceback.print_exc()
         errors.append(f"K-Startup: {type(e).__name__}: {e}")
@@ -526,6 +547,7 @@ def scrape_biz_combined(biz_key=None, prev_items=None):
             hit["links"]["kstartup"] = ks["link"]
             hit.setdefault("alt_ids", []).append(ks["id"])
             hit["org"] = hit.get("org") or ks["org"]
+            hit["keywords"] = list(dict.fromkeys((hit.get("keywords") or []) + ks["keywords"]))
             merged += 1
         else:
             ks["sites"] = ["kstartup"]

@@ -59,6 +59,15 @@
   .side .fd.drop{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
   .side .hint{font-size:11.5px;color:var(--sub);padding:8px 8px 2px;line-height:1.4}
   .item[draggable=true]{cursor:grab}
+  .kwbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:12px}
+  .kwlabel{font-size:12.5px;color:var(--sub);font-weight:600;margin-right:4px}
+  .kw{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);border-radius:14px;padding:3px 4px 3px 10px;font-size:13px}
+  .kw small{opacity:.7}
+  .kw button{border:none;background:transparent;color:inherit;padding:0 5px;font-size:15px;line-height:1;border-radius:10px}
+  .kw button:hover{background:var(--hover)}
+  .kwIn{font:inherit;font-size:13px;border:1px dashed var(--line);border-radius:14px;padding:4px 10px;background:var(--input);color:var(--ink);width:170px}
+  .kwPend{font-size:12.5px;color:var(--amber);display:inline-flex;gap:6px;align-items:center;margin-left:auto}
+  .kwPend button{font-size:12px;padding:3px 9px}
   .fav{width:16px;height:16px;border-radius:3px;vertical-align:-3px;margin-right:6px;flex-shrink:0}
   nav .fav{margin-right:6px}
   .srcIco .fav{width:14px;height:14px;margin-right:6px;vertical-align:-2px}
@@ -178,19 +187,19 @@
 const SOURCES = {
   ripc:    { name: "특허 (RIPC)", home: "https://pms.ripc.org/pms/biz/applicant/notice/list.do", site: "ripc" },
   export:  { name: "수출바우처", home: "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1", site: "export" },
-  mssmiv:  { name: "혁신바우처", home: "https://www.mssmiv.com/portal/board/BoardList?bbsId=1", site: "mssmiv" },
+  mssmiv:  { name: "제조혁신바우처", home: "https://www.mssmiv.com/portal/board/BoardList?bbsId=1", site: "mssmiv" },
   bizinfo: { name: "사업화 (기업마당·K-Startup)", home: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do", site: "bizinfo",
              homes: { bizinfo: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do", kstartup: "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do" } },
 };
 // 사이트별 이름과 아이콘 (각 사이트 파비콘)
 const SITES = {
   ripc:     { name: "RIPC", domain: "pms.ripc.org" },
-  export:   { name: "수출바우처", domain: "www.exportvoucher.com" },
-  mssmiv:   { name: "혁신바우처", domain: "www.mssmiv.com" },
+  export:   { name: "수출바우처", domain: "www.exportvoucher.com", icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTliOGE2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMGE3Zjg2Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTUiIGZpbGw9InVybCgjYSkiLz48cGF0aCBkPSJNNTAgMTQgMTIgMzAuNWMtMS42LjctMS41IDMgLjIgMy41bDExLjMgMy4zIDMuNCAxMS42Yy41IDEuNiAyLjYgMiAzLjYuN2w1LjYtNyA5LjYgNy4yYzEuMyAxIDMuMi4zIDMuNS0xLjNMNTMgMTdjLjQtMi0xLjMtMy42LTMtM3oiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgMzcgMjAtMTYtMTUgMTktMS41IDh6IiBmaWxsPSIjY2RlZWU5Ii8+PC9zdmc+" },
+  mssmiv:   { name: "제조혁신바우처", domain: "www.mssmiv.com", icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmY5YTNjIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTU1NzFiIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTUiIGZpbGw9InVybCgjYikiLz48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yOSAxMWg2bDEuMiA1LjRhMTYgMTYgMCAwIDEgNC40IDEuOGw0LjctMyA0LjIgNC4yLTMgNC43YTE2IDE2IDAgMCAxIDEuOCA0LjRMNTMgMjl2NmwtNS40IDEuMmExNiAxNiAwIDAgMS0xLjggNC40bDMgNC43LTQuMiA0LjItNC43LTNhMTYgMTYgMCAwIDEtNC40IDEuOEwzNSA1M2gtNmwtMS4yLTUuNGExNiAxNiAwIDAgMS00LjQtMS44bC00LjcgMy00LjItNC4yIDMtNC43YTE2IDE2IDAgMCAxLTEuOC00LjRMMTEgMzV2LTZsNS40LTEuMmExNiAxNiAwIDAgMSAxLjgtNC40bC0zLTQuNyA0LjItNC4yIDQuNyAzYTE2IDE2IDAgMCAxIDQuNC0xLjh6bTMgMTNhOCA4IDAgMSAwIDAgMTYgOCA4IDAgMCAwIDAtMTZ6Ii8+PHBhdGggZD0iTTMzLjUgMjYgMjggMzMuNWg0bC0xLjUgNS41IDUuNS03LjVoLTR6IiBmaWxsPSIjZmZkMjdhIi8+PC9zdmc+" },
   bizinfo:  { name: "기업마당", domain: "www.bizinfo.go.kr" },
   kstartup: { name: "K-Startup", domain: "www.k-startup.go.kr" },
 };
-const favicon = (site) => `<img class="fav" src="https://www.google.com/s2/favicons?domain=${SITES[site].domain}&sz=32" alt="" onerror="this.style.display='none'">`;
+const favicon = (site) => `<img class="fav" src="${SITES[site].icon || `https://www.google.com/s2/favicons?domain=${SITES[site].domain}&sz=32`}" alt="" onerror="this.style.display='none'">`;
 const NEW_DAYS = 3;
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -319,7 +328,9 @@ function renderTab() {
   const centers = tab === "ripc" ? [...new Set(items.map((i) => i.center).filter(Boolean))].sort() : [];
   const err = src.error ? `<div class="banner">수집 문제: ${esc(src.error)}${src.stale ? " (직전 데이터 표시 중)" : ""}</div>` : "";
 
-  return `${err}
+  const kwBar = tab === "bizinfo" ? renderKw(src) : "";
+
+  return `${err}${kwBar}
   ${curF ? `<div class="fhead"><button class="iconBtn big" data-act="pickIcon" data-f="${esc(cur)}" title="아이콘 바꾸기">${ico(curF)}</button><h2>${esc(curF.name)}</h2><button class="ghost" data-act="upF" data-f="${esc(cur)}" title="위로">▲</button><button class="ghost" data-act="downF" data-f="${esc(cur)}" title="아래로">▼</button><button class="ghost" data-act="renF" data-f="${esc(cur)}">이름 변경</button><button class="ghost" data-act="delF" data-f="${esc(cur)}">폴더 삭제</button></div>` : ""}
   ${bulk}
   <div class="filters">
@@ -331,6 +342,26 @@ function renderTab() {
   </div>
   <div class="list">${list.map((it) => card(tab, it, !!curF)).join("") || `<div class="empty">${curF ? "이 폴더에 공고가 없어." : "표시할 공고가 없어."}</div>`}</div>
   <p class="upd" style="margin-top:16px">원문: ${Object.entries(SOURCES[tab].homes || { [SOURCES[tab].site]: SOURCES[tab].home }).map(([s, u]) => `<a href="${u}" target="_blank" rel="noopener">${favicon(s)}${SITES[s].name}</a>`).join(" · ")}</p>`;
+}
+
+function curKeywords() {
+  return (U.keywords && U.keywords.bizinfo) || DATA.sources.bizinfo?.meta?.keywords || [];
+}
+function renderKw(src) {
+  const kws = curKeywords(), used = src?.meta?.keywords || [];
+  const pending = kws.join("|") !== used.join("|");
+  const cnt = (k) => (src?.items || []).filter((i) => (i.keywords || []).includes(k)).length;
+  const noTok = !cfg().tok;
+  return `<div class="kwbar">
+    <span class="kwlabel">검색 키워드</span>
+    ${kws.map((k) => `<span class="kw">${esc(k)}${used.includes(k) ? ` <small>${cnt(k)}</small>` : ""}<button data-act="kwDel" data-v="${esc(k)}" title="삭제">×</button></span>`).join("")}
+    <input class="kwIn" data-kwin placeholder="+ 키워드 추가 (Enter)" maxlength="30">
+    ${pending ? `<span class="kwPend">${noTok ? "⚙ 토큰을 넣어야 수집에 반영돼" : `바뀐 키워드는 다음 수집부터 반영 <button class="primary" data-act="kwRun">지금 수집</button>`}</span>` : ""}
+  </div>`;
+}
+function setKeywords(list) {
+  U.keywords = { ...(U.keywords || {}), bizinfo: [...new Set(list.map((x) => x.trim()).filter(Boolean))] };
+  changed();
 }
 
 function renderSide() {
@@ -353,7 +384,9 @@ function render() {
     return `<button class="${view.tab === k ? "on" : ""}" data-tab="${k}">${favicon(s.site)}${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
   }).join("");
   const ae = document.activeElement, focusQ = ae?.dataset?.act === "q", pos = ae?.selectionStart;
+  const focusKw = !!(ae?.dataset && "kwin" in ae.dataset);
   $("#main").innerHTML = `<div class="layout"><aside class="side">${renderSide()}</aside><section>${renderTab()}</section></div>`;
+  if (focusKw) document.querySelector("[data-kwin]")?.focus();
   if (focusQ) { const el = $('[data-act="q"]'); el.focus(); el.setSelectionRange(pos, pos); }
   if (editingNote) { const ta = document.querySelector(`[data-note="${CSS.escape(editingNote)}"]`); if (ta && document.activeElement !== ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } }
   const u = new Date(DATA.updated);
@@ -391,6 +424,11 @@ document.addEventListener("click", (e) => {
   const tab = view.tab, a = t.dataset.act;
   if (t.dataset.tab) { view.tab = t.dataset.tab; editingNote = null; selected.clear(); return render(); }
   if (a === "selClear") { selected.clear(); return render(); }
+  if (a === "kwDel") {
+    if (curKeywords().length <= 1) return alert("키워드는 최소 1개는 있어야 해.");
+    return setKeywords(curKeywords().filter((k) => k !== t.dataset.v));
+  }
+  if (a === "kwRun") { clearTimeout(syncTimer); setSync("저장 중..."); pushState().then(() => $("#btnRefresh").click()); return; }
   if (a === "openF") { view.folder[tab] = t.dataset.f; editingNote = null; selected.clear(); return render(); }
   if (a === "addF") { const f = newFolder(tab); if (f) changed(); return; }
   if (a === "pickIcon") { e.stopPropagation(); return openPicker(t, t.dataset.f); }
@@ -454,6 +492,11 @@ document.addEventListener("input", (e) => {
   if (e.target.dataset.act === "q") { view.q = e.target.value; render(); }
 });
 document.addEventListener("keydown", (e) => {
+  if (e.target.dataset && "kwin" in e.target.dataset && e.key === "Enter" && !e.isComposing) {
+    const v = e.target.value.trim();
+    if (v) setKeywords([...curKeywords(), v]);
+    return;
+  }
   if (e.target.dataset?.note !== undefined && e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
     document.querySelector(`[data-act="noteSave"][data-k="${CSS.escape(e.target.dataset.note)}"]`)?.click();
   }
