@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T13:57+09:00",
+ "updated": "2026-11-26T16:46+09:00",
  "sources": {
   "ripc": {
    "ok": true,
@@ -16,32 +16,6 @@
      "start": "2026-11-24",
      "deadline": "2026-11-27",
      "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5014&bizYear=2026",
-     "first_seen": "2026-11-26"
-    },
-    {
-     "id": "2026-5012",
-     "no": "울산-26-N5012",
-     "title": "[울산] 2026년 IP(지식재산)나래 프로그램 후속 해외출원비용지원사업 모집 공고",
-     "type": "IP 나래",
-     "center": "울산",
-     "status": "공고중",
-     "period": "2026-11-23 00:00 ~ 2026-11-26 15:00",
-     "start": "2026-11-23",
-     "deadline": "2026-11-26",
-     "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5012&bizYear=2026",
-     "first_seen": "2026-11-26"
-    },
-    {
-     "id": "2026-5011",
-     "no": "경남-26-N5011",
-     "title": "[경남] 2026년도 IP나래 프로그램 수혜기업 대상 해외출원비용 지원사업 모집 공고",
-     "type": "IP 나래",
-     "center": "경남",
-     "status": "공고중",
-     "period": "2026-11-23 09:00 ~ 2026-11-26 15:00",
-     "start": "2026-11-23",
-     "deadline": "2026-11-26",
-     "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5011&bizYear=2026",
      "first_seen": "2026-11-26"
     },
     {
@@ -991,6 +965,32 @@
      "start": "2026-11-24",
      "deadline": "2026-11-25",
      "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5013&bizYear=2026",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "2026-5012",
+     "no": "울산-26-N5012",
+     "title": "[울산] 2026년 IP(지식재산)나래 프로그램 후속 해외출원비용지원사업 모집 공고",
+     "type": "IP 나래",
+     "center": "울산",
+     "status": "공고종료",
+     "period": "2026-11-23 00:00 ~ 2026-11-26 15:00",
+     "start": "2026-11-23",
+     "deadline": "2026-11-26",
+     "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5012&bizYear=2026",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "2026-5011",
+     "no": "경남-26-N5011",
+     "title": "[경남] 2026년도 IP나래 프로그램 수혜기업 대상 해외출원비용 지원사업 모집 공고",
+     "type": "IP 나래",
+     "center": "경남",
+     "status": "공고종료",
+     "period": "2026-11-23 09:00 ~ 2026-11-26 15:00",
+     "start": "2026-11-23",
+     "deadline": "2026-11-26",
+     "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5011&bizYear=2026",
      "first_seen": "2026-11-26"
     },
     {
@@ -7806,7 +7806,8 @@
      "first_seen": "2026-11-26"
     }
    ],
-   "meta": {}
+   "meta": {},
+   "baseline": "2026-11-26"
   },
   "export": {
    "ok": true,
@@ -8089,7 +8090,8 @@
      "first_seen": "2026-11-26"
     }
    ],
-   "meta": {}
+   "meta": {},
+   "baseline": "2026-11-26"
   },
   "bizinfo": {
    "ok": true,
@@ -8108,6 +8110,38 @@
       "TIPS"
      ],
      "link": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000119754",
+     "sites": [
+      "bizinfo",
+      "kstartup"
+     ],
+     "links": {
+      "bizinfo": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000119754",
+      "kstartup": "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do?schM=view&pbancSn=176076"
+     },
+     "alt_ids": [
+      "KS_176076"
+     ],
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "KS_177113",
+     "title": "경남 수도권 투자유치 거점센터 (G-Space@TIPS) 2026 G-Demoday&G-Mentoring day",
+     "type": "민간 / 시설ㆍ공간ㆍ보육",
+     "org": "경남 창업 수도권 거점(G-Space@TIPS) 운영",
+     "period": "2026-04-09 ~ 2027-01-31",
+     "start": "2026-04-09",
+     "deadline": "2027-01-31",
+     "date": "2026-04-09",
+     "keywords": [
+      "TIPS"
+     ],
+     "link": "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do?schM=view&pbancSn=177113",
+     "sites": [
+      "kstartup"
+     ],
+     "links": {
+      "kstartup": "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do?schM=view&pbancSn=177113"
+     },
      "first_seen": "2026-11-26"
     }
    ],
@@ -8119,8 +8153,22 @@
      "글로벌 기업",
      "데이터바우처",
      "AI 바우처"
-    ]
-   }
+    ],
+    "kstartup_total": 130,
+    "merged": 1,
+    "counts": {
+     "bizinfo": 1,
+     "kstartup": 2
+    }
+   },
+   "baseline": "2026-11-26"
+  },
+  "mssmiv": {
+   "ok": true,
+   "error": "목록 0건 (구조 변경 또는 차단 가능성, debug/ 확인)",
+   "items": [],
+   "meta": {},
+   "baseline": "2026-11-26"
   }
  }
 }
