@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T17:01+09:00",
+ "updated": "2026-11-26T23:59+09:00",
  "sources": {
   "ripc": {
    "ok": true,
@@ -8154,7 +8154,7 @@
      "데이터바우처",
      "AI 바우처"
     ],
-    "kstartup_total": 130,
+    "kstartup_total": 125,
     "merged": 1,
     "counts": {
      "bizinfo": 1,
