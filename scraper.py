@@ -413,6 +413,177 @@ def scrape_bizinfo_api(key):
     return {"items": items, "meta": {"keywords": BIZINFO_KEYWORDS, "via": "api"}}
 
 
+# ───────── 4. K-Startup (기업마당 탭에 합침) ─────────
+KS_LIST = "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do"
+KS_VIEW = KS_LIST + "?schM=view&pbancSn={sn}"
+
+
+def scrape_kstartup():
+    """진행 중 공고 전체. 항목마다 go_view(번호) 링크가 있음."""
+    items, seen = [], set()
+    for page in range(1, 21):
+        url = KS_LIST + (f"?page={page}" if page > 1 else "")
+        r = get(url, headers={"Referer": KS_LIST})
+        if page <= 2:
+            save_debug(f"kstartup_p{page}", r.text)
+        soup = BeautifulSoup(r.text, "html.parser")
+        new = 0
+        for a in soup.find_all(lambda t: t.name == "a" and re.search(r"go_view\(", (t.get("href") or "") + (t.get("onclick") or ""))):
+            m = re.search(r"go_view\(\s*'?(\d+)", (a.get("href") or "") + (a.get("onclick") or ""))
+            if not m or m.group(1) in seen:
+                continue
+            sn = m.group(1)
+            seen.add(sn)
+            new += 1
+            box = a.find_parent("li") or a.parent
+            tit = box.select_one(".tit") or a
+            title = clean(tit.get_text(" "))
+            text = clean(box.get_text(" "))
+            def after(label):
+                mm = re.search(label + r"\s*:?\s*(20\d{2}[-.]\d{1,2}[-.]\d{1,2})", text)
+                return dates_in(mm.group(1))[0] if mm else None
+            start, end, reg = after("시작일자"), after("마감일자"), after("등록일자")
+            flags = [clean(x.get_text()) for x in box.select("[class*=flag]") if clean(x.get_text())]
+            flags = [f for f in flags if not re.match(r"D-|새로운", f)]
+            org = ""
+            for sp in box.select(".list, .bottom span"):
+                t = clean(sp.get_text(" "))
+                if t and not re.search(r"일자|조회|20\d{2}-", t):
+                    org = t
+                    break
+            items.append({
+                "id": "KS_" + sn,
+                "title": title,
+                "type": " / ".join(flags[:2]),
+                "org": org,
+                "period": f"{start or ''} ~ {end or ''}" if (start or end) else "",
+                "start": start,
+                "deadline": end,
+                "date": reg or "",
+                "keywords": [],
+                "link": KS_VIEW.format(sn=sn),
+            })
+        if new == 0:
+            break
+    return items
+
+
+TITLE_NOISE = re.compile(r"[\s\[\]()（）「」『』<>〈〉【】\"'“”‘’·ㆍ,._\-~:]|공고|모집|안내|20\d{2}년?|\d+차")
+
+
+def title_key(t):
+    return TITLE_NOISE.sub("", t or "").lower()
+
+
+def same_notice(a, b):
+    from difflib import SequenceMatcher
+    ka, kb = title_key(a["title"]), title_key(b["title"])
+    if not ka or not kb:
+        return False
+    if ka == kb:
+        return True
+    short, long_ = sorted((ka, kb), key=len)
+    if len(short) >= 12 and short in long_:
+        return True
+    if SequenceMatcher(None, ka, kb).ratio() >= 0.88:
+        # 마감일이 둘 다 있으면 같아야 같은 공고로 봄
+        return not (a.get("deadline") and b.get("deadline") and a["deadline"] != b["deadline"])
+    return False
+
+
+def scrape_biz_combined(biz_key=None, prev_items=None):
+    """기업마당 키워드 결과 + K-Startup 진행 공고. 같은 공고는 하나로 합침."""
+    prev_items = prev_items or []
+    meta, errors = {"keywords": BIZINFO_KEYWORDS}, []
+    try:
+        biz = (scrape_bizinfo_api(biz_key) if biz_key else scrape_bizinfo())
+        meta.update({k: v for k, v in biz.get("meta", {}).items() if k != "keywords"})
+        biz_items = biz["items"]
+    except Exception as e:
+        traceback.print_exc()
+        errors.append(f"기업마당: {type(e).__name__}")
+        biz_items = [dict(it, links=None) for it in prev_items if "bizinfo" in it.get("sites", ["bizinfo"])]
+    try:
+        ks_items = scrape_kstartup()
+        if not ks_items:
+            errors.append("K-Startup: 0건 (debug/ 확인)")
+    except Exception as e:
+        traceback.print_exc()
+        errors.append(f"K-Startup: {type(e).__name__}: {e}")
+        ks_items = []
+
+    out = []
+    for it in biz_items:
+        it = {k: v for k, v in it.items() if k not in ("links", "sites", "alt_ids")}
+        it["sites"] = ["bizinfo"]
+        it["links"] = {"bizinfo": it["link"]}
+        out.append(it)
+    merged = 0
+    for ks in ks_items:
+        hit = next((b for b in out if "kstartup" not in b["sites"] and same_notice(b, ks)), None)
+        if hit:
+            hit["sites"].append("kstartup")
+            hit["links"]["kstartup"] = ks["link"]
+            hit.setdefault("alt_ids", []).append(ks["id"])
+            hit["org"] = hit.get("org") or ks["org"]
+            merged += 1
+        else:
+            ks["sites"] = ["kstartup"]
+            ks["links"] = {"kstartup": ks["link"]}
+            out.append(ks)
+    meta["merged"] = merged
+    meta["counts"] = {"bizinfo": len(biz_items), "kstartup": len(ks_items)}
+    if errors:
+        meta["partial_errors"] = errors
+    if not out and errors:
+        raise RuntimeError(" / ".join(errors))
+    return {"items": out, "meta": meta}
+
+
+# ───────── 5. 혁신바우처 (mssmiv) ─────────
+MSS_LIST = "https://www.mssmiv.com/portal/board/BoardList?bbsId=1"
+
+
+def scrape_mssmiv():
+    out = {"items": [], "meta": {}}
+    r = get(MSS_LIST)
+    save_debug("mssmiv_list", r.text)
+    html = r.text
+    # 대기/리다이렉트 화면이면 따라가 봄
+    if not parse_tables(BeautifulSoup(html, "html.parser"), MSS_LIST):
+        m = re.search(r"""(?:location\.(?:href|replace)\s*[=(]\s*|http-equiv=["']refresh["'][^>]*url=)['"]?([^'")>\s]+)""", html, re.I)
+        if m:
+            nxt = urljoin(MSS_LIST, m.group(1))
+            r = get(nxt, headers={"Referer": MSS_LIST})
+            save_debug("mssmiv_list_redirect", r.text)
+            html = r.text
+        else:
+            r = get(MSS_LIST, headers={"Referer": MSS_LIST})
+            save_debug("mssmiv_list_retry", r.text)
+            html = r.text
+    soup = BeautifulSoup(html, "html.parser")
+    seen = set()
+    for x in parse_tables(soup, MSS_LIST):
+        t = x.get("title")
+        if not t or t in seen:
+            continue
+        seen.add(t)
+        m = re.search(r"\(\s*'?(\d+)", x.get("_js") or "")
+        period = x.get("period", "")
+        out["items"].append({
+            "id": "MS_" + (m.group(1) if m else (x.get("no") or t)),
+            "title": t,
+            "type": x.get("type", ""),
+            "date": (dates_in(x.get("date", "")) or [""])[0],
+            "period": period,
+            "deadline": deadline_of(period) if period else None,
+            "notice": not (x.get("no") or "").isdigit(),
+            "link": x["_link"] or MSS_LIST,
+            "js": x.get("_js"),
+        })
+    return out
+
+
 # ───────── 실행 ─────────
 def main():
     prev = {}
@@ -422,12 +593,14 @@ def main():
         except Exception:
             prev = {}
 
+    biz_key = os.environ.get("BIZINFO_KEY")
+    prev_biz = prev.get("sources", {}).get("bizinfo", {}).get("items", [])
     jobs = {
         "ripc": scrape_ripc,
         "export": scrape_export,
-        "bizinfo": scrape_bizinfo,
+        "bizinfo": lambda: scrape_biz_combined(biz_key, prev_biz),
+        "mssmiv": scrape_mssmiv,
     }
-    biz_key = os.environ.get("BIZINFO_KEY")
 
     result = {"updated": now_kst().isoformat(timespec="minutes"), "sources": {}}
     today = now_kst().strftime("%Y-%m-%d")
@@ -435,13 +608,7 @@ def main():
     for name, fn in jobs.items():
         src = {"ok": False, "error": None, "items": [], "meta": {}}
         try:
-            if name == "bizinfo" and biz_key:
-                try:
-                    got = scrape_bizinfo_api(biz_key)
-                except Exception:
-                    got = fn()
-            else:
-                got = fn()
+            got = fn()
             src.update(got)
             src["ok"] = True
             if not got["items"]:
@@ -458,12 +625,24 @@ def main():
             src["stale"] = True
 
         # 신규 표시용 first_seen 유지
-        old_seen = {
-            it.get("id"): it.get("first_seen")
-            for it in prev.get("sources", {}).get(name, {}).get("items", [])
-        }
+        prev_src = prev.get("sources", {}).get(name, {})
+        old_seen = {}
+        for it in prev_src.get("items", []):
+            for i in [it.get("id")] + (it.get("alt_ids") or []):
+                old_seen[i] = it.get("first_seen")
+        had_ks = any("kstartup" in (it.get("sites") or []) for it in prev_src.get("items", []))
+        # baseline: 첫 수집일. 이 날까지 들어온 공고는 NEW로 치지 않음
+        baseline = prev_src.get("baseline")
+        if not baseline:
+            firsts = [v for v in old_seen.values() if v]
+            baseline = min(firsts) if firsts else today
+        src["baseline"] = baseline
         for it in src["items"]:
-            it["first_seen"] = old_seen.get(it.get("id")) or it.get("first_seen") or today
+            ids = [it.get("id")] + (it.get("alt_ids") or [])
+            known = next((old_seen[i] for i in ids if old_seen.get(i)), None)
+            if not known and name == "bizinfo" and not had_ks and it.get("sites") == ["kstartup"]:
+                known = baseline  # K-Startup 첫 수집분은 NEW 제외
+            it["first_seen"] = known or it.get("first_seen") or today
 
         print(f"[{name}] ok={src['ok']} items={len(src['items'])} err={src['error']}")
         result["sources"][name] = src

@@ -59,6 +59,13 @@
   .side .fd.drop{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
   .side .hint{font-size:11.5px;color:var(--sub);padding:8px 8px 2px;line-height:1.4}
   .item[draggable=true]{cursor:grab}
+  .fav{width:16px;height:16px;border-radius:3px;vertical-align:-3px;margin-right:6px;flex-shrink:0}
+  nav .fav{margin-right:6px}
+  .srcIco .fav{width:14px;height:14px;margin-right:6px;vertical-align:-2px}
+  .srcBtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+  .srcBtn{display:inline-flex;align-items:center;font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:3px 9px;color:var(--ink);text-decoration:none;background:var(--card)}
+  .srcBtn:hover{border-color:var(--accent);color:var(--accent)}
+  .srcBtn .fav{width:14px;height:14px;margin-right:5px;vertical-align:0}
   .emo,.iconBtn,.picker .grid button,.themeBtn{font-family:Tossface,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-style:normal;line-height:1}
   .b.folder .emo{margin-right:3px}
   .iconBtn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:4px;border-radius:5px;cursor:pointer;flex-shrink:0;border:none;background:transparent;padding:0;font-size:15px}
@@ -169,10 +176,21 @@
 
 <script>
 const SOURCES = {
-  ripc:    { name: "특허 (RIPC)", home: "https://pms.ripc.org/pms/biz/applicant/notice/list.do" },
-  export:  { name: "수출바우처", home: "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1" },
-  bizinfo: { name: "사업화 (기업마당)", home: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do" },
+  ripc:    { name: "특허 (RIPC)", home: "https://pms.ripc.org/pms/biz/applicant/notice/list.do", site: "ripc" },
+  export:  { name: "수출바우처", home: "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1", site: "export" },
+  mssmiv:  { name: "혁신바우처", home: "https://www.mssmiv.com/portal/board/BoardList?bbsId=1", site: "mssmiv" },
+  bizinfo: { name: "사업화 (기업마당·K-Startup)", home: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do", site: "bizinfo",
+             homes: { bizinfo: "https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do", kstartup: "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do" } },
 };
+// 사이트별 이름과 아이콘 (각 사이트 파비콘)
+const SITES = {
+  ripc:     { name: "RIPC", domain: "pms.ripc.org" },
+  export:   { name: "수출바우처", domain: "www.exportvoucher.com" },
+  mssmiv:   { name: "혁신바우처", domain: "www.mssmiv.com" },
+  bizinfo:  { name: "기업마당", domain: "www.bizinfo.go.kr" },
+  kstartup: { name: "K-Startup", domain: "www.k-startup.go.kr" },
+};
+const favicon = (site) => `<img class="fav" src="https://www.google.com/s2/favicons?domain=${SITES[site].domain}&sz=32" alt="" onerror="this.style.display='none'">`;
 const NEW_DAYS = 3;
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -229,7 +247,7 @@ function isClosed(it) {
 }
 function badges(tab, it) {
   if (tab === "ripc") return [B("type", it.type), B("", it.center), B(/공고중|접수중/.test(it.status) ? "on" : "", it.status)];
-  if (tab === "export") return [it.notice ? B("pin", "공지") : "", B("type", it.type)];
+  if (tab === "export" || tab === "mssmiv") return [it.notice ? B("pin", "공지") : "", B("type", it.type)];
   return [...(it.keywords || []).map((k) => B("type", k)), B("", it.type), B("", it.org)];
 }
 
@@ -245,7 +263,8 @@ function card(tab, it, inFolderView) {
     <input type="checkbox" class="sel" data-sel="${esc(k)}" ${selected.has(k) ? "checked" : ""} title="선택 (Shift+클릭: 범위 선택)">
     ${ddayBox(it)}
     <div class="body">
-      <a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
+      ${it.links && Object.keys(it.links).length === 1 ? `<span class="srcIco" title="${esc(SITES[Object.keys(it.links)[0]].name)}">${favicon(Object.keys(it.links)[0])}</span>` : ""}<a class="t" href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a>
+      ${it.links && Object.keys(it.links).length > 1 ? `<div class="srcBtns">${Object.entries(it.links).map(([s, u]) => `<a class="srcBtn" href="${esc(u)}" target="_blank" rel="noopener">${favicon(s)}${esc(SITES[s].name)}에서 열기</a>`).join("")}</div>` : ""}
       <div class="meta">${isNew(it) ? '<span class="b new">NEW</span>' : ""}${!inFolderView && fobj ? `<span class="b folder"><span class="emo">${esc(ico(fobj))}</span>${esc(fobj.name)}</span>` : ""}${badges(tab, it).join("")}
         ${it.period ? `<span>${esc(it.period)}</span>` : it.date ? `<span>등록 ${esc(it.date)}</span>` : ""}</div>
       ${noteBox}
@@ -266,7 +285,7 @@ function sortItems(arr) {
   return arr.sort((a, b) => {
     const ma = U.marks[key(view.tab, a.id)] ? 1 : 0, mb = U.marks[key(view.tab, b.id)] ? 1 : 0;
     if (ma !== mb) return ma - mb; // 해당없음은 아래로
-    if (view.tab === "export") return (b.notice - a.notice) || (b.date || "").localeCompare(a.date || "");
+    if (view.tab === "export" || view.tab === "mssmiv") return (b.notice - a.notice) || (b.date || "").localeCompare(a.date || "");
     return score(a) - score(b);
   });
 }
@@ -311,7 +330,7 @@ function renderTab() {
     <label class="tg"><input type="checkbox" ${view.hideNa ? "checked" : ""} data-act="hideNa">해당없음 숨기기</label>
   </div>
   <div class="list">${list.map((it) => card(tab, it, !!curF)).join("") || `<div class="empty">${curF ? "이 폴더에 공고가 없어." : "표시할 공고가 없어."}</div>`}</div>
-  <p class="upd" style="margin-top:16px">원문: <a href="${SOURCES[tab].home}" target="_blank" rel="noopener">${SOURCES[tab].home}</a></p>`;
+  <p class="upd" style="margin-top:16px">원문: ${Object.entries(SOURCES[tab].homes || { [SOURCES[tab].site]: SOURCES[tab].home }).map(([s, u]) => `<a href="${u}" target="_blank" rel="noopener">${favicon(s)}${SITES[s].name}</a>`).join(" · ")}</p>`;
 }
 
 function renderSide() {
@@ -331,7 +350,7 @@ function render() {
   ls.set("spm_view", view);
   $("#tabs").innerHTML = Object.entries(SOURCES).map(([k, s]) => {
     const n = (DATA.sources[k]?.items || []).filter((it) => isNew(it, k) && !folderOf(k, it) && !markOf(k, it) && !(view.activeOnly && isClosed(it))).length;
-    return `<button class="${view.tab === k ? "on" : ""}" data-tab="${k}">${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
+    return `<button class="${view.tab === k ? "on" : ""}" data-tab="${k}">${favicon(s.site)}${s.name}${n ? `<span class="cnt">NEW ${n}</span>` : ""}</button>`;
   }).join("");
   const ae = document.activeElement, focusQ = ae?.dataset?.act === "q", pos = ae?.selectionStart;
   $("#main").innerHTML = `<div class="layout"><aside class="side">${renderSide()}</aside><section>${renderTab()}</section></div>`;
@@ -618,6 +637,20 @@ async function pushState(retry = true) {
   } catch (e) { setSync("저장소 저장 실패 (브라우저엔 저장됨)"); }
 }
 
+function migrateAltIds() {
+  let moved = false;
+  for (const [tab, src] of Object.entries(DATA.sources || {})) {
+    for (const it of src.items || []) {
+      for (const alt of it.alt_ids || []) {
+        const ak = key(tab, alt), k = key(tab, it.id);
+        if (U.assign[ak]) { if (!U.assign[k]) U.assign[k] = U.assign[ak]; delete U.assign[ak]; moved = true; }
+        if (U.marks[ak]) { if (!U.marks[k]) U.marks[k] = U.marks[ak]; delete U.marks[ak]; moved = true; }
+      }
+    }
+  }
+  if (moved) { U.updatedAt = new Date().toISOString(); ls.set("spm_user", U); scheduleSync(); }
+}
+
 async function loadData() {
   const { repo, tok } = cfg();
   try {
@@ -625,6 +658,7 @@ async function loadData() {
     if (tok && repo) res = await gh(`contents/data.json?t=${Date.now()}`, { headers: { Accept: "application/vnd.github.raw+json" } });
     if (!res || !res.ok) res = await fetch(`data.json?t=${Date.now()}`, { cache: "no-store" });
     DATA = await res.json();
+    migrateAltIds();
     render();
   } catch (e) {
     $("#upd").textContent = "data.json을 불러오지 못했어 (첫 수집 전일 수 있음)";
