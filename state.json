@@ -27,7 +27,8 @@
   "bizinfo": [
    {
     "id": "fmwx3duc8",
-    "name": "TIPS"
+    "name": "TIPS",
+    "icon": "🔴"
    }
   ]
  },
@@ -583,5 +584,5 @@
   "ripc:2026-4363": "fmwx5pdfi"
  },
  "marks": {},
- "updatedAt": "2026-11-26T06:32:16.225Z"
+ "updatedAt": "2026-11-26T06:32:23.686Z"
 }
