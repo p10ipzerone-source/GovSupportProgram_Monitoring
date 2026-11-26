@@ -1,0 +1,206 @@
+{
+ "updated": "2026-11-26T13:13+09:00",
+ "sources": {
+  "ripc": {
+   "ok": true,
+   "error": "목록 0건 (구조 변경 또는 차단 가능성, debug/ 확인)",
+   "items": [],
+   "meta": {
+    "bizYear": {
+     "label": "",
+     "options": []
+    },
+    "recordCountPerPage": {
+     "label": "",
+     "options": [
+      {
+       "value": "10",
+       "text": "10건"
+      },
+      {
+       "value": "20",
+       "text": "20건"
+      },
+      {
+       "value": "50",
+       "text": "50건"
+      }
+     ]
+    },
+    "_ajax_candidates": [
+     "/pms/cmn/bizMain.do"
+    ]
+   }
+  },
+  "export": {
+   "ok": true,
+   "error": null,
+   "items": [
+    {
+     "id": "(선정평가회 12/7일) 2027년 수출지원기반활용사업(수출바우처사업) 위탁사업자(총괄수행기관) 모집 공고",
+     "title": "(선정평가회 12/7일) 2027년 수출지원기반활용사업(수출바우처사업) 위탁사업자(총괄수행기관) 모집 공고",
+     "type": "",
+     "date": "2026-10-19",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13038)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "[상시모집] 수출지원기반활용사업(수출바우처) 수행기관 모집",
+     "title": "[상시모집] 수출지원기반활용사업(수출바우처) 수행기관 모집",
+     "type": "",
+     "date": "2025-01-13",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(8410)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "[필독] 수출지원기반활용사업(수출바우처) 수행기관 서비스 등록 안내",
+     "title": "[필독] 수출지원기반활용사업(수출바우처) 수행기관 서비스 등록 안내",
+     "type": "",
+     "date": "2023-07-03",
+     "period": "",
+     "deadline": null,
+     "notice": true,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(4911)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "911",
+     "title": "2026년 중기부 수출바우처 정산 일정 공지(2026.11.30 사용기간 종료되는 참여기업 대상)",
+     "type": "",
+     "date": "2026-11-24",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13160)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "910",
+     "title": "(KOTRA) 2027년 산업부 산업(패키지)바우처 신규 개편에 따른 전용 메뉴판 서비스 등록 안내",
+     "type": "",
+     "date": "2026-11-20",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13151)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "909",
+     "title": "2026년 수출바우처 대국민 아이디어 공모전 최종 수상작 발표",
+     "type": "",
+     "date": "2026-11-18",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13137)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "908",
+     "title": "2026년 하반기 협약만료 수행기관 협약연장 계획 공지",
+     "type": "",
+     "date": "2026-11-16",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13131)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "907",
+     "title": "수출바우처사업 부정행위 집중신고기간 운영 안내(26.12.11일까지)",
+     "type": "",
+     "date": "2026-11-12",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13122)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "906",
+     "title": "2026년 제5차 신규 수행기관 선정 결과 안내",
+     "type": "",
+     "date": "2026-10-30",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13074)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "905",
+     "title": "2026년 산업부(KOTRA) 수출바우처 피날레 리워드 안내",
+     "type": "",
+     "date": "2026-10-23",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13047)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "904",
+     "title": "[KOTRA] 수출바우처 연말(10월 이후) 정산 일정 안내",
+     "type": "",
+     "date": "2026-10-22",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13044)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "903",
+     "title": "수출바우처 디자인개발분야 BI/CI개발 서비스 정산기준 개정 재안내",
+     "type": "",
+     "date": "2026-10-16",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13034)",
+     "first_seen": "2026-11-26"
+    },
+    {
+     "id": "902",
+     "title": "[공지] [필수] 수출바우처 수행기관 서비스 자체 점검 및 장기 미수임 서비스 정리 안내",
+     "type": "",
+     "date": "2026-10-13",
+     "period": "",
+     "deadline": null,
+     "notice": false,
+     "link": "https://www.exportvoucher.com/portal/board/boardList?bbs_id=1",
+     "js": "goDetail(13025)",
+     "first_seen": "2026-11-26"
+    }
+   ],
+   "meta": {}
+  },
+  "bizinfo": {
+   "ok": false,
+   "error": "HTTPError: 500 Server Error: Internal Server Error for url: https://www.bizinfo.go.kr/sii/siia/selectSIIA200View.do?rows=15&cpage=1&schEndAt=N&condition=searchPblancNm&keyword=%EC%B0%BD%EC%97%85%EC%84%B1%EC%9E%A5%EA%B8%B0%EC%88%A0%EA%B0%9C%EB%B0%9C",
+   "items": [],
+   "meta": {},
+   "stale": true
+  }
+ }
+}
