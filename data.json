@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T23:59+09:00",
+ "updated": "2026-11-27T13:56+09:00",
  "sources": {
   "ripc": {
    "ok": true,
@@ -974,9 +974,9 @@
      "type": "IP 나래",
      "center": "울산",
      "status": "공고종료",
-     "period": "2026-11-23 00:00 ~ 2026-11-26 15:00",
+     "period": "2026-11-23 00:00 ~ 2026-11-27 11:50",
      "start": "2026-11-23",
-     "deadline": "2026-11-26",
+     "deadline": "2026-11-27",
      "link": "https://pms.ripc.org/pms/biz/applicant/notice/info.do?noticeSeq=5012&bizYear=2026",
      "first_seen": "2026-11-26"
     },
@@ -8154,7 +8154,7 @@
      "데이터바우처",
      "AI 바우처"
     ],
-    "kstartup_total": 125,
+    "kstartup_total": 136,
     "merged": 1,
     "counts": {
      "bizinfo": 1,

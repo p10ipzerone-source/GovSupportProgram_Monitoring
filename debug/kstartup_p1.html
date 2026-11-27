@@ -397,7 +397,6 @@ gtag('config', 'UA-71469923-1');
 	    if (endPoint && endPoint.trim() !== "") {
 			subUrl = "?endPoint=" + encodeURIComponent(endPoint);
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: subUrl : " + subUrl);
 	    
 	    if (!acrValues && acrValues.trim() == "") {
 			acrValues = "3" 
@@ -411,7 +410,6 @@ gtag('config', 'UA-71469923-1');
 			}
 			subUrl = subUrl + "acrValues=" + acrValues;
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: ssoLoginPageSub : baseUrl+subUrl : " + baseUrl + "/" + subUrl);
 	    
 	    window.location.replace(baseUrl+subUrl);
 	}
@@ -433,9 +431,7 @@ gtag('config', 'UA-71469923-1');
 	/**/
 	anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
 	    endPoint = typeof endPoint !== 'undefined' ? endPoint : "/web/main/index.do";
-	    console.log("anyidAdaptor.ssoLoginPage :: endPoint : " + endPoint);
 	    var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
-	    console.log("anyidAdaptor.ssoLoginPage :: baseUrl : " + baseUrl);
 	    anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues)
 	}
 	
@@ -788,7 +784,6 @@ function openChatbot() {
 	    if (endPoint && endPoint.trim() !== "") {
 			subUrl = "?endPoint=" + encodeURIComponent(endPoint);
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: subUrl : " + subUrl);
 	    
 	    if (!acrValues && acrValues.trim() == "") {
 			acrValues = "3" 
@@ -802,7 +797,6 @@ function openChatbot() {
 			}
 			subUrl = subUrl + "acrValues=" + acrValues;
 	    }
-	    console.log("anyidAdaptor.ssoLoginPageSub :: ssoLoginPageSub : baseUrl+subUrl : " + baseUrl + "/" + subUrl);
 	    
 	    window.location.replace(baseUrl+subUrl);
 	}
@@ -824,9 +818,7 @@ function openChatbot() {
 	/**/
 	anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
 	    endPoint = typeof endPoint !== 'undefined' ? endPoint : "/web/main/index.do";
-	    console.log("anyidAdaptor.ssoLoginPage :: endPoint : " + endPoint);
 	    var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
-	    console.log("anyidAdaptor.ssoLoginPage :: baseUrl : " + baseUrl);
 	    anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues)
 	}
 	
@@ -2378,7 +2370,7 @@ function openChatbot() {
 											<ul>
 												<li>2027년 글로벌 액셀러레이팅(GMEP) 지원사업 주관기관 모집 공고</li>
 												<li>창업진흥원</li>
-												<li>조회 3,179</li>
+												<li>조회 4,450</li>
 											</ul>
 										</div>
 									</a>
@@ -2402,7 +2394,7 @@ function openChatbot() {
 											<ul>
 												<li>신산업 분야 및 시장전문가 예비위원단 공개모집</li>
 												<li>창업진흥원</li>
-												<li>조회 41,534</li>
+												<li>조회 42,769</li>
 											</ul>
 										</div>
 									</a>
@@ -2426,7 +2418,7 @@ function openChatbot() {
 											<ul>
 												<li>2026 SVC Seoul 멤버십(확장형) 모집공고</li>
 												<li>창업진흥원</li>
-												<li>조회 111,581</li>
+												<li>조회 112,239</li>
 											</ul>
 										</div>
 									</a>
@@ -2450,7 +2442,7 @@ function openChatbot() {
 											<ul>
 												<li>2026 SVC Seoul Membership(Global) Recruitment Announcement</li>
 												<li>창업진흥원</li>
-												<li>조회 94,295</li>
+												<li>조회 94,812</li>
 											</ul>
 										</div>
 									</a>
@@ -2474,7 +2466,7 @@ function openChatbot() {
 											<ul>
 												<li>민간기업 분야 우수인재 특별귀화 추천 신청 모집 공고 </li>
 												<li>창업진흥원</li>
-												<li>조회 91,213</li>
+												<li>조회 91,832</li>
 											</ul>
 										</div>
 									</a>
@@ -2498,7 +2490,7 @@ function openChatbot() {
 											<ul>
 												<li>2026년 팁스(TIPS) 창업기업 지원계획 수정 공고</li>
 												<li>창업진흥원</li>
-												<li>조회 228,943</li>
+												<li>조회 229,759</li>
 											</ul>
 										</div>
 									</a>
@@ -2522,7 +2514,7 @@ function openChatbot() {
 											<ul>
 												<li>2026년 중앙부처 및 지자체 창업지원사업 통합공고</li>
 												<li>창업진흥원</li>
-												<li>조회 339,869</li>
+												<li>조회 340,637</li>
 											</ul>
 										</div>
 									</a>
@@ -2546,7 +2538,7 @@ function openChatbot() {
 											<ul>
 												<li>Announcement on Application for Recommendations for the “Startup Korea Special Visa”</li>
 												<li>창업진흥원</li>
-												<li>조회 149,986</li>
+												<li>조회 150,474</li>
 											</ul>
 										</div>
 									</a>
@@ -2874,6 +2866,486 @@ function openChatbot() {
 									<div class="inner">
 										<div class="right">
 											<div class="top">
+												<span class="flag agency"> 민간</span>
+													<span class="flag type05">
+													행사ㆍ네트워크</span>
+						
+												<span class="flag day">D-13</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179889);'>
+													<div class="tit_wrap">
+														<p class="tit">[알파브라더스] 「2026 충청 스타트업 벤처포럼」 3회차-파트너링 참가 기업 모집</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>[알파브라더스] 「2026 충청 스타트업 벤처포럼」 3회차-파트너링 참가 기업 모집</span>
+												<span class="list"><i class="xi-info-o pr5"></i>알파브라더스</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-25</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-10</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 187</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179889_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="[알파브라더스] 「2026 충청 스타트업 벤처포럼」 3회차-파트너링 참가 기업 모집" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179889);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179889);" title="[[알파브라더스] 「2026 충청 스타트업 벤처포럼」 3회차-파트너링 참가 기업 모집 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type04">
+													멘토링ㆍ컨설팅ㆍ교육</span>
+						
+												<span class="flag day">D-6</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179880);'>
+													<div class="tit_wrap">
+														<p class="tit">스담스담 13회차 참석자 모집</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>스담스담 13회차 참석자 모집</span>
+												<span class="list"><i class="xi-info-o pr5"></i>(재)경기도경제과학진흥원</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-24</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-03</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 208</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179880_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="스담스담 13회차 참석자 모집" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179880);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179880);" title="[스담스담 13회차 참석자 모집 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-10</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179897);'>
+													<div class="tit_wrap">
+														<p class="tit">『춘천시 1인 창조기업 지원센터 입주기업 모집 』공고 (11월)</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>춘천시 1인 창조기업 지원센터 입주기업 모집 공고 (11월)</span>
+												<span class="list"><i class="xi-info-o pr5"></i>춘천시1인창조기업지원센터</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-26</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-07</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 188</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179897_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="『춘천시 1인 창조기업 지원센터 입주기업 모집 』공고 (11월)" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179897);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179897);" title="[『춘천시 1인 창조기업 지원센터 입주기업 모집 』공고 (11월) 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 교육</span>
+													<span class="flag type01">
+													사업화</span>
+						
+												<span class="flag day">D-4</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179899);'>
+													<div class="tit_wrap">
+														<p class="tit">[한양대학교]  AI 창업 인사이트 특강 참가자 모집(12/2(수) 18:00)</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>창업중심대학</span>
+												<span class="list"><i class="xi-info-o pr5"></i>한양대학교</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-26</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-01</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 237</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179899_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="[한양대학교]  AI 창업 인사이트 특강 참가자 모집(12/2(수) 18:00)" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179899);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179899);" title="[[한양대학교]  AI 창업 인사이트 특강 참가자 모집(12/2(수) 18:00) 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-13</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179903);'>
+													<div class="tit_wrap">
+														<p class="tit">「유니콘 랩(U-Lab) 대구」2026년 3차 입주기업 모집 공고</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>유니콘 랩(U-Lab) 2026년 입주기업 3차 모집 공고 안내</span>
+												<span class="list"><i class="xi-info-o pr5"></i>대구창조경제혁신센터</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-25</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-10</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 168</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179903_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="「유니콘 랩(U-Lab) 대구」2026년 3차 입주기업 모집 공고" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179903);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179903);" title="[「유니콘 랩(U-Lab) 대구」2026년 3차 입주기업 모집 공고 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 민간</span>
+													<span class="flag type05">
+													행사ㆍ네트워크</span>
+						
+												<span class="flag day">D-5</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179904);'>
+													<div class="tit_wrap">
+														<p class="tit">2026년 시흥 R-AI-S-E 워케이션 참가자 모집</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>2026년 시흥 R-AI-S-E 워케이션 참가자 모집</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조슈아파트너스 주식회사</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-26</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 222</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179904_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 시흥 R-AI-S-E 워케이션 참가자 모집" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179904);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179904);" title="[2026년 시흥 R-AI-S-E 워케이션 참가자 모집 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-14</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179896);'>
+													<div class="tit_wrap">
+														<p class="tit">2027년 양천공공오(공공형 공유오피스) 입주기업 모집 공고</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>2027년 양천공공오(공공형 공유오피스) 입주기업 모집 공고</span>
+												<span class="list"><i class="xi-info-o pr5"></i>서울특별시 양천구청</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-26</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-11</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 201</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179896_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="2027년 양천공공오(공공형 공유오피스) 입주기업 모집 공고" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179896);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179896);" title="[2027년 양천공공오(공공형 공유오피스) 입주기업 모집 공고 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-16</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179905);'>
+													<div class="tit_wrap">
+														<p class="tit">2026년 제2차 공간정보 창업지원센터 입주기업 모집공고</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>공간정보 창업지원사업</span>
+												<span class="list"><i class="xi-info-o pr5"></i>한국국토정보공사</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-26</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-13</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 224</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179905_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 제2차 공간정보 창업지원센터 입주기업 모집공고" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179905);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179905);" title="[2026년 제2차 공간정보 창업지원센터 입주기업 모집공고 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 교육</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-2</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179877);'>
+													<div class="tit_wrap">
+														<p class="tit">2026년 한국외대 창업보육센터 입주기업 모집 공고</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>창업보육센터 지원</span>
+												<span class="list"><i class="xi-info-o pr5"></i>한국외국어대학교연구산학협력단</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-24</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-29</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 207</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179877_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 한국외대 창업보육센터 입주기업 모집 공고" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179877);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179877);" title="[2026년 한국외대 창업보육센터 입주기업 모집 공고 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-16</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179850);'>
+													<div class="tit_wrap">
+														<p class="tit">[서울소셜벤처허브] 2027년 서울소셜벤처허브 1차 신규 입주기업 모집</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>[서울소셜벤처허브] 2027년 서울소셜벤처허브 1차 입주기업 모집</span>
+												<span class="list"><i class="xi-info-o pr5"></i>서울소셜벤처허브</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-13</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 206</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179850_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="[서울소셜벤처허브] 2027년 서울소셜벤처허브 1차 신규 입주기업 모집" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179850);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179850);" title="[[서울소셜벤처허브] 2027년 서울소셜벤처허브 1차 신규 입주기업 모집 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 공공</span>
+													<span class="flag type05">
+													행사ㆍ네트워크</span>
+						
+												<span class="flag day">D-5</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179857);'>
+													<div class="tit_wrap">
+														<p class="tit">2026년 보건의료 빅데이터 미래포럼</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>2026년 보건의료 빅데이터 미래포럼</span>
+												<span class="list"><i class="xi-info-o pr5"></i>건강보험심사평가원</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 170</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179857_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 보건의료 빅데이터 미래포럼" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179857);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179857);" title="[2026년 보건의료 빅데이터 미래포럼 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
+												<span class="flag agency"> 교육</span>
+													<span class="flag type03">
+													시설ㆍ공간ㆍ보육</span>
+						
+												<span class="flag day">D-11</span>
+															<p class="date"></p>
+											</div>
+											<div class="middle">
+												<a href='javascript:go_view(179906);'>
+													<div class="tit_wrap">
+														<p class="tit">2026년 하반기 양주시 스타트업 성장 지원센터 입주기업 모집</p>
+														<span class="new">새로운게시글</span>
+														</div>
+												</a>
+											</div>
+											<div class="bottom">
+												<span class="list"><i class="xi-info-o pr5"></i>2026년 하반기 양주시 스타트업 성장지원센터 입주기업 모집</span>
+												<span class="list"><i class="xi-info-o pr5"></i>광운대학교산학협력단</span>
+												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-27</span>
+												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-08</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 182</span>
+											</div>
+										</div>
+										<div class="left">
+											<div class="left_inner">
+												<div id="179906_scrap_div">
+													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 하반기 양주시 스타트업 성장 지원센터 입주기업 모집" />
+													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179906);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
+														</div>
+												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179906);" title="[2026년 하반기 양주시 스타트업 성장 지원센터 입주기업 모집 새창열기" ><i class="xi-external-link"></i></button>
+											</div>
+										</div>
+									</div>
+								</li>
+							<li class="notice">
+									<!--공지글-->
+									<div class="inner">
+										<div class="right">
+											<div class="top">
 												<span class="flag agency"> 공공</span>
 													<span class="flag type07">
 													글로벌</span>
@@ -2895,7 +3367,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-25</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-28</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 3,179</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 4,450</span>
 											</div>
 										</div>
 										<div class="left">
@@ -2935,7 +3407,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-11</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,919</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 4,086</span>
 											</div>
 										</div>
 										<div class="left">
@@ -2975,7 +3447,7 @@ function openChatbot() {
 												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
 												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-19</span>
 												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-09</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 1,842</span>
+												<span class="list"><i class="xi-info-o pr5"></i>조회 2,514</span>
 											</div>
 										</div>
 										<div class="left">
@@ -2989,489 +3461,9 @@ function openChatbot() {
 										</div>
 									</div>
 								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type03">
-													시설ㆍ공간ㆍ보육</span>
-						
-												<span class="flag day">D-5</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179873);'>
-													<div class="tit_wrap">
-														<p class="tit">2026 서울창업허브 공덕 12월 허브아워 - 투자, 유통, 브랜드</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>서울창업허브 공덕 (우수기업 발굴·육성)</span>
-												<span class="list"><i class="xi-info-o pr5"></i>서울경제진흥원</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,077</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179873_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="2026 서울창업허브 공덕 12월 허브아워 - 투자, 유통, 브랜드" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179873);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179873);" title="[2026 서울창업허브 공덕 12월 허브아워 - 투자, 유통, 브랜드 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type05">
-													행사ㆍ네트워크</span>
-						
-												<span class="flag day">D-5</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179883);'>
-													<div class="tit_wrap">
-														<p class="tit">「2026년 제4회 부기테크 투자쇼 」일반 참가자(참관객) 모집</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>「2026년 제4회 부기테크 투자쇼 」일반 참가자(참관객) 모집</span>
-												<span class="list"><i class="xi-info-o pr5"></i>부산기술창업투자원</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 1,435</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179883_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="「2026년 제4회 부기테크 투자쇼 」일반 참가자(참관객) 모집" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179883);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179883);" title="[「2026년 제4회 부기테크 투자쇼 」일반 참가자(참관객) 모집 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 민간</span>
-													<span class="flag type02">
-													창업교육</span>
-						
-												<span class="flag day">D-5</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179886);'>
-													<div class="tit_wrap">
-														<p class="tit">서울디자인런 2026 - 돈 없이도 줄 세우는 브랜드의 비밀</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>서울디자인런 2026 - 돈 없이도 줄 세우는 브랜드의 비밀</span>
-												<span class="list"><i class="xi-info-o pr5"></i>(주)오픈놀</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 1,660</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179886_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="서울디자인런 2026 - 돈 없이도 줄 세우는 브랜드의 비밀" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179886);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179886);" title="[서울디자인런 2026 - 돈 없이도 줄 세우는 브랜드의 비밀 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type03">
-													시설ㆍ공간ㆍ보육</span>
-						
-												<span class="flag day">오늘마감</span>	
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179885);'>
-													<div class="tit_wrap">
-														<p class="tit">성남창업센터(킨스타워) 신규 입주기업 추가 모집공고</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>성남창업센터   (정글ON)</span>
-												<span class="list"><i class="xi-info-o pr5"></i>성남산업진흥원</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-27</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,010</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179885_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="성남창업센터(킨스타워) 신규 입주기업 추가 모집공고" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179885);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179885);" title="[성남창업센터(킨스타워) 신규 입주기업 추가 모집공고 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 민간</span>
-													<span class="flag type05">
-													행사ㆍ네트워크</span>
-						
-												<span class="flag day">D-5</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179874);'>
-													<div class="tit_wrap">
-														<p class="tit">「제3회 K-ROBOTICS STARTUP CUP」 GRAND FINAL 참가 신청(~12/3 목)</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>「제3회 K-ROBOTICS STARTUP CUP」 GRAND FINAL 참가 신청(~12/3 목)</span>
-												<span class="list"><i class="xi-info-o pr5"></i>주식회사 아이피에스벤처스</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-02</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 1,683</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179874_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="「제3회 K-ROBOTICS STARTUP CUP」 GRAND FINAL 참가 신청(~12/3 목)" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179874);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179874);" title="[「제3회 K-ROBOTICS STARTUP CUP」 GRAND FINAL 참가 신청(~12/3 목) 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 교육</span>
-													<span class="flag type03">
-													시설ㆍ공간ㆍ보육</span>
-						
-												<span class="flag day">D-6</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179879);'>
-													<div class="tit_wrap">
-														<p class="tit">한국항공대학교 창업보육센터 신규 입주기업 모집 공고(12월 3일까지)</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>한국항공대 창업보육센터 운영지원</span>
-												<span class="list"><i class="xi-info-o pr5"></i>한국항공대학교 산학협력단</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-23</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-03</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 1,932</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179879_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="한국항공대학교 창업보육센터 신규 입주기업 모집 공고(12월 3일까지)" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179879);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179879);" title="[한국항공대학교 창업보육센터 신규 입주기업 모집 공고(12월 3일까지) 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type03">
-													시설ㆍ공간ㆍ보육</span>
-						
-												<span class="flag day">D-14</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179878);'>
-													<div class="tit_wrap">
-														<p class="tit">2026년 서울창업센터 관악 하반기 입주기업 모집</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>서울창업센터 관악</span>
-												<span class="list"><i class="xi-info-o pr5"></i>서울창조경제혁신센터</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-25</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-26</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-11</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 1,703</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179878_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 서울창업센터 관악 하반기 입주기업 모집" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179878);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179878);" title="[2026년 서울창업센터 관악 하반기 입주기업 모집 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 민간</span>
-													<span class="flag type01">
-													사업화</span>
-						
-												<span class="flag day">D-7</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179841);'>
-													<div class="tit_wrap">
-														<p class="tit">2026년 초기창업패키지 로켓십 IR 경진대회 참가기업 모집 (4회차: 자율 분야)</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>초기창업패키지</span>
-												<span class="list"><i class="xi-info-o pr5"></i>씨엔티테크(주)</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-04</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 4,574</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179841_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 초기창업패키지 로켓십 IR 경진대회 참가기업 모집 (4회차: 자율 분야)" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179841);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179841);" title="[2026년 초기창업패키지 로켓십 IR 경진대회 참가기업 모집 (4회차: 자율 분야) 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type05">
-													행사ㆍ네트워크</span>
-						
-												<span class="flag day">오늘마감</span>	
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179820);'>
-													<div class="tit_wrap">
-														<p class="tit">제42회 국제의료기기·병원설비전시회(KIMES 2027) 참가기업 모집 공고</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>제42회 국제의료기기·병원설비전시회(KIMES 2027) 참가기업 모집 공고</span>
-												<span class="list"><i class="xi-info-o pr5"></i>한국과학기술연구원</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-13</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-11-27</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,745</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179820_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="제42회 국제의료기기·병원설비전시회(KIMES 2027) 참가기업 모집 공고" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179820);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179820);" title="[제42회 국제의료기기·병원설비전시회(KIMES 2027) 참가기업 모집 공고 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type05">
-													행사ㆍ네트워크</span>
-						
-												<span class="flag day">D-7</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179844);'>
-													<div class="tit_wrap">
-														<p class="tit">AMCHAM-SBA K-Beauty Forum 2026 참가기업 모집(무료)</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>AMCHAM-SBA K-Beauty Forum 2026 참가기업 모집(무료)</span>
-												<span class="list"><i class="xi-info-o pr5"></i>서울경제진흥원</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-19</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-04</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 2,419</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179844_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="AMCHAM-SBA K-Beauty Forum 2026 참가기업 모집(무료)" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179844);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179844);" title="[AMCHAM-SBA K-Beauty Forum 2026 참가기업 모집(무료) 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 공공</span>
-													<span class="flag type02">
-													창업교육</span>
-						
-												<span class="flag day">D-4</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179849);'>
-													<div class="tit_wrap">
-														<p class="tit">[ART-AI ACADEMY] AI 숏폼 워크숍</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>마포청년창업취업지원센터 나루 2026</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마포청년창업취업지원센터 나루</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-19</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-01</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 3,176</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179849_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="[ART-AI ACADEMY] AI 숏폼 워크숍" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179849);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179849);" title="[[ART-AI ACADEMY] AI 숏폼 워크숍 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							<li class="notice">
-									<!--공지글-->
-									<div class="inner">
-										<div class="right">
-											<div class="top">
-												<span class="flag agency"> 민간</span>
-													<span class="flag type03">
-													시설ㆍ공간ㆍ보육</span>
-						
-												<span class="flag day">D-9</span>
-															<p class="date"></p>
-											</div>
-											<div class="middle">
-												<a href='javascript:go_view(179852);'>
-													<div class="tit_wrap">
-														<p class="tit">2026년 12월 KICXUP 서울 입주기업 모집공고</p>
-														<span class="new">새로운게시글</span>
-														</div>
-												</a>
-											</div>
-											<div class="bottom">
-												<span class="list"><i class="xi-info-o pr5"></i>2026년 12월 KICXUP 서울 입주기업 모집공고</span>
-												<span class="list"><i class="xi-info-o pr5"></i>씨엔티테크(주)</span>
-												<span class="list"><i class="xi-info-o pr5"></i>등록일자 2026-11-24</span>
-												<span class="list"><i class="xi-info-o pr5"></i>시작일자 2026-11-20</span>
-												<span class="list"><i class="xi-info-o pr5"></i>마감일자 2026-12-06</span>
-												<span class="list"><i class="xi-info-o pr5"></i>조회 3,358</span>
-											</div>
-										</div>
-										<div class="left">
-											<div class="left_inner">
-												<div id="179852_scrap_div">
-													<input type="hidden" name="scrap_list_bizPbancNm" value="2026년 12월 KICXUP 서울 입주기업 모집공고" />
-													<button title="스크랩 하기" class="btn_by-bk btn_myList" onclick='javascript:fnScrap(179852);' ><i class="xi-heart-o fz17 mt10"></i><span class="alt blind">스크랩</span></button>
-														</div>
-												<button class="btn_by-bk btn_Nwindow" onclick="javascript:go_view_blank(179852);" title="[2026년 12월 KICXUP 서울 입주기업 모집공고 새창열기" ><i class="xi-external-link"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
 							</ul>
 				<div class="paginate">
-					<a href="#none" class="active" title="현재 페이지">1</a><a href="#none" onclick="fn_egov_link_page(2); return false;" title="2 페이지로 이동">2</a><a href="#none" onclick="fn_egov_link_page(3); return false;" title="3 페이지로 이동">3</a><a href="#none" onclick="fn_egov_link_page(4); return false;" title="4 페이지로 이동">4</a><a href="#none" onclick="fn_egov_link_page(5); return false;" title="5 페이지로 이동">5</a><a href="#none" onclick="fn_egov_link_page(6); return false;" title="6 페이지로 이동">6</a><a href="#none" onclick="fn_egov_link_page(7); return false;" title="7 페이지로 이동">7</a><a href="#none" onclick="fn_egov_link_page(8); return false;" title="8 페이지로 이동">8</a><a href="#none" onclick="fn_egov_link_page(9); return false;" title="9 페이지로 이동">9</a>
+					<a href="#none" class="active" title="현재 페이지">1</a><a href="#none" onclick="fn_egov_link_page(2); return false;" title="2 페이지로 이동">2</a><a href="#none" onclick="fn_egov_link_page(3); return false;" title="3 페이지로 이동">3</a><a href="#none" onclick="fn_egov_link_page(4); return false;" title="4 페이지로 이동">4</a><a href="#none" onclick="fn_egov_link_page(5); return false;" title="5 페이지로 이동">5</a><a href="#none" onclick="fn_egov_link_page(6); return false;" title="6 페이지로 이동">6</a><a href="#none" onclick="fn_egov_link_page(7); return false;" title="7 페이지로 이동">7</a><a href="#none" onclick="fn_egov_link_page(8); return false;" title="8 페이지로 이동">8</a><a href="#none" onclick="fn_egov_link_page(9); return false;" title="9 페이지로 이동">9</a><a href="#none" onclick="fn_egov_link_page(10); return false;" title="10 페이지로 이동">10</a>
 </div>
 			</div>
 		</div>
